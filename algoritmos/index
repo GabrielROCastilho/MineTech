@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Index</title>
+</head>
+<body>
+    <a href="">Quem Somos</a>
+    <a href="">Nossos Serviços</a>
+    <a href="login.html">Login</a>
+    <a href="cadastro.html">Cadastrar Empresa</a>
+    <a href="cadastro_funcionario.html">Cadastrar Funcionário</a>
+    <br>
+    <h1>Sua segurança é a nossa especialidade</h1>
+    <a href="calculadora_pi.html">orçamento imperdível</a>
+    <h2>QUEM SOMOS</h2><br>
+    <p>dskjandkjbedfkjwebfkbflwjneflkenmfklenfkjenbfkjbefkefbdkjfbksjdbfkjsdbfjksdbfksdbfkjsdbfkjsbdfkjsdbfkjsdbfkdsjbfdfdssdddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd</p><br>
+    <h2>SERVIÇOS</h2><br>
+    <p>dskjandkjbedfkjwebfkbflwjneflkenmfklenfkjenbfkjbefkefbdkjfbksjdbfkjsdbfjksdbfksdbfkjsdbfkjsbdfkjsdbfkjsdbfkdsjbfdfdssdddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd</p><br>
+
+</body>
+</html>

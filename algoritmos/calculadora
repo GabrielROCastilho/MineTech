@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<center>
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Calculadora PI</title>
+        <h1 style="color: rgba(222, 135, 20, 0.829);"><b><i>MineTech - Calculadora</i></b></h1>
+
+    </head>
+
+    <body>
+        <p><b><i>Receita líquida mensal da empresa (R$):</i></b></p>
+        <input type="number" id="ipt_receita" placeholder="">
+        <p><b><i>Taxa de absenteísmo mensal por intoxicação por metano (%):</i></b></p>
+        <input type="number" id="ipt_taxa" placeholder="">
+        <p><b><i>Taxa de perda de máquinas mensal por deterioração por metano (%):</i></b></p>
+        <input type="number" id="ipt_taxaMaquina" placeholder="">
+        <button onclick="verificar()">Analisar</button>
+        <p id="exibir"></p>
+    </body>
+</center>
+
+<script>
+    function verificar() {
+       
+        var receita = Number(ipt_receita.value);
+        var taxa = Number(ipt_taxa.value) / 100;
+        var taxa2 = Number(ipt_taxaMaquina.value) / 100;
+       
+        var calculo1 = receita * (taxa + 1) * (taxa2 + 1);
+
+        if (receita <= 0 || taxa < 0 || taxa2 < 0) {
+            exibir.innerHTML = "Por favor, preencha todos os campos corretamente.";
+        } else {
+
+        exibir.innerHTML = `Receita líquida após utilizar a MineTech = ${calculo1}`
+          
+        }
+// Tudo isso ainda está em andamento, vamos reunir em grupo para discutir o que fazer a respeito da calculadora
+    }
+</script>
+
+</html>

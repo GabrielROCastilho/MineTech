@@ -14,7 +14,7 @@
     <input type="text" id="ipt_emailEmpresa" placeholder="E-mail"><br>
     <input type="text" id="ipt_logradouro" placeholder="Logradouro"><br>
     <input type="text" id="ipt_bairro" placeholder="Bairro"><br>
-    <input type="text" id="ipt_numero" placeholder="Número"><br>
+    <input type="number" id="ipt_numero" placeholder="Número"><br>
     <input type="text" id="ipt_cidade" placeholder="Cidade"><br>
     <input type="text" id="ipt_sigla" placeholder="Sigla Estado"><br>
     <input type="text" id="ipt_cep" placeholder="CEP"><br>
@@ -38,20 +38,61 @@
         var confirmarSenha = ipt_confirmarSenha.value;
         var logradouro = ipt_logradouro.value;
         var bairro = ipt_bairro.value;
-        var numero = ipt_numero.value;
+        var numero = Number(ipt_numero.value);
         var emailEmpresa = ipt_emailEmpresa.value;
         var codigo = '0302';
+        var i = 0;
+        var apenasNumeros = true;
 
-
+        // Confirmando senha
         if (senha != confirmarSenha) {
 
             alert("Senha confirmada diferente da senha inserida, faça novamente")
 
-        } else if (cnpj == '' || nomeFantasia == '' || logradouro == '' || cidade == '' || sigla == '' || cep == '' || senha == '' || confirmarSenha == '' || emailEmpresa == '' || bairro == '' || numero == '') {
+        }  //Conferindo se tudo está preenchido
+        else if (cnpj == '' || nomeFantasia == '' || logradouro == '' || cidade == '' || sigla == '' || cep == '' || senha == '' || confirmarSenha == '' || emailEmpresa == '' || bairro == '' || numero == '') {
 
             alert("Preencha todos os campos")
 
-        } else {
+        } // Validando CNPJ
+        if (cnpj.length !== 14) {
+            alert("CNPJ deve ter exatamente 14 números.");
+            return
+        }
+
+        for (i = 0; i < cnpj.length; i++) {
+            if (cnpj[i] < '0' || cnpj[i] > '9') {
+                apenasNumeros = false;
+                break;
+            }
+        }
+
+        if (!apenasNumeros) {
+            alert("CNPJ inválido! Insira apenas os 14 números.");
+            return;
+        }// Validando nome fantasia
+        else if (nomeFantasia.length < 3) {
+            alert("Nome fantasia inválido! Insira pelo menos 3 digitos.")
+        }// Validando Email
+        else if (emailEmpresa.length !== '@') {
+            alert("Baguhlo ta errado ai")
+        }//Validando logradouro
+        else if (logradouro.length < 3) {
+            alert("Logradouro inválido! Muito curto.")
+        }// Validando bairro
+        else if (bairro.length < 3) {
+            alert("Bairro inválido! Muito curto.")
+        }// Validando número
+        else if (numero <= 0 || numero >= 99999) {
+            alert("Número inválido! Insira um número maior que zero (e nenhum número absurdo).")
+        }// Validando siglas dos estados
+        else if (sigla.length != 2) {
+            alert("Siglas de estados tem apenas duas letras!")
+        }// Validando o CEP
+        else if (cep.length != 8) {
+            alert("CEP inválido! O CEP deve ter 8 números (Não precisa colocar o hífen).");
+        }// Concluindo o cadastro
+        else {
 
             var numero = prompt("Enviamos a chave própria de sua empresa no E-mail cadastrado, insira-o abaixo: ")
 
@@ -67,7 +108,7 @@
 
             }
 
-
+// So falta validar o arroba em email
 
         }
 

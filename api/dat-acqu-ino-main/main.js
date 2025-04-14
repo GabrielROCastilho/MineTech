@@ -20,9 +20,9 @@ const serial = async (
         {
             host: 'localhost',
             user: 'aluno',
-            password: 'sptech',
-            database: 'sprint2',
-            port: 3306
+            password: 'Sptech#2024',
+            database: 'minetech',
+            port: 3307
         }
     ).promise();
 
@@ -59,7 +59,7 @@ const serial = async (
 
             // este insert irá inserir os dados na tabela "medida"
             await poolBancoDados.execute(
-                'INSERT INTO sensor (medicao) VALUES (?)',
+                'INSERT INTO medicao (nivelMetano) VALUES (?)',
                 [sensorMq02]
             );
             console.log("valores inseridos no banco: ", sensorMq02);

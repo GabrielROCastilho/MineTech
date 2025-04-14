@@ -53,7 +53,7 @@ create table funcionario(
 create table medicao(
 		id int primary key auto_increment,
         nivelMetano decimal(5,2),
-        dataHora datetime
+        dataHora timestamp default CURRENT_TIMESTAMP
 );
 
 create table nivelGas(

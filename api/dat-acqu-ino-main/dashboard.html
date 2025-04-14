@@ -16,30 +16,35 @@
     </div>
 
     <script>
-        var sensorMq02 = new Chart(document.getElementById('sensorMq02').getContext('2d'), {
-            type: 'line',
-            data: {
-                datasets: [{
-                    label: 'MQ-02',
-                    borderColor: '#63B1BC',
-                    backgroundColor: '#ED145B'
-                }]
+       var sensorMq02 = new Chart(document.getElementById('sensorMq02').getContext('2d'), {
+    type: 'line',
+    data: {
+        datasets: [{
+            label: 'MQ-02',
+            borderColor: '#63B1BC',
+            backgroundColor: '#ED145B'
+        }]
+    },
+    options: {
+        scales: {
+            x: {
+                beginAtZero: true
             },
-            options: {
-                scales: {
-                    x: {
-                        beginAtZero: true
-                    },
-                    y: {
-                        title: {
-                            display: true,
-                            text: '(%)'
-                        },
-                        beginAtZero: true,
-                    },
+            y: {
+                title: {
+                    display: true,
+                    text: '(%)'
                 },
+                beginAtZero: true,
+                min: 0,      
+                max: 5,
+                ticks: {
+                    stepSize: 0.5  
+                }
             }
-        });
+        }
+    }
+});
 
         var paginacao = {};
         var tempo = {};

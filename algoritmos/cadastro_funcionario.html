@@ -35,20 +35,29 @@
         var codigoFuncionario = '1000';
         
         
-
+        // Validando senha 
         if (senhaFunc != confirmarSenhaFunc) {
 
             alert("Senha confirmada diferente da senha inserida, faça novamente")
 
-        } else if (chaveEmpresa == '' || nomeFuncionario == '' || email == '' || telefone == '' || senhaFunc == '' || confirmarSenhaFunc == '' || sobrenomeFuncionario == '') {
+        } // Validando se todos os campos foram preenchidos 
+        else if (chaveEmpresa == '' || nomeFuncionario == '' || email == '' || telefone == '' || senhaFunc == '' || confirmarSenhaFunc == '' || sobrenomeFuncionario == '') {
 
             alert("Preencha todos os campos")
 
-        } else if (chaveEmpresa != '0302'){
+        } // Validando se a chave empresa existe
+         else if (chaveEmpresa != '0302'){
 
             alert("Esta empresa não está cadastrada")
 
-        } else {
+        } // Validando email
+        else if(email.length !== '@') {
+            alert("Baguhlo ta errado ai")
+        } // Validando telefone
+        else if(telefone.length != 11){
+            alert("Número de telefone inválido! Insira o DDD também (sem parênteses)")
+        } // Validando funcionário
+        else {
 
             var numero = prompt("Enviamos um código de verificação no seu E-mail, insira-o abaixo: ")
 
@@ -64,7 +73,7 @@
             }
 
         }
-
+// Falta validar o Email 
     }
 
 </script>

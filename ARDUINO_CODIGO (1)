@@ -26,22 +26,7 @@ void loop() {
   }
 
   // Exibe a porcentagem de gás no ar, o limite inferior explosivo, o limite superior explosivo e os parâmetros de segurança impostos pela NRM. Todos os dados estão em porcentagem. 
-  Serial.print("Porcentagem:");
-  Serial.print(porcentagem);
-  Serial.print(" ");
-  Serial.print("limiteInferiorExplosivo:");
-  Serial.print(5);
-  Serial.print(" ");
-  Serial.print("limiteSuperiorExplosivo:");
-  Serial.print(15);
-  Serial.print(" ");
-  Serial.print("evacuarLocalGás:");
-  Serial.println(1);
-
-
-
-
-  
+  Serial.println(porcentagem);
 
   // Aguarda 1 segundo antes da próxima leitura
   delay(1000);

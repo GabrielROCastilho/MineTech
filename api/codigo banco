@@ -1,9 +1,0 @@
-create database sprint2;
-
-use sprint2;
-
-create table sensor(
-  idSensor int primary key auto_increment,
-  medicao float
-)auto_increment = 1;
-

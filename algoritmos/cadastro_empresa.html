@@ -74,9 +74,7 @@
         else if (nomeFantasia.length < 3) {
             alert("Nome fantasia inválido! Insira pelo menos 3 digitos.")
         }// Validando Email
-        else if (emailEmpresa.length !== '@') {
-            alert("Baguhlo ta errado ai")
-        }//Validando logradouro
+        //Validando logradouro
         else if (logradouro.length < 3) {
             alert("Logradouro inválido! Muito curto.")
         }// Validando bairro
@@ -93,15 +91,6 @@
             alert("CEP inválido! O CEP deve ter 8 números (Não precisa colocar o hífen).");
         }// Concluindo o cadastro
         else {
-
-            var numero = prompt("Enviamos a chave própria de sua empresa no E-mail cadastrado, insira-o abaixo: ")
-
-            while (numero != codigo) {
-                numero = prompt("Você não digitou a chave correta")
-            }
-
-            if (numero == codigo) {
-
                 alert(`Cadastro concluído com sucesso! Agora a(o) ${nomeFantasia} é um(a) Minetecher!!! `)
 
                 div_resposta.innerHTML = `<a href="cadastro_funcionario.html">Entrar</a>`
@@ -111,9 +100,6 @@
 // So falta validar o arroba em email
 
         }
-
-    }
-
 </script>
 
 </html>

@@ -9,10 +9,10 @@
 
 <body>
     <h1>Cadastro Funcionário</h1>
-    <input type="text" id="ipt_inserirChaveEmpresa" placeholder="Inserir Chave Empresa"><br>
+    <input type="text" id="ipt_inserirChaveEmpresa" placeholder="Inserir CNPJ da empresa"><br>
     <input type="text" id="ipt_nomeFuncionario" placeholder="Nome"><br>
     <input type="text" id="ipt_sobrenomeFuncionario" placeholder="Sobrenome"><br>
-    <input type="text" id="ipt_email" placeholder="Email de Contato"><br>
+    <input type="email" id="ipt_email" placeholder="Email de Contato"><br>
     <input type="text" id="ipt_telefone" placeholder="Telefone de Contato"><br>
     <input type="password" id="ipt_senhaFunc" placeholder="Senha"><br>
     <input type="password" id="ipt_confirmarSenhaFunc" placeholder="Confirmar Senha"><br>
@@ -32,7 +32,7 @@
         var senhaFunc = ipt_senhaFunc.value;
         var confirmarSenhaFunc = ipt_confirmarSenhaFunc.value;
         var sobrenomeFuncionario = ipt_sobrenomeFuncionario.value;
-        var codigoFuncionario = '1000';
+        var cnpjEmpresa = '1000';
         
         
         // Validando senha 
@@ -50,31 +50,19 @@
 
             alert("Esta empresa não está cadastrada")
 
-        } // Validando email
-        else if(email.length !== '@') {
-            alert("Baguhlo ta errado ai")
         } // Validando telefone
         else if(telefone.length != 11){
             alert("Número de telefone inválido! Insira o DDD também (sem parênteses)")
         } // Validando funcionário
         else {
-
-            var numero = prompt("Enviamos um código de verificação no seu E-mail, insira-o abaixo: ")
-
-            while (numero != codigoFuncionario) {
-                numero = prompt("Você não digitou a chave correta")
-            }
-
-            if (numero == codigoFuncionario) {
-
                 alert(`Cadastro concluído com sucesso! Agora a(o) ${nomeFuncionario} ${sobrenomeFuncionario} é um(a) Minetecher!!! `)
 
                 div_resposta3.innerHTML = `<a href="login.html">Entrar</a>`
             }
 
         }
-// Falta validar o Email 
-    }
+
+        // Falta validar o Email
 
 </script>
 

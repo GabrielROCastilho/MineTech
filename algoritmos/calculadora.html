@@ -12,16 +12,16 @@
     </head>
 
     <body>
-        <p><b><i>Receita líquida mensal por área (R$):</i></b></p>
+        <p><b><i>Receita líquida mensal da área desejada (R$):</i></b></p>
         <input type="number" id="ipt_receita" placeholder="">
-        <p><b><i>Quantos funcionários estão em operação por Área:</i></b></p>
+        <p><b><i>Quantos funcionários estão em operação na área:</i></b></p>
         <input type="number" id="ipt_funcionarios" placeholder="">
-        <p><b><i>Quantas máquinas estão em operação por Área:</i></b></p>
-        <input type="number" id="ipt_maquina" placeholder="">
+        <p><b><i>Qual o valor  do maquinário na área:</i></b></p>
+        <input type="number" id="ipt_valorMaquinario" placeholder="">
         <p><b><i>Valor gasto com um funcionário:</i></b></p>
         <input type="number" id="ipt_valorFuncionarios" placeholder="">
         <button onclick="verificar()">Analisar</button>
-        <p id="exibir"></p>
+        <p id="resumo"></p>
     </body>
 <center>
 
@@ -31,22 +31,18 @@
         var receita = Number(ipt_receita.value);
         var funcionarios = Number(ipt_funcionarios.value);
         var valorFuncionarios = Number(ipt_valorFuncionarios.value);
-        var maquinas = Number(ipt_maquina.value);
+        var valorMaquina = Number(ipt_valorMaquinario.value);
 
         var GastoFuncionarios = funcionarios * valorFuncionarios ;
-        var GastoMaquinas = maquinas * 6000000;
-
-
-
-
+        
         if (receita <= 0 || funcionarios < 0 || valorFuncionarios < 0) {
             exibir.innerHTML = "Por favor, preencha todos os campos corretamente.";
         } else {
 
-        exibir.innerHTML = `Valor Gasto por Área com Funcionários:  ${GastoFuncionarios}<br>
-        Valor gasto por Área com maquinário: ${GastoMaquinas}<br>
-        Prejuízo total caso uma área sofra um acidente com metano: ${GastoFuncionarios + GastoMaquinas}<br>
-        Receita final caso uma área sofra um acidente com metano : ${receita - GastoFuncionarios - GastoMaquinas}`
+        resumo.innerHTML = `Valor Gasto por Área com Funcionários:  ${GastoFuncionarios}<br>
+        Valor gasto por Área com maquinário: ${valorMaquina}<br>
+        Prejuízo total caso uma área sofra um acidente com metano: ${GastoFuncionarios + valorMaquina}<br>
+        Receita final caso uma área sofra um acidente com metano : ${receita - GastoFuncionarios - valorMaquina}`
           
         }
 // Tudo isso ainda está em andamento, vamos reunir em grupo para discutir o que fazer a respeito da calculadora

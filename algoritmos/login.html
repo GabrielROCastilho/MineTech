@@ -23,7 +23,7 @@
         var emailFuncionario = ipt_emailFuncionario.value;
         var senhaLogin = ipt_senhaLogin.value;
 
-        if (emailFuncionario != 'clara@gmail.com' || senhaLogin != '12345') {
+        if (emailFuncionario != 'clara@sptech.school' || senhaLogin != '12345') {
             alert("Login Inválido! Senha ou chave própria incorretas")
         } else {
 
@@ -35,7 +35,8 @@
 
             if (numero == '0302') {
                 alert("login feito com sucesso");
-                div_login.innerHTML += `<a href="dashboard.html">Entrar</a>`
+                window.location.href='dashboard.html';
+
             }
         }
     }

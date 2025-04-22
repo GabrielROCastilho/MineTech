@@ -27,7 +27,7 @@ create table endereco(
 create table mineradora(
 		id int primary key auto_increment,
         nome varchar(50),
-        cnpj char(14),
+        cnpj char(14) unique,
         fkEndereco int,
         foreign key (fkEndereco) references endereco(id)
 );
@@ -79,3 +79,4 @@ create table sensor(
         foreign key (fkNivelGas) references nivelGas(id)
         
 );
+

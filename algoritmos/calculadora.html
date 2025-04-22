@@ -1,52 +1,65 @@
-
 <!DOCTYPE html>
-<html lang="pt-br">
-<center>
+<html lang="pt-BR">
 
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Calculadora PI</title>
-        <h1 style="color: rgba(222, 135, 20, 0.829);"><b><i>MineTech - Calculadora</i></b></h1>
+<head>
+  <meta charset="UTF-8">
+  <title>Calculadora de Economia - Monitoramento de Gás Metano</title>
 
-    </head>
+</head>
 
-    <body>
-        <p><b><i>Receita líquida mensal da área desejada (R$):</i></b></p>
-        <input type="number" id="ipt_receita" placeholder="">
-        <p><b><i>Quantos funcionários estão em operação na área:</i></b></p>
-        <input type="number" id="ipt_funcionarios" placeholder="">
-        <p><b><i>Qual o valor  do maquinário na área:</i></b></p>
-        <input type="number" id="ipt_valorMaquinario" placeholder="">
-        <p><b><i>Valor gasto com um funcionário:</i></b></p>
-        <input type="number" id="ipt_valorFuncionarios" placeholder="">
-        <button onclick="verificar()">Analisar</button>
-        <p id="resumo"></p>
-    </body>
-<center>
+<body>
 
-<script>
-    function verificar() {
-       
-        var receita = Number(ipt_receita.value);
-        var funcionarios = Number(ipt_funcionarios.value);
-        var valorFuncionarios = Number(ipt_valorFuncionarios.value);
-        var valorMaquina = Number(ipt_valorMaquinario.value);
+  <h1>Calculadora de Economia - Monitoramento de Gás Metano</h1>
 
-        var GastoFuncionarios = funcionarios * valorFuncionarios ;
+  <label>Número de funcionários expostos ao risco em uma área:</label>
+  <input type="number" id="ipt_funcionarios" value="100"><br>
+
+  <label>Custo médio de um acidente nesta área (R$):</label>
+  <input type="number" id="ipt_custoAcidente" value="100000"><br>
+
+  <label>Frequência média de vazamentos por ano:</label>
+  <input type="number" id="ipt_vazamentosAno" value="5"><br>
+
+  <button onclick="calcular()">Calcular Economia</button><br>
+
+  <div id="resultado"></div>
+  <div id="resultado2"></div>
+
+  <script>
+    function calcular() {
+      var funcionarios = Number(ipt_funcionarios.value);
+      var custoAcidente = Number(ipt_custoAcidente.value);
+      var vazamentosAno = Number(ipt_vazamentosAno.value);
+
+      var custoAcidentesTotal = custoAcidente * vazamentosAno;
+      var economiaEstimada = custoAcidentesTotal * 0.8;
+      var novoPrejuizo = custoAcidentesTotal - economiaEstimada;
+      var novoVazamento = vazamentosAno * 0.2;
+
+      if (funcionarios == '' || custoAcidente == '' || vazamentosAno == '') {
+        alert("Os campos não podem estar vazios")
+      } else {
+
+        resultado.innerHTML = `<h2> Sem o Sistema </h2>
+        <p>💥 Acidentes/ano: <strong>${vazamentosAno}</strong></p>
+        <p class="destaque">💰 Custo anual com acidentes: <strong>R$ ${custoAcidentesTotal.toLocaleString()}</strong></p>
+        <p class="destaque">💵 Economia Estimada: <strong>R$ - </strong></p> 
+        <p>👷 Funcionários protegidos: <strong> - </strong></p>
         
-        if (receita <= 0 || funcionarios < 0 || valorFuncionarios < 0) {
-            exibir.innerHTML = "Por favor, preencha todos os campos corretamente.";
-        } else {
+      `;
 
-        resumo.innerHTML = `Valor Gasto por Área com Funcionários:  ${GastoFuncionarios}<br>
-        Valor gasto por Área com maquinário: ${valorMaquina}<br>
-        Prejuízo total caso uma área sofra um acidente com metano: ${GastoFuncionarios + valorMaquina}<br>
-        Receita final caso uma área sofra um acidente com metano : ${receita - GastoFuncionarios - valorMaquina}`
-          
-        }
-// Tudo isso ainda está em andamento, vamos reunir em grupo para discutir o que fazer a respeito da calculadora
+        resultado2.innerHTML = `<h2> Com o Sistema </h2>
+        <p>💥 Acidentes/ano: <strong>${novoVazamento.toFixed()}</strong></p>
+        <p class="destaque">💰 Custo anual com acidentes: <strong>R$ ${novoPrejuizo.toLocaleString()}</strong></p>
+        <p class="destaque">💵 Economia Estimada: <strong>R$ ${economiaEstimada.toLocaleString()}</strong></p>
+        <p>👷 Funcionários protegidos: <strong>${funcionarios}</strong></p>
+        
+       
+      `;
+      }
     }
-</script>
+  </script>
+
+</body>
 
 </html>

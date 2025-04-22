@@ -55,7 +55,11 @@
 
             alert("Esta empresa não está cadastrada")
 
-        } // Validando telefone
+        }// Validando Email
+         else if(!email.includes("@")){
+            alert("Email inválido! Precisa conter @")
+         }
+         // Validando telefone
         else if(telefone.length != 11){
             alert("Número de telefone inválido! Insira o DDD também (sem parênteses)")
         } // Validando funcionário
@@ -66,8 +70,6 @@
             }
 
         }
-
-        // Falta validar o Email
 
 </script>
 

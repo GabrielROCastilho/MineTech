@@ -9,11 +9,17 @@
 
 <body>
     <h1>Cadastro Funcionário</h1>
-    <input type="text" id="ipt_inserirChaveEmpresa" placeholder="Inserir CNPJ da empresa"><br>
+    <input type="text" id="ipt_inserirCnpjEmpresa" placeholder="Inserir CNPJ da empresa"><br>
     <input type="text" id="ipt_nomeFuncionario" placeholder="Nome"><br>
     <input type="text" id="ipt_sobrenomeFuncionario" placeholder="Sobrenome"><br>
     <input type="email" id="ipt_email" placeholder="Email de Contato"><br>
     <input type="text" id="ipt_telefone" placeholder="Telefone de Contato"><br>
+    <select id="ipt_cargo">
+        <option value="#">Selecione um cargo</option>
+        <option value="Diretor">Diretor</option>
+        <option value="Gerente">Gerente</option>
+        <option value="Operário">Operário</option>
+    </select><br><br>
     <input type="password" id="ipt_senhaFunc" placeholder="Senha"><br>
     <input type="password" id="ipt_confirmarSenhaFunc" placeholder="Confirmar Senha"><br>
     <button onclick="cadastro()">CRIAR CADASTRO FUNCIONÁRIO</button>
@@ -25,15 +31,14 @@
 
     function cadastro() {
 
-        var chaveEmpresa = ipt_inserirChaveEmpresa.value;
+        var chaveEmpresa = ipt_inserirCnpjEmpresa.value;
         var nomeFuncionario = ipt_nomeFuncionario.value;
         var email = ipt_email.value;
         var telefone = ipt_telefone.value;
         var senhaFunc = ipt_senhaFunc.value;
         var confirmarSenhaFunc = ipt_confirmarSenhaFunc.value;
         var sobrenomeFuncionario = ipt_sobrenomeFuncionario.value;
-        var cnpjEmpresa = '1000';
-        
+        var cargo = ipt_cargo.value;
         
         // Validando senha 
         if (senhaFunc != confirmarSenhaFunc) {
@@ -41,12 +46,12 @@
             alert("Senha confirmada diferente da senha inserida, faça novamente")
 
         } // Validando se todos os campos foram preenchidos 
-        else if (chaveEmpresa == '' || nomeFuncionario == '' || email == '' || telefone == '' || senhaFunc == '' || confirmarSenhaFunc == '' || sobrenomeFuncionario == '') {
+        else if (chaveEmpresa == '' || nomeFuncionario == '' || email == '' || telefone == '' || senhaFunc == '' || confirmarSenhaFunc == '' || sobrenomeFuncionario == '' || cargo == '#') {
 
             alert("Preencha todos os campos")
 
         } // Validando se a chave empresa existe
-         else if (chaveEmpresa != '0302'){
+         else if (chaveEmpresa != '1000'){
 
             alert("Esta empresa não está cadastrada")
 
@@ -57,7 +62,7 @@
         else {
                 alert(`Cadastro concluído com sucesso! Agora a(o) ${nomeFuncionario} ${sobrenomeFuncionario} é um(a) Minetecher!!! `)
 
-                div_resposta3.innerHTML = `<a href="login.html">Entrar</a>`
+                div_resposta3.innerHTML = `<a href="login.html">Login</a> <a href="index.html">Sair</a>`
             }
 
         }

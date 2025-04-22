@@ -74,6 +74,9 @@
         else if (nomeFantasia.length < 3) {
             alert("Nome fantasia inválido! Insira pelo menos 3 digitos.")
         }// Validando Email
+        else if(!emailEmpresa.includes("@")){
+            alert("Email inválido! Precisa conter @")
+        }
         //Validando logradouro
         else if (logradouro.length < 3) {
             alert("Logradouro inválido! Muito curto.")
@@ -96,8 +99,6 @@
                 window.location.href='cadastro_funcionario.html';
 
             }
-
-// So falta validar o arroba em email
 
         }
 </script>

@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard de Monitoramento de Metano</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <style>
+        :root {
+            --altura-nav-bar: 70px;
+            --tamanho-paragrafo: 16px;
+            --cor-fundo: #f5f5f5;
+            --cor-texto: #333;
+            --cor-card: #ffffff;
+            --cor-primaria: #3498db;
+            --cor-secundaria: #2ecc71;
+            --cor-perigo: #e74c3c;
+            --cor-alerta: #f39c12;
+            --sombra: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--cor-fundo);
+            color: var(--cor-texto);
+            padding-top: var(--altura-nav-bar);
+        }
+
+        /* NAVBAR */
+        .nav-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: var(--altura-nav-bar);
+            background-color: #222;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .nav-bar a {
+            font-size: 16px;
+            font-weight: 500;
+            text-decoration: none;
+            color: #eee;
+            padding: 10px 15px;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            text-transform: capitalize;
+        }
+
+        .nav-bar a:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #fff;
+        }
+
+        .link-nav-bar-sobre-nos, .link-nav-bar-login {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo {
+            background-image: url('imagens/navbar.png');
+            width: 50px;
+            height: 50px;
+            background-size: cover;
+            border-radius: 50%;
+            border: 2px solid #fff;
+        }
+
+        .logo a {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* CONTEÚDO GERAL */
+        .container-dashboard {
+            padding: 30px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #222;
+            border-bottom: 2px solid var(--cor-primaria);
+            padding-bottom: 10px;
+        }
+
+        /* PAINEL RESUMO */
+        .dashboard-resumo {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .card-resumo {
+            background-color: var(--cor-card);
+            border-radius: 10px;
+            box-shadow: var(--sombra);
+            padding: 20px;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .card-resumo:hover {
+            transform: translateY(-5px);
+        }
+
+        .card-resumo h3 {
+            font-size: 18px;
+            margin-bottom: 15px;
+        }
+
+        .valor-resumo {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .normal {
+            color: var(--cor-secundaria);
+        }
+
+        .alerta {
+            color: var(--cor-alerta);
+        }
+
+        .perigo {
+            color: var(--cor-perigo);
+        }
+
+        /* GRÁFICO GERAL */
+        .grafico-geral {
+            background-color: var(--cor-card);
+            border-radius: 10px;
+            box-shadow: var(--sombra);
+            padding: 20px;
+            margin-bottom: 40px;
+        }
+
+        .grafico-geral h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            border-bottom: none;
+        }
+
+        .grafico-container {
+            position: relative;
+            height: 300px;
+            width: 100%;
+        }
+
+        /* SENSORES */
+        .sensores-titulo {
+            margin-bottom: 20px;
+        }
+
+        .sensores {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .sensor-card {
+            background-color: var(--cor-card);
+            border-radius: 10px;
+            box-shadow: var(--sombra);
+            padding: 20px;
+            transition: transform 0.2s ease;
+        }
+
+        .sensor-card:hover {
+            transform: scale(1.02);
+        }
+
+        .sensor-card h3 {
+            margin-bottom: 15px;
+            color: var(--cor-texto);
+            font-size: 18px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .status-indicador {
+            display: inline-block;
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            margin-left: 10px;
+        }
+
+        .status-normal {
+            background-color: var(--cor-secundaria);
+        }
+
+        .status-alerta {
+            background-color: var(--cor-alerta);
+        }
+
+        .status-perigo {
+            background-color: var(--cor-perigo);
+        }
+
+        .sensor-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+
+        .nivel {
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .sensor-grafico {
+            position: relative;
+            height: 200px;
+            width: 100%;
+            margin-top: 15px;
+        }
+
+        /* FOOTER */
+        .footer {
+            background-color: #222;
+            color: #eee;
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+        }
+
+        /* RESPONSIVIDADE */
+        @media (max-width: 768px) {
+            .nav-bar {
+                flex-direction: column;
+                height: auto;
+                padding: 10px;
+            }
+
+            .link-nav-bar-sobre-nos, .link-nav-bar-login {
+                margin: 10px 0;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .nav-bar a {
+                margin: 5px;
+            }
+
+            .logo {
+                margin: 10px 0;
+            }
+
+            .container-dashboard {
+                padding: 15px;
+            }
+
+            .dashboard-resumo {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- NAVBAR -->
+    <div class="nav-bar">
+        <div class="link-nav-bar-sobre-nos">
+            <a href="#quem-somos">Quem Somos</a>
+            <a href="#servicos">Nossos Serviços</a>
+            <a href="#calculadora-financeira">Calculadora Financeira</a>
+            <a href="#fale-conosco">Fale Conosco</a>
+        </div>
+        <div class="logo"><a href="#home-page"></a></div>
+        <div class="link-nav-bar-login">
+            <a href="login.html" target="_blank">Login</a>
+            <a href="cadastro_funcionario.html" target="_blank">Cadastro</a>
+        </div>
+    </div>
+    
+    <!-- CONTEÚDO PRINCIPAL -->
+    <div class="container-dashboard">
+        <h2>Dashboard de Monitoramento de Metano</h2>
+        
+        <!-- Resumo -->
+        <section class="dashboard-resumo">
+            <div class="card-resumo">
+                <h3>Média Geral</h3>
+                <div class="valor-resumo alerta">183 ppm</div>
+                <p>Variação: +12% (24h)</p> 
+            </div>
+            <div class="card-resumo">
+                <h3>Sensor Crítico</h3>
+                <div class="valor-resumo perigo">Setor B</div>
+                <p>220 ppm (limite: 200 ppm)</p>
+            </div>
+            <div class="card-resumo">
+                <h3>Status do Sistema</h3>
+                <div class="valor-resumo alerta">Alerta</div>
+                <p>1 sensor em nível crítico</p>
+            </div>
+            <div class="card-resumo">
+                <h3>Última Atualização</h3>
+                <div class="valor-resumo normal">12:45</div>
+                <p>22/04/2025</p>
+            </div>
+        </section>
+    
+        <!-- Gráfico Geral -->
+        <section class="grafico-geral">
+            <h2>Visão Geral dos Setores</h2>
+            <div class="grafico-container">
+                <canvas id="grafico_geral"></canvas>
+            </div>
+        </section>
+    
+        <!-- Sensores Individuais -->
+        <h2 class="sensores-titulo">Níveis de Metano por Sensor</h2>
+        <section class="sensores">
+            <div class="sensor-card">
+                <h3>Sensor 1 - Setor A <span class="status-indicador status-alerta"></span></h3>
+                <div class="sensor-info">
+                    <p>Nível atual: <span class="nivel">180 ppm</span></p>
+                    <p>Limite: 200 ppm</p>
+                </div>
+                <div class="sensor-grafico">
+                    <canvas id="sensor_1"></canvas>
+                </div>
+            </div>
+            <div class="sensor-card">
+                <h3>Sensor 2 - Setor B <span class="status-indicador status-perigo"></span></h3>
+                <div class="sensor-info">
+                    <p>Nível atual: <span class="nivel">220 ppm</span></p>
+                    <p>Limite: 200 ppm</p>
+                </div>
+                <div class="sensor-grafico">
+                    <canvas id="sensor_2"></canvas>
+                </div>
+            </div>
+            <div class="sensor-card">
+                <h3>Sensor 3 - Setor C <span class="status-indicador status-normal"></span></h3>
+                <div class="sensor-info">
+                    <p>Nível atual: <span class="nivel">150 ppm</span></p>
+                    <p>Limite: 200 ppm</p>
+                </div>
+                <div class="sensor-grafico">
+                    <canvas id="sensor_3"></canvas>
+                </div>
+            </div>
+        </section>
+    </div>
+    
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2025 Sistema de Monitoramento de Metano. Todos os direitos reservados.</p>
+    </footer>
+    
+    <script>
+        // Configuração de cores
+        const coresPrimarias = {
+            setorA: 'rgba(52, 152, 219, 0.7)',
+            setorB: 'rgba(231, 76, 60, 0.7)',
+            setorC: 'rgba(46, 204, 113, 0.7)'
+        };
+        
+        const coresBorda = {
+            setorA: 'rgba(52, 152, 219, 1)',
+            setorB: 'rgba(231, 76, 60, 1)',
+            setorC: 'rgba(46, 204, 113, 1)'
+        };
+        
+        // Dados para o gráfico geral
+        const ctxGeral = document.getElementById('grafico_geral').getContext('2d');
+        const graficoGeral = new Chart(ctxGeral, {
+            type: 'line',
+            data: {
+                labels: ['6:00', '8:00', '10:00', '12:00', '14:00', '16:00', '18:00', '20:00', '22:00'],
+                datasets: [
+                    {
+                        label: 'Setor A',
+                        data: [160, 165, 170, 175, 180, 183, 185, 182, 180],
+                        backgroundColor: coresPrimarias.setorA,
+                        borderColor: coresBorda.setorA,
+                        borderWidth: 2,
+                        tension: 0.3
+                    },
+                    {
+                        label: 'Setor B',
+                        data: [170, 180, 185, 195, 205, 210, 218, 220, 220],
+                        backgroundColor: coresPrimarias.setorB,
+                        borderColor: coresBorda.setorB,
+                        borderWidth: 2,
+                        tension: 0.3
+                    },
+                    {
+                        label: 'Setor C',
+                        data: [140, 145, 148, 150, 152, 155, 153, 151, 150],
+                        backgroundColor: coresPrimarias.setorC,
+                        borderColor: coresBorda.setorC,
+                        borderWidth: 2,
+                        tension: 0.3
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    tooltip: {
+                        mode: 'index',
+                        intersect: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: false,
+                        title: {
+                            display: true,
+                            text: 'Concentração de Metano (ppm)'
+                        },
+                        min: 100,
+                        max: 250,
+                        grid: {
+                            color: 'rgba(0, 0, 0, 0.05)'
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Hora do Dia'
+                        },
+                        grid: {
+                            color: 'rgba(0, 0, 0, 0.05)'
+                        }
+                    }
+                },
+                annotation: {
+                    annotations: {
+                        line1: {
+                            type: 'line',
+                            yMin: 200,
+                            yMax: 200,
+                            borderColor: 'rgba(231, 76, 60, 0.5)',
+                            borderWidth: 2,
+                            borderDash: [5, 5],
+                            label: {
+                                content: 'Limite de Segurança',
+                                enabled: true
+                            }
+                        }
+                    }
+                }
+            }
+        });
+        
+        // Gráficos dos sensores individuais
+        const ctxSensor1 = document.getElementById('sensor_1').getContext('2d');
+        new Chart(ctxSensor1, {
+            type: 'line',
+            data: {
+                labels: ['14:00', '15:00', '16:00', '17:00', '18:00', '19:00'],
+                datasets: [{
+                    label: 'Nível de Metano',
+                    data: [160, 165, 170, 175, 178, 180],
+                    backgroundColor: coresPrimarias.setorA,
+                    borderColor: coresBorda.setorA,
+                    borderWidth: 2,
+                    tension: 0.3,
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: false,
+                        min: 140,
+                        max: 220,
+                        grid: {
+                            color: 'rgba(0, 0, 0, 0.05)'
+                        }
+                    },
+                    x: {
+                        grid: {
+                            color: 'rgba(0, 0, 0, 0.05)'
+                        }
+                    }
+                }
+            }
+        });
+        
+        const ctxSensor2 = document.getElementById('sensor_2').getContext('2d');
+        new Chart(ctxSensor2, {
+            type: 'line',
+            data: {
+                labels: ['14:00', '15:00', '16:00', '17:00', '18:00', '19:00'],
+                datasets: [{
+                    label: 'Nível de Metano',
+                    data: [180, 190, 200, 205, 215, 220],
+                    backgroundColor: coresPrimarias.setorB,
+                    borderColor: coresBorda.setorB,
+                    borderWidth: 2,
+                    tension: 0.3,
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: false,
+                        min: 140,
+                        max: 220,
+                        grid: {
+                            color: 'rgba(0, 0, 0, 0.05)'
+                        }
+                    },
+                    x: {
+                        grid: {
+                            color: 'rgba(0, 0, 0, 0.05)'
+                        }
+                    }
+                }
+            }
+        });
+        
+        const ctxSensor3 = document.getElementById('sensor_3').getContext('2d');
+        new Chart(ctxSensor3, {
+            type: 'line',
+            data: {
+                labels: ['14:00', '15:00', '16:00', '17:00', '18:00', '19:00'],
+                datasets: [{
+                    label: 'Nível de Metano',
+                    data: [140, 143, 145, 150, 148, 150],
+                    backgroundColor: coresPrimarias.setorC,
+                    borderColor: coresBorda.setorC,
+                    borderWidth: 2,
+                    tension: 0.3,
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: false,
+                        min: 140,
+                        max: 220,
+                        grid: {
+                            color: 'rgba(0, 0, 0, 0.05)'
+                        }
+                    },
+                    x: {
+                        grid: {
+                            color: 'rgba(0, 0, 0, 0.05)'
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

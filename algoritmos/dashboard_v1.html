@@ -299,7 +299,7 @@
         <section class="dashboard-resumo">
             <div class="card-resumo">
                 <h3>Média Geral</h3>
-                <div class="valor-resumo alerta">183 ppm</div>
+                <div class="valor-resumo alerta">186 ppm</div>
                 <p>Variação: +12% (24h)</p> 
             </div>
             <div class="card-resumo">
@@ -314,7 +314,7 @@
             </div>
             <div class="card-resumo">
                 <h3>Última Atualização</h3>
-                <div class="valor-resumo normal">12:45</div>
+                <div class="valor-resumo normal">22:00</div>
                 <p>22/04/2025</p>
             </div>
         </section>
@@ -333,7 +333,7 @@
             <div class="sensor-card">
                 <h3>Sensor 1 - Setor A <span class="status-indicador status-alerta"></span></h3>
                 <div class="sensor-info">
-                    <p>Nível atual: <span class="nivel">180 ppm</span></p>
+                    <p>Nível atual: <span class="nivel">190 ppm</span></p>
                     <p>Limite: 200 ppm</p>
                 </div>
                 <div class="sensor-grafico">
@@ -391,7 +391,7 @@
                 datasets: [
                     {
                         label: 'Setor A',
-                        data: [160, 165, 170, 175, 180, 183, 185, 182, 180],
+                        data: [142, 148, 150, 150, 155, 160, 170, 180, 190],
                         backgroundColor: coresPrimarias.setorA,
                         borderColor: coresBorda.setorA,
                         borderWidth: 2,
@@ -399,7 +399,7 @@
                     },
                     {
                         label: 'Setor B',
-                        data: [170, 180, 185, 195, 205, 210, 218, 220, 220],
+                        data: [170, 180, 185, 185, 190, 200, 200, 210, 220],
                         backgroundColor: coresPrimarias.setorB,
                         borderColor: coresBorda.setorB,
                         borderWidth: 2,
@@ -407,7 +407,7 @@
                     },
                     {
                         label: 'Setor C',
-                        data: [140, 145, 148, 150, 152, 155, 153, 151, 150],
+                        data: [110, 115, 120, 125, 135, 145, 150, 145, 150],
                         backgroundColor: coresPrimarias.setorC,
                         borderColor: coresBorda.setorC,
                         borderWidth: 2,
@@ -474,10 +474,10 @@
         new Chart(ctxSensor1, {
             type: 'line',
             data: {
-                labels: ['14:00', '15:00', '16:00', '17:00', '18:00', '19:00'],
+                labels: ['17:00', '18:00', '19:00', '20:00', '21:00', '22:00'],
                 datasets: [{
                     label: 'Nível de Metano',
-                    data: [160, 165, 170, 175, 178, 180],
+                    data: [165, 170, 175, 180, 185, 190],
                     backgroundColor: coresPrimarias.setorA,
                     borderColor: coresBorda.setorA,
                     borderWidth: 2,
@@ -515,10 +515,10 @@
         new Chart(ctxSensor2, {
             type: 'line',
             data: {
-                labels: ['14:00', '15:00', '16:00', '17:00', '18:00', '19:00'],
+                labels: ['17:00', '18:00', '19:00', '20:00', '21:00', '22:00'],
                 datasets: [{
                     label: 'Nível de Metano',
-                    data: [180, 190, 200, 205, 215, 220],
+                    data: [190, 200, 208, 210, 213, 220],
                     backgroundColor: coresPrimarias.setorB,
                     borderColor: coresBorda.setorB,
                     borderWidth: 2,
@@ -556,10 +556,10 @@
         new Chart(ctxSensor3, {
             type: 'line',
             data: {
-                labels: ['14:00', '15:00', '16:00', '17:00', '18:00', '19:00'],
+                labels: ['17:00', '18:00', '19:00', '20:00', '21:00', '22:00'],
                 datasets: [{
                     label: 'Nível de Metano',
-                    data: [140, 143, 145, 150, 148, 150],
+                    data: [140, 145, 145, 150, 148, 150],
                     backgroundColor: coresPrimarias.setorC,
                     borderColor: coresBorda.setorC,
                     borderWidth: 2,

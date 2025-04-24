@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="style.css">
+        <script src="script.js"></script>
+        <title>MineTech</title>
+    </head>
+    <body>
+        <!-- Navbar -->
+        <div class="nav-bar">
+            <div class="link-nav-bar-sobre-nos">
+                <a href="#quem-somos">quem somos</a>
+                <span>|</span>
+                <a href="#servicos">nossos serviços</a>
+                <span>|</span>
+                <a href="#calculadora-financeira">calculadora financeira</a>
+                <span>|</span>
+                <a href="#fale-conosco">fale conosco</a>
+            </div>
+            <div class="logo"><a href="#home-page"></a></div>
+            <div class="link-nav-bar-login">
+                <a href="login.html" target="_blank">login</a>
+                <span>|</span>
+                <a href="cadastro.html" target="_blank">cadastro</a>
+            </div>
+        </div>
+
+        <!-- Home Page -->
+        <div class="content-home-page" id="home-page">
+            <div class="text-home-page">
+                <h1>Sua Segurança</h1>
+                <h2>é a nossa especialidade</h2>
+                <button><a href="#calculadora-financeira">orçamento imperdível</a></button>
+            </div>
+            <div class="img-home-page"></div>
+        </div>
+
+        <!-- Quem Somos -->
+        <div class="quem-somos" id="quem-somos">
+            <div class="logo_quem_somos"></div>
+            <div class="text-quem-somos">
+                <h3>QUEM SOMOS</h3>
+                <p>
+                    Nós, da MineTech - companhia de fabricação de sensores à detecção de gases
+                    inflamáveis -, com uma metodologia assertiva e acessícel, reduzimos
+                    drasticamente as taxas de absenteísmo presentes em empresas no âmbito
+                    da mineração, decorrentes de complicações para com o gás metano e mineiros,
+                    engedrando numa maior produtividade e prevenção à perda de capital.
+                </p>
+            </div>
+        </div>
+
+        <!-- Serviços -->
+        <div class="servicos" id="servicos">
+            <h3>SERVIÇOS</h3>
+            <div class="servicos_conteudo">
+                <div class="img_servicos"></div>
+                <div class="text_servicos">
+                    <p>
+                        Através de dois parâmetros à detecção e análise do gás - o sensor de gás
+                        e o banco de dados MySQL, respectivamente -, realizamos, portanto, uma varreadura 
+                        no atinente, a saber-se , por exemplo, na localidade e concentração do gás
+                        presente em tal ínterim requisitado.
+                    </p>
+                </div>
+            </div>
+            <div class="servicos_funcionalidades">
+                <div class="sensor">
+                    <div class="sensor_img"></div>
+                    <h4>sensor de gás inflamável MineTech</h4>
+                    <p>
+                        O sensor de gás inflamável (MQ-5) é, preferencialmente, acoplado às paredes
+                        dis túneis, e serve justamente para perceber o gás presente no ambiente,
+                        captando sua concentração em porcentagem e sua quantidade em PPM (partículas
+                        por milhão)
+                    </p>
+                </div>
+                <div class="mysql">
+                    <div class="mysql_img"></div>
+                    <h4>banco de dados MySQL MineTech</h4>
+                    <p>Através de um banco de dados já configurado, ele, por
+                        conseguinte, captará as informações obtidas pelo MQ-5,
+                        proporcionando uma visualização em tempo real da situação de
+                        "x" sensor, em "y" localidade - ademais, ele armazenará o(s)
+                        sensor(es) específico(s) de sua empresa.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Calculadora -->
+        <div class="calculadora" id="calculadora-financeira">
+            <div class="calculadora_text">
+                <h3>CALCULADORA FINANCEIRA</h3>
+                <p>VENHA VER QUANTO SUA EMPRESA POUPARÁ 🤩!</p>
+            </div>
+        </div>
+        <div class="calculadora-financeira">
+            <div class="card-calculadora">
+                <h3>simule aqui</h3>
+
+                <label>Número de funcionários expostos ao risco em uma área:</label>
+                <input type="number" id="ipt_funcionarios" value="100"><br>
+              
+                <label>Custo médio de um acidente nesta área (R$):</label>
+                <input type="number" id="ipt_custoAcidente" value="100000"><br>
+              
+                <label>Frequência média de vazamentos por ano:</label>
+                <input type="number" id="ipt_vazamentosAno" value="5"><br>
+              
+                <button onclick="calcular()">Calcular Economia</button><br>
+              
+                <div class="resultados">
+                    <div id="resultado"></div>
+                    <div id="resultado2"></div>
+                </div>
+            </div>
+        </div>
+      
+        <!-- Fale Conosco -->
+        <div class="fale-conosco" id="fale-conosco">
+            <h3>FALE CONOSCO</h3>
+            <div class="img-fale-conosco">
+                <div class="formulario">
+                    <input type="email" placeholder="Informe seu email, Ex: abcdef123@mnopq.wxyz" class="ipt_email">
+                    <input type="text" placeholder="Digite o assunto..." class="ipt_assunto">
+                    <button class="btn-formulario">ENVIAR</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Rodapé -->
+        <div class="rodape">
+            <div class="img-rodape"></div>
+            <div class="link-secoes">
+                <a href="#quem-somos">quem somos</a>
+                <a href="#servicos">nossos serviços</a>
+                <a href="#calculadora-financeira">calculadora financeira</a>
+            </div>
+            <div class="link-secoes">
+                <a href="">ajuda</a>
+                <a href="">fale conosco</a>
+                <a href="">dúvidas frequentes</a>
+            </div>
+        </div>       
+    </body>
+</html>

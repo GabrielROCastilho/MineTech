@@ -283,13 +283,15 @@ span {
 
 .calculadora-financeira {
     width: 100%;
-    height: 500px;
+    height: fit-content;
     display: flex;
     justify-content: center;
+    margin-top: 50px;
+    margin-bottom: 50px;
 }
 
 .container-calculara-financeira {
-    height: 100%;
+    height: fit-content;
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -325,7 +327,13 @@ span {
 
 .resultados {
     display: flex;
-    justify-content: space-between;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+#resultado2{
+    margin-left: 30px;
 }
 
 
@@ -555,10 +563,9 @@ span {
     align-items: center;
 }
 
-.logo-login {
-    background-image: url('imagens/logo-preto.png');
-    background-repeat: no-repeat;
-    background-size: cover;
+.card-login h2{
+    margin-bottom: 20px;
+    font-size: 40px;
 }
 
 .form-login {

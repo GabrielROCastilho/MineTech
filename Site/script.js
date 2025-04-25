@@ -82,16 +82,83 @@ function login() {
     alert("Login Inválido! Senha ou chave própria incorretas")
   } else {
 
-    var numero = prompt("Digite a chave da Empresa: ")
-
-    while (numero != '0302') {
-      numero = prompt("Você não digitou a chave correta")
-    }
-
-    if (numero == '0302') {
-      alert("login feito com sucesso");
-      window.location.href = 'dashboard_v1.html';
-
-    }
+    alert("login feito com sucesso");
+    window.location.href = 'dashboard.html';
   }
 }
+
+
+function enviar() {
+
+  var cnpj = ipt_cnpj.value;
+  var nomeFantasia = ipt_nomeFantasia.value;
+  var cidade = ipt_cidade.value;
+  var sigla = ipt_sigla.value;
+  var cep = ipt_cep.value;
+  var senha = ipt_senha.value;
+  var confirmarSenha = ipt_confirmarSenha.value;
+  var logradouro = ipt_logradouro.value;
+  var bairro = ipt_bairro.value;
+  var numero = Number(ipt_numero.value);
+  var emailEmpresa = ipt_emailEmpresa.value;
+  var codigo = '0302';
+  var i = 0;
+  var apenasNumeros = true;
+
+  // Confirmando senha
+  if (senha != confirmarSenha) {
+
+      alert("Senha confirmada diferente da senha inserida, faça novamente")
+
+  }  //Conferindo se tudo está preenchido
+  else if (cnpj == '' || nomeFantasia == '' || logradouro == '' || cidade == '' || sigla == '' || cep == '' || senha == '' || confirmarSenha == '' || emailEmpresa == '' || bairro == '' || numero == '') {
+
+      alert("Preencha todos os campos")
+
+  } // Validando CNPJ
+  if (cnpj.length !== 14) {
+      alert("CNPJ deve ter exatamente 14 números.");
+      return
+  }
+
+  for (i = 0; i < cnpj.length; i++) {
+      if (cnpj[i] < '0' || cnpj[i] > '9') {
+          apenasNumeros = false;
+          break;
+      }
+  }
+
+  if (!apenasNumeros) {
+      alert("CNPJ inválido! Insira apenas os 14 números.");
+      return;
+  }// Validando nome fantasia
+  else if (nomeFantasia.length < 3) {
+      alert("Nome fantasia inválido! Insira pelo menos 3 digitos.")
+  }// Validando Email
+  else if(!emailEmpresa.includes("@")){
+      alert("Email inválido! Precisa conter @")
+  }
+  //Validando logradouro
+  else if (logradouro.length < 3) {
+      alert("Logradouro inválido! Muito curto.")
+  }// Validando bairro
+  else if (bairro.length < 3) {
+      alert("Bairro inválido! Muito curto.")
+  }// Validando número
+  else if (numero <= 0 || numero >= 99999) {
+      alert("Número inválido! Insira um número maior que zero (e nenhum número absurdo).")
+  }// Validando siglas dos estados
+  else if (sigla.length != 2) {
+      alert("Siglas de estados tem apenas duas letras!")
+  }// Validando o CEP
+  else if (cep.length != 8) {
+      alert("CEP inválido! O CEP deve ter 8 números (Não precisa colocar o hífen).");
+  }// Concluindo o cadastro
+  else {
+          alert(`Cadastro concluído com sucesso! Agora a(o) ${nomeFantasia} é um(a) Minetecher!!! `)
+
+          window.location.href='cadastro_funcionario.html';
+
+      }
+
+  }

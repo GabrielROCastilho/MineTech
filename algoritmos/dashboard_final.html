@@ -6,7 +6,6 @@
     <title>Dashboard de Monitoramento de Metano</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
     <style>
-        /* Variáveis de cores */
         :root {
             --cor-fundo: #f5f5f5;
             --cor-texto: #333;
@@ -18,7 +17,6 @@
             --sombra: 0 2px 5px rgba(0,0,0,0.1);
         }
 
-        /* Reset e estilos básicos */
         * {margin: 0; padding: 0; box-sizing: border-box;}
         body {
             font-family: 'Segoe UI', sans-serif;
@@ -27,7 +25,6 @@
             padding-top: 70px;
         }
 
-        /* NAVBAR simplificada */
         .nav-bar {
             position: fixed;
             top: 0; left: 0; width: 100%;
@@ -56,7 +53,6 @@
         }
         .nav-bar a:hover {background: rgba(255,255,255,0.1);}
 
-        /* Layout principal */
         .container {
             max-width: 1200px;
             margin: 0 auto;
@@ -69,12 +65,10 @@
             padding-bottom: 8px;
         }
 
-        /* Cores de estado */
         .baixo {color: gold;}
         .medio {color: orange;}
         .alto {color: red;}
 
-        /* Cards */
         .card {
             background: var(--cor-card);
             border-radius: 8px;
@@ -89,7 +83,6 @@
             margin-bottom: 8px;
         }
 
-        /* Layout de grid */
         .resumo {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -103,7 +96,6 @@
             margin-bottom: 20px;
         }
 
-        /* Gráfico principal */
         .grafico-principal {
             background: var(--cor-card);
             border-radius: 8px;
@@ -113,7 +105,6 @@
         }
         .grafico-container {height: 300px;}
 
-        /* Sensores */
         .sensor {
             background: var(--cor-card);
             border-radius: 8px;
@@ -142,7 +133,6 @@
         }
         .sensor-grafico {height: 150px;}
 
-        /* Filtros por HTML */
         .filtros {
             display: flex;
             justify-content: center;
@@ -159,7 +149,6 @@
         }
         .filtro-label:hover {background: #ddd;}
         
-        /* Seletores para filtros */
         #filtro-todos:checked ~ .filtros .label-todos,
         #filtro-setorA:checked ~ .filtros .label-setorA,
         #filtro-setorB:checked ~ .filtros .label-setorB,
@@ -168,18 +157,15 @@
             color: white;
         }
         
-        /* Filtro de visibilidade */
         #filtro-todos:checked ~ .sensores .sensor {display: block;}
         #filtro-setorA:checked ~ .sensores .sensor:not([data-setor="A"]) {display: none;}
         #filtro-setorB:checked ~ .sensores .sensor:not([data-setor="B"]) {display: none;}
         #filtro-setorC:checked ~ .sensores .sensor:not([data-setor="C"]) {display: none;}
         
-        /* Cores dos setores */
         .label-setorA {border-bottom: 3px solid rgb(112, 112, 112);}
         .label-setorB {border-bottom: 3px solid rgb(112, 112, 112);}
         .label-setorC {border-bottom: 3px solid rgb(112, 112, 112);}
 
-        /* Footer */
         .footer {
             background: #222;
             color: #eee;
@@ -188,15 +174,19 @@
             margin-top: 20px;
         }
 
-        /* Responsividade simplificada */
         @media (max-width: 768px) {
             .nav-bar {flex-direction: column; height: auto; padding: 10px;}
             .filtros {flex-wrap: wrap;}
         }
+
+        #hrs{
+            color: green;
+            font-size: 25px;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
-    <!-- NAVBAR -->
     <div class="nav-bar">
         <div>
             <a href="#home">Início</a>
@@ -210,16 +200,14 @@
         </div>
     </div>
     
-    <!-- CONTEÚDO PRINCIPAL -->
     <div class="container">
         <h2>Dashboard de Monitoramento de Metano</h2>
         
-        <!-- Resumo -->
         <div class="resumo">
             <div class="card">
                 <h3>Média Geral</h3>
                 <div class="valor medio">0.65</div>
-                <p>Variação: +0.12 (24h)</p> 
+                <p>Variação de PPM: +0.12 (24h)</p> 
             </div>
             <div class="card">
                 <h3>Setor Crítico</h3>
@@ -233,38 +221,33 @@
             </div>
             <div class="card">
                 <h3>Última Atualização</h3>
-                <div class="valor baixo">12:45</div>
+                <div id="hrs">12:45</div>
                 <p>23/04/2025</p>
             </div>
         </div>
     
-        <!-- Gráfico Geral -->
         <div class="grafico-principal">
-            <h2>Visão Geral dos Setores</h2>
+            <h2>Visão Média dos Setores</h2>
             <div class="grafico-container">
                 <canvas id="grafico_geral"></canvas>
             </div>
         </div>
     
-        <!-- Filtros de Setor (usando HTML) -->
         <h2>Sensores por Setor</h2>
         
-        <!-- Inputs de radio para controlar os filtros -->
         <input type="radio" name="filtro-setor" id="filtro-todos" class="filtro-input" checked>
         <input type="radio" name="filtro-setor" id="filtro-setorA" class="filtro-input">
         <input type="radio" name="filtro-setor" id="filtro-setorB" class="filtro-input">
         <input type="radio" name="filtro-setor" id="filtro-setorC" class="filtro-input">
 
         <div class="filtros">
-            <label for="filtro-todos" class="filtro-label label-todos">Todos os Setores</label>
+            <label for="filtro-todos" class="filtro-label label-todos">Todos os Sensores</label>
             <label for="filtro-setorA" class="filtro-label label-setorA">Setor A</label>
             <label for="filtro-setorB" class="filtro-label label-setorB">Setor B</label>
             <label for="filtro-setorC" class="filtro-label label-setorC">Setor C</label>
         </div>
 
-        <!-- Sensores Individuais -->
         <div class="sensores">
-            <!-- Sensor Setor A -->
             <div class="sensor" data-setor="A">
                 <h3>Sensor 1 - Setor A <span class="status status-baixo"></span></h3>
                 <div class="sensor-info">
@@ -276,7 +259,6 @@
                 </div>
             </div>
             
-            <!-- Sensor Setor B -->
             <div class="sensor" data-setor="B">
                 <h3>Sensor 1 - Setor B <span class="status status-medio"></span></h3>
                 <div class="sensor-info">
@@ -288,7 +270,6 @@
                 </div>
             </div>
             
-            <!-- Sensor Setor C -->
             <div class="sensor" data-setor="C">
                 <h3>Sensor 1 - Setor C <span class="status status-alto"></span></h3>
                 <div class="sensor-info">
@@ -302,13 +283,11 @@
         </div>
     </div>
     
-    <!-- Footer -->
     <footer class="footer">
         <p>&copy; 2025 Sistema de Monitoramento de Metano. Todos os direitos reservados.</p>
     </footer>
     
     <script>
-        // Configurar gráfico geral
         const ctxGeral = document.getElementById('grafico_geral').getContext('2d');
         const graficoGeral = new Chart(ctxGeral, {
             type: 'line',
@@ -360,7 +339,6 @@
             }
         });
 
-        // Configurar gráficos dos sensores
         function configurarSensor(id, valores, corBorda) {
             const ctx = document.getElementById(id).getContext('2d');
             new Chart(ctx, {
@@ -394,7 +372,6 @@
             });
         }
 
-        // Configurar os três sensores
         configurarSensor('sensor_A', [0.42, 0.45, 0.47, 0.46, 0.44, 0.45], 'rgb(255, 230, 160, 1)');
         configurarSensor('sensor_B', [0.58, 0.62, 0.68, 0.66, 0.64, 0.65], 'rgb(255, 180, 120, 1)');
         configurarSensor('sensor_C', [0.88, 0.90, 0.94, 0.92, 0.95, 0.92], 'rgb(240, 130, 130, 1)');

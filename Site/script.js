@@ -31,7 +31,7 @@ function calcular() {
   }
 }
 
-function cadastro() {
+function cadastrarUsuario() {
 
   var chaveEmpresa = ipt_inserirCnpjEmpresa.value;
   var nomeFuncionario = ipt_nomeFuncionario.value;
@@ -78,17 +78,17 @@ function login() {
   var emailFuncionario = ipt_emailFuncionario.value;
   var senhaLogin = ipt_senhaLogin.value;
 
-  if (emailFuncionario != 'clara@sptech.school' || senhaLogin != '12345') {
-    alert("Login Inválido! Senha ou chave própria incorretas")
-  } else {
-
+  if(emailFuncionario != 'clara@sptech.school' || senhaLogin != '12345') {
+    alert("Login Inválido! Senha ou usuário incorretos!")
+  }else{
     alert("login feito com sucesso");
     window.location.href = 'dashboard.html';
   }
+
 }
 
 
-function enviar() {
+function cadastrarEmpresa() {
 
   var cnpj = ipt_cnpj.value;
   var nomeFantasia = ipt_nomeFantasia.value;
@@ -101,7 +101,6 @@ function enviar() {
   var bairro = ipt_bairro.value;
   var numero = Number(ipt_numero.value);
   var emailEmpresa = ipt_emailEmpresa.value;
-  var codigo = '0302';
   var i = 0;
   var apenasNumeros = true;
 
@@ -160,5 +159,4 @@ function enviar() {
           window.location.href='cadastro_funcionario.html';
 
       }
-
   }

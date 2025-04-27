@@ -424,6 +424,10 @@ span {
     align-items: center;
 }
 
+.card-cadastro h1{
+    margin-bottom: 15px;
+}
+
 .form-cadastro {
     display: flex;
     flex-direction: column;
@@ -460,7 +464,7 @@ span {
 }
 
 #ipt_numero {
-    width: 25%;
+    width: 30%;
 }
 
 .cidade-estado {
@@ -472,11 +476,11 @@ span {
 }
 
 #ipt_cidade {
-    width: 60%;
+    width: 62%;
 }
 
 #ipt_sigla {
-    width: 30%;
+    width: 35%;
 }
 
 .btn-cadastro {
@@ -493,6 +497,21 @@ span {
 .btn-cadastro:hover {
     text-decoration: underline;
 }
+
+.btn-apos-cadastro{
+    height: 30px;
+    width: fit-content;
+    background-color: rgb(192, 122, 64);
+    color: white;   
+    border-radius: 5px;
+    padding: 5px;
+    text-decoration: none;
+}
+
+.btn-apos-cadastro:hover{
+    text-decoration: underline;
+}
+
 
                                 /* LOGIN */
 .body-login {
@@ -642,10 +661,10 @@ span {
     padding: 15px;
 }
 
-container-dashboard h2 {
-    font-size: 20px;
-    margin-bottom: 15px;
-    border-bottom: 2px solid var(--cor-primaria);
+.container-dashboard h2 {
+    font-size: 30px;
+    font-weight: bolder;
+    margin-bottom: 20px;
     padding-bottom: 8px;
 }
 
@@ -693,7 +712,7 @@ container-dashboard h2 {
     margin-bottom: 20px;
 }
 
-.grafico-principal {
+.grafico_visao_media_dos_setores {
     background: var(--cor-card);
     border-radius: 8px;
     box-shadow: var(--sombra);

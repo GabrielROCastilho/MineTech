@@ -8,21 +8,18 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
 </head>
 <body class="body-dashboard">
+    <!-- NavBar -->
     <div class="nav-bar-dashboard">
         <div>
             <a href="index.html">Início</a>
         </div>
     </div>
-    
+
+    <!-- Cards -> Visão Geral -->
     <div class="container-dashboard">
         <h2>Dashboard de Monitoramento de Metano</h2>
         
         <div class="resumo">
-            <div class="card">
-                <h3>Média Geral</h3>
-                <div class="valor medio">0.65</div>
-                <p>Variação de PPM: +0.12 (24h)</p> 
-            </div>
             <div class="card">
                 <h3>Setor Crítico</h3>
                 <div class="valor alto">Setor C</div>
@@ -39,14 +36,16 @@
                 <p>23/04/2025</p>
             </div>
         </div>
-    
-        <div class="grafico-principal">
+
+        <!-- Gráfico -> Visão Média dos setore -->
+        <div class="grafico_visao_media_dos_setores">
             <h2>Visão Média dos Setores</h2>
             <div class="grafico-container">
-                <canvas id="grafico_geral"></canvas>
+                <canvas id="grafico_visao_media_dos_setores"></canvas>
             </div>
         </div>
     
+        <!-- Cards -> Visão de cada setor -->
         <h2>Sensores por Setor</h2>
         
         <input type="radio" name="filtro-setor" id="filtro-todos" class="filtro-input" checked>
@@ -65,7 +64,7 @@
             <div class="sensor-dashboard" data-setor="A">
                 <h3>Sensor 1 - Setor A <span class="status status-baixo"></span></h3>
                 <div class="sensor-info">
-                    <p>Nível atual: <span class="valor baixo">0.45</span></p>
+                    <p>Nível atual: <span class="valor baixo" id="valor_sensor">0.45</span></p>
                     <p>Limite: 0.80</p>
                 </div>
                 <div class="sensor-grafico">
@@ -76,7 +75,7 @@
             <div class="sensor" data-setor="B">
                 <h3>Sensor 1 - Setor B <span class="status status-medio"></span></h3>
                 <div class="sensor-info">
-                    <p>Nível atual: <span class="valor medio">0.65</span></p>
+                    <p>Nível atual: <span class="valor medio" id="valor_sensor">0.65</span></p>
                     <p>Limite: 0.80</p>
                 </div>
                 <div class="sensor-grafico">
@@ -87,7 +86,7 @@
             <div class="sensor" data-setor="C">
                 <h3>Sensor 1 - Setor C <span class="status status-alto"></span></h3>
                 <div class="sensor-info">
-                    <p>Nível atual: <span class="valor alto">0.92</span></p>
+                    <p>Nível atual: <span class="valor alto" id="valor_sensor">0.92</span></p>
                     <p>Limite: 0.80</p>
                 </div>
                 <div class="sensor-grafico">
@@ -102,7 +101,7 @@
     </footer>
     
     <script>
-        const ctxGeral = document.getElementById('grafico_geral').getContext('2d');
+        const ctxGeral = document.getElementById('grafico_visao_media_dos_setores').getContext('2d');
         const graficoGeral = new Chart(ctxGeral, {
             type: 'line',
             data: {
@@ -185,10 +184,12 @@
                 }
             });
         }
-
+ 
         configurarSensor('sensor_A', [0.42, 0.45, 0.47, 0.46, 0.44, 0.45], 'rgb(255, 230, 160, 1)');
         configurarSensor('sensor_B', [0.58, 0.62, 0.68, 0.66, 0.64, 0.65], 'rgb(255, 180, 120, 1)');
         configurarSensor('sensor_C', [0.88, 0.90, 0.94, 0.92, 0.95, 0.92], 'rgb(240, 130, 130, 1)');
+
+        var valor = document.getElementById('valor_sensor').innerText;
     </script>
 </body>
 </html>

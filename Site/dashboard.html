@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -6,6 +7,7 @@
     <title>Dashboard de Monitoramento de Metano</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body class="body-dashboard">
     <!-- NavBar -->
@@ -96,18 +98,24 @@
         </div>
     </div>
     
+    <!-- Rodapé -->
     <footer class="footer">
         <p>&copy; 2025 Sistema de Monitoramento de Metano. Todos os direitos reservados.</p>
     </footer>
     
+    <!-- Script para criação dos gráficos -->
     <script>
+        // Definição da função Chart para a criação do gráfico de visão média dos setores 
         const ctxGeral = document.getElementById('grafico_visao_media_dos_setores').getContext('2d');
         const graficoGeral = new Chart(ctxGeral, {
+            // Definimos o gráfico como sendo de linha
             type: 'line',
             data: {
+                // Definindo o eixo X
                 labels: ['10:00', '10:15', '10:30', '10:45', '11:00', '11:15'],
                 datasets: [
                     {
+                        //Definindo os valores do eixo Y do setor A de acordo com os horários
                         label: 'Setor A',
                         data: [0.45, 0.48, 0.52, 0.50, 0.48, 0.45],
                         backgroundColor: 'rgba(52, 152, 219, 0.7)',
@@ -115,6 +123,7 @@
                         borderWidth: 2
                     },
                     {
+                        //Definindo os valores do eixo Y do setor B de acordo com os horários
                         label: 'Setor B',
                         data: [0.60, 0.65, 0.70, 0.68, 0.65, 0.64],
                         backgroundColor: 'rgba(231, 76, 60, 0.7)',
@@ -122,6 +131,7 @@
                         borderWidth: 2
                     },
                     {
+                        //Definindo os valores do eixo Y do setor C de acordo com os horários
                         label: 'Setor C',
                         data: [0.85, 0.88, 0.92, 0.90, 0.94, 0.92],
                         backgroundColor: 'rgba(46, 204, 113, 0.7)',
@@ -135,16 +145,20 @@
                 maintainAspectRatio: false,
                 scales: {
                     y: {
+                        // Definindo que o gráfico começa com valor 0
                         beginAtZero: true,
+                        // Definindo que o valor máximo do eixo Y é 1
                         max: 1,
                         title: {
                             display: true,
+                            // Definindo o nome do eixo Y
                             text: 'Concentração de Metano (0-1)'
                         }
                     },
                     x: {
                         title: {
                             display: true,
+                            // Definindo o nome do eixo X
                             text: 'Hora do Dia'
                         }
                     }
@@ -152,6 +166,7 @@
             }
         });
 
+        // Definição da função Chart para a criação do gráfico de visão de cada sensor  
         function configurarSensor(id, valores, corBorda) {
             const ctx = document.getElementById(id).getContext('2d');
             new Chart(ctx, {
@@ -185,6 +200,7 @@
             });
         }
  
+        // Passando como parâmetro para a função de criação os gráficos dos sensores os valores que serão exibidos
         configurarSensor('sensor_A', [0.42, 0.45, 0.47, 0.46, 0.44, 0.45], 'rgb(255, 230, 160, 1)');
         configurarSensor('sensor_B', [0.58, 0.62, 0.68, 0.66, 0.64, 0.65], 'rgb(255, 180, 120, 1)');
         configurarSensor('sensor_C', [0.88, 0.90, 0.94, 0.92, 0.95, 0.92], 'rgb(240, 130, 130, 1)');

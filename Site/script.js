@@ -37,13 +37,37 @@ function login() {
   var emailFuncionario = ipt_emailFuncionario.value;
   var senhaLogin = ipt_senhaLogin.value;
 
-  if (emailFuncionario != 'clara@sptech.school' || senhaLogin != '12345') {
-    alert("Login Inválido! Senha ou usuário incorretos!")
-  } else {
-    alert("login feito com sucesso");
-    window.location.href = 'dashboard.html';
-  }
+  let listaUsers = [
+    {email: "pedro@sptech",
+      senha: "0000"
+    },
+    {email: "gabriel@sptech",
+      senha: "0000"
+    },
+    {email: "Munir@sptech",
+      senha: "0000"
+    },
+    {email: "andre@sptech",
+      senha: "0000"
+    },
+    {email: "felipe@sptech",
+      senha: "0000"
+    }
+  ]
 
+  let loginInvalido = true;
+
+  for (var i = 0; i < listaUsers.length; i++) {
+    if ((emailFuncionario == listaUsers[i].email) && (senhaLogin == listaUsers[i].senha)) {
+      alert("Login efetuado com sucesso");
+      window.location.href = 'dashboard.html';
+      loginInvalido = false;
+      break;
+    } 
+  }
+  if (loginInvalido) {
+    alert("Login Inválido! Senha ou usuário incorretos!")
+  }
 }
 
 // CADASTRO FUNCIONARIO

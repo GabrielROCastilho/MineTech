@@ -46,11 +46,17 @@ INSERT INTO nivelGas (statusNivel) VALUES
 ('Evacuação parcial'),
 ('Evacuação total');
 
+-- Setor
+INSERT INTO setor (sigla) VALUES
+('A'),
+('B'),
+('C');
+
 -- Local do Sensor
-INSERT INTO localSensor (localSensor) VALUES 
-('Túnel 1'),
-('Galeria Norte'),
-('Poço Central');
+INSERT INTO localSensor (localSensor, fkSetor) VALUES 
+('Túnel 1', 1),
+('Galeria Norte', 2),
+('Poço Central', 3);
 
 -- Sensor
 INSERT INTO sensor (statusSensor, fkMineradora, fkLocal, fkMedicao, fkNivelGas) VALUES 

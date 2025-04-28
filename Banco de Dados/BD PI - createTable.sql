@@ -61,9 +61,16 @@ create table nivelGas(
         statusNivel varchar(45)
 );
 
+create table setor(
+	idSetor int primary key auto_increment,
+    sigla char(1)
+);
+
 create table localSensor(
 		id int primary key auto_increment,
-        localSensor varchar(45)
+        localSensor varchar(45),
+        fkSetor int not null,
+        constraint fk_setor foreign key(fkSetor) references setor(idSetor)
 );
 
 create table sensor(
@@ -77,6 +84,5 @@ create table sensor(
         foreign key (fkLocal) references localSensor(id),
         foreign key (fkMedicao) references medicao(id),
         foreign key (fkNivelGas) references nivelGas(id)
-        
 );
 

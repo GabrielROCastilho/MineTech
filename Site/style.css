@@ -614,7 +614,7 @@ span {
 }
 
 
-                                /* DASHBOARD */
+                                                         /* DASHBOARD */
 * {
     margin: 0;
     padding: 0;
@@ -648,9 +648,10 @@ span {
     text-decoration: none;
     padding: 10px 15px;
     border-radius: 4px;
-    transition: background 0.3s;
+    transition: background 0.3s;    /*Adiciona uma transição de 3s para que o background preencha por completo*/
 }
 
+/*Ao passar por cima do link, ele muda de cor*/
 .nav-bar-dashboard a:hover {
     background: rgba(255, 255, 255, 0.1);
 }
@@ -668,6 +669,7 @@ span {
     padding-bottom: 8px;
 }
 
+/*Definindo a cor que irá aparecer os gráficos de acordo com a concentração de metano*/
 .baixo {
     color: gold;
 }
@@ -791,11 +793,12 @@ span {
     background: #ddd;
 }
 
+/*Definindo a cor de fundo quando clicamos nos botões de cada setor*/
 #filtro-todos:checked~.filtros .label-todos,
 #filtro-setorA:checked~.filtros .label-setorA,
 #filtro-setorB:checked~.filtros .label-setorB,
 #filtro-setorC:checked~.filtros .label-setorC {
-    background: var(--cor-primaria);
+    background: blue;
     color: white;
 }
 

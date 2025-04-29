@@ -838,18 +838,6 @@ span {
     margin-top: 20px;
 }
 
-@media (max-width: 768px) {
-    .nav-bar {
-        flex-direction: column;
-        height: auto;
-        padding: 10px;
-    }
-
-    .filtros {
-        flex-wrap: wrap;
-    }
-}
-
 #hrs {
     color: green;
     font-size: 25px;

@@ -614,7 +614,7 @@ span {
 }
 
 
-                                                                                 /* DASHBOARD */
+                                        /* DASHBOARD */
 * {
     margin: 0;
     padding: 0;
@@ -802,19 +802,19 @@ span {
     color: white;
 }
 
-#filtro-todos:checked~.sensores .sensor {
+#filtro-todos:checked~.sensores .sensor-dashboard {
     display: block;
 }
 
-#filtro-setorA:checked~.sensores .sensor:not([data-setor="A"]) {
+#filtro-setorA:checked~.sensores .sensor-dashboard:not([data-setor="A"]) {
     display: none;
 }
 
-#filtro-setorB:checked~.sensores .sensor:not([data-setor="B"]) {
+#filtro-setorB:checked~.sensores .sensor-dashboard:not([data-setor="B"]) {
     display: none;
 }
 
-#filtro-setorC:checked~.sensores .sensor:not([data-setor="C"]) {
+#filtro-setorC:checked~.sensores .sensor-dashboard:not([data-setor="C"]) {
     display: none;
 }
 

@@ -802,6 +802,7 @@ span {
     color: white;
 }
 
+/* Responsável por esconder e mostrar os sensores de acordo com o botão selecionado */
 #filtro-todos:checked~.sensores .sensor-dashboard {
     display: block;
 }

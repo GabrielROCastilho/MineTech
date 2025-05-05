@@ -51,6 +51,18 @@ const serial = async (
         console.log(data);
         const sensorMq02 = parseFloat(data);
 
+        //AQUI IREMOS ADICIONAR A STRING PARA O NIVEL DO GÁS
+        /*
+        let nivelGas = '';
+        if (sensorMq02 > 0 && sensorMq02 < 1){
+            nivelGas = 'Alerta';
+        } else if (sensorMq02 >= 1 && sensorMq02 < 2){
+            nivelGas = 'Evacuar área'
+        } else if (sensorMq02 >= 2 && sensorMq02 < 5){
+            nivelGas = 'Evacuação total'
+        }
+        */
+
         // armazena os valores dos sensores nos arrays correspondentes
         valoresSensorMq02.push(sensorMq02);
 

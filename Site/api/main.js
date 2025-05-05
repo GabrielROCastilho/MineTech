@@ -52,16 +52,17 @@ const serial = async (
         const sensorMq02 = parseFloat(data);
 
         //AQUI IREMOS ADICIONAR A STRING PARA O NIVEL DO GÁS
-        /*
         let nivelGas = '';
         if (sensorMq02 > 0 && sensorMq02 < 1){
             nivelGas = 'Alerta';
         } else if (sensorMq02 >= 1 && sensorMq02 < 2){
-            nivelGas = 'Evacuar área'
+            nivelGas = 'Evacuar área';
         } else if (sensorMq02 >= 2 && sensorMq02 < 5){
-            nivelGas = 'Evacuação total'
+            nivelGas = 'Evacuação total';
+        } else if (sensorMq02 >= 5){
+            nivelGas = 'Risco de explosão';
         }
-        */
+        // ------------------
 
         // armazena os valores dos sensores nos arrays correspondentes
         valoresSensorMq02.push(sensorMq02);
@@ -71,10 +72,10 @@ const serial = async (
 
             // este insert irá inserir os dados na tabela "medida"
             await poolBancoDados.execute(
-                'INSERT INTO medicao (nivelMetano) VALUES (?)',
-                [sensorMq02]
+                'INSERT INTO medicao (nivelMetano, statusNivel) VALUES (?, ?)',
+                [sensorMq02, nivelGas]
             );
-            console.log("valores inseridos no banco: ", sensorMq02);
+            console.log("valores inseridos no banco: ", sensorMq02, nivelGas);
 
         }
 

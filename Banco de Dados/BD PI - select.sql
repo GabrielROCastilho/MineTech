@@ -1,32 +1,40 @@
-select 	m.nome nome_empresa, 
-		m.cnpj,
-        e.cep,
-        c.nome cidade,
-        uf.nome estado
+select	m.nome as nome_empresa, m.cnpj,
+		e.logradouro, e.cep,
+		c.nome as cidade,
+		uf.nome as estado
 from mineradora as m
-inner join endereco as e on e.id = m.fkEndereco
-inner join cidade as c on c.id = e.fkCidade
-inner join estado as uf on uf.id = c.fkEstado;
+inner join endereco as e on e.id = m.fkendereco
+inner join cidade as c on c.id = e.fkcidade
+inner join estado as uf on uf.id = c.fkestado;
 
 
-select	f.nome nome,
-		f.sobrenome,
-        f.telefone_celular,
-        c.nome cargo
+select	f.nome, f.sobrenome, f.telefone_celular, f.email,
+		c.nome as cargo
 from funcionario as f
-inner join cargo as c on c.id=f.fkcargo;
+inner join cargo as c on c.id = f.fkcargo;
 
 
-select	s.id id_setor,
-		s.statussensor status_sensor,
-        m.nivelmetano nivel_metano,
-        m.datahora hora_medicao,
-        n.statusnivel status_nivel,
-        l.localsensor local_sensor,
-        se.sigla sigla_setor
+select	s.id as id_sensor, s.statussensor as status_sensor,
+		m.nivelmetano as nivel_metano, m.statusnivel as status_nivel, m.datahora as hora_medicao,
+		l.localsensor as local_sensor,
+		se.sigla as sigla_setor
 from sensor as s
-inner join localSensor as l on l.id=s.fkLocal
-inner join medicao as m on m.id = s.fkMedicao
-inner join nivelGas as n on n.id = s.fkNivelGas
-inner join setor as se on se.idsetor = l.fksetor;
-        
+inner join medicao as m on m.fksensor = s.id
+inner join localSensor as l on l.id = s.fklocal
+inner join setor as se	on se.id = l.fksetor
+						and se.fkmineradora = l.fkmineradora;
+
+
+-- especificando o sensor
+select	s.id id_sensor, s.statusSensor,
+		m.nivelMetano, m.statusNivel, m.dataHora
+from sensor as s
+inner join medicao as m on m.fkSensor = s.id
+where s.id = 3;
+
+-- especificando os alertas
+select	s.id id_sensor, s.statusSensor,
+		m.nivelMetano, m.statusNivel, m.dataHora
+from sensor as s
+inner join medicao as m on m.fkSensor = s.id
+where m.statusNivel like 'Evacua%';

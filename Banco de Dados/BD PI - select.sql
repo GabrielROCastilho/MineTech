@@ -3,10 +3,9 @@ select	m.nome as nome_empresa, m.cnpj,
 		c.nome as cidade,
 		uf.nome as estado
 from mineradora as m
-inner join endereco as e on e.id = m.fkendereco
+inner join endereco as e on e.fkMineradora = m.id
 inner join cidade as c on c.id = e.fkcidade
 inner join estado as uf on uf.id = c.fkestado;
-
 
 select	f.nome, f.sobrenome, f.telefone_celular, f.email,
 		c.nome as cargo

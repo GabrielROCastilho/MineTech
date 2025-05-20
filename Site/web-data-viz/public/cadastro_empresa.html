@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="script.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <script src="./js/sessao.js"></script>
+    <title>Cadastro Empresa</title>
+</head>
+
+<body class="body-cadastro">
+    <div class="container-cadastro">
+        <div class="card-cadastro">
+            <h1>Cadastro Empresa</h1>
+            <div class="form-cadastro">
+                <input type="text" id="ipt_cnpj" placeholder="CNPJ"><br>
+                <input type="text" id="ipt_nomeFantasia" placeholder="Nome Fantasia"><br>
+                <input type="text" id="ipt_bairro" placeholder="Bairro"><br>
+                <div class="logradouro-numero">
+                    <input type="text" id="ipt_logradouro" placeholder="Logradouro"><br>
+                    <input type="number" id="ipt_numero" placeholder="Número"><br>
+                </div>
+                <div class="cidade-estado">
+                    <input type="text" id="ipt_cidade" placeholder="Cidade"><br>
+                    <input type="text" id="ipt_sigla" placeholder="Sigla Estado"><br>
+                </div>
+                <input type="text" id="ipt_cep" placeholder="CEP"><br>
+            </div>
+            <button onclick="cadastrarEmpresa()" class="btn-cadastro">CRIAR CADASTRO EMPRESA</button><br>
+            <div id="div_resposta"></div>
+            <div id="div_aguardar" class="loading-div">
+                <img src="./assets/circle-loading.gif" id="loading-gif" />
+            </div>
+
+            <div id="div_erros_login"></div>
+        </div>
+    </div>
+</body>
+
+</html>
+<script>
+
+    function cadastrarEmpresa() {
+        // aguardar();
+        var cnpjVar = ipt_cnpj.value;
+        var nomeFantasiaVar = ipt_nomeFantasia.value;
+        var cidadeVar = ipt_cidade.value;
+        var siglaVar = ipt_sigla.value;
+        var cepVar = ipt_cep.value;
+        var logradouroVar = ipt_logradouro.value;
+        var bairroVar = ipt_bairro.value;
+        var numeroVar = Number(ipt_numero.value);
+        var i = 0;
+        var apenasNumeros = true;
+
+
+        if (cnpj == '' || nomeFantasia == '' || logradouro == '' || cidade == '' || sigla == '' || cep == '' || bairro == '' || numero == '') {
+
+            cardErro.style.display = "block";
+            mensagem_erro.innerHTML =
+                "(Mensagem de erro para todos os campos em branco)";
+
+            finalizarAguardar();
+            return false;
+
+        } else {
+            // Validando CNPJ
+            if (cnpj.length !== 14) {
+                cardErro.style.display = "block";
+                mensagem_erro.innerHTML =
+                    "(Mensagem de erro para todos os campos em branco)";
+
+                finalizarAguardar();
+                return false;
+            }
+
+            for (i = 0; i < cnpj.length; i++) {
+                if (cnpj[i] < '0' || cnpj[i] > '9') {
+                    apenasNumeros = false;
+                    break;
+                }
+            }
+
+            if (!apenasNumeros) {
+                cardErro.style.display = "block";
+                mensagem_erro.innerHTML =
+                    "(Mensagem de erro para todos os campos em branco)";
+
+                finalizarAguardar();
+                return false;
+            }// Validando nome fantasia
+            else if (nomeFantasia.length < 3) {
+                cardErro.style.display = "block";
+                mensagem_erro.innerHTML =
+                    "(Mensagem de erro para todos os campos em branco)";
+
+                finalizarAguardar();
+                return false;
+            }// Validando Email
+            else if (!emailEmpresa.includes("@")) {
+                cardErro.style.display = "block";
+                mensagem_erro.innerHTML =
+                    "(Mensagem de erro para todos os campos em branco)";
+
+                finalizarAguardar();
+                return false;
+            }//Validando logradouro
+            else if (logradouro.length < 3) {
+                cardErro.style.display = "block";
+                mensagem_erro.innerHTML =
+                    "(Mensagem de erro para todos os campos em branco)";
+
+                finalizarAguardar();
+                return false;
+            }// Validando bairro
+            else if (bairro.length < 3) {
+                cardErro.style.display = "block";
+                mensagem_erro.innerHTML =
+                    "(Mensagem de erro para todos os campos em branco)";
+
+                finalizarAguardar();
+                return false;
+            }// Validando número
+            else if (numero <= 0 || numero >= 99999) {
+                cardErro.style.display = "block";
+                mensagem_erro.innerHTML =
+                    "(Mensagem de erro para todos os campos em branco)";
+
+                finalizarAguardar();
+                return false;
+            }// Validando siglas dos estados
+            else if (sigla.length != 2) {
+                cardErro.style.display = "block";
+                mensagem_erro.innerHTML =
+                    "(Mensagem de erro para todos os campos em branco)";
+
+                finalizarAguardar();
+                return false;
+            }// Validando o CEP
+            else if (cep.length != 8) {
+                cardErro.style.display = "block";
+                mensagem_erro.innerHTML =
+                    "(Mensagem de erro para todos os campos em branco)";
+
+                finalizarAguardar();
+                return false;
+            }// Concluindo o cadastro
+            else {
+                // Enviando o valor da nova input
+                fetch("/empresas/cadastrar", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        cnpjServer: cnpjVar,
+                        nomeFantasiaServer: nomeFantasiaVar,
+                        cidadeServer: cidadeVar,
+                        siglaServer: siglaVar,
+                        cepServer: cepVar,
+                        logradouroServer: logradouroVar,
+                        bairroServer: bairroVar,
+                        numeroServer: numeroVar
+                    }),
+                })
+                    .then(function (resposta) {
+                        console.log("resposta: ", resposta);
+
+                        if (resposta.ok) {
+                            cardErro.style.display = "block";
+
+                            mensagem_erro.innerHTML =
+                                `Cadastro concluído com sucesso! Agora a(o) ${nomeFantasia} é um(a) Minetecher!!! `
+
+                            setTimeout(() => {
+                                window.location = "cadastro_usuario.html";
+                            }, "2000");
+
+                            limparFormulario();
+                            finalizarAguardar();
+                        } else {
+                            throw "Houve um erro ao tentar realizar o cadastro!";
+                        }
+                    })
+                    .catch(function (resposta) {
+                        console.log(`#ERRO: ${resposta}`);
+                        finalizarAguardar();
+                    });
+
+                return false;
+            }
+        }
+
+
+    }
+</script>

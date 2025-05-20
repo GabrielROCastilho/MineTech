@@ -1,10 +1,16 @@
 var database = require("../database/config")
 
-function cadastrar(cnpj, nomeFantasia, cidade, sigla, cep, logradouro, bairro, numero) {
+function cadastrar(cnpj, nomeFantasia, cidade   , cep, logradouro, bairro, numero) {
     var instrucaoSql = `
-        INSERT INTO 
-        INSERT INTO usuario (nome, email, senha, fk_empresa) VALUES ('${nome}', '${email}', '${senha}', '${fkEmpresa}');
-    `;
+        insert into mineradora (nome, cnpj) values ('${nomeFantasia}', '${cnpj}');
+        set @idMineradora := last_insert_id();
+        
+        set @idCidade:= (select id from cidade where nome = '${cidade}');
+
+        insert into endereco (fkMineradora, logradouro, bairro, numero, cep, fkCidade) values (@idMineradora, '${logradouro}', '${bairro}', '${numero}', '${cep}', @idCidade);
+        insert 
+        
+        `;
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
 }

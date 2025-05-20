@@ -1,35 +1,35 @@
 var empresaModel = require("../models/empresaModel");
 
 function cadastrar(req, res) {
-    var cnpjVar = req.body.cnpjServer
-    var nomeFantasiaVar = req.body.nomeFantasiaServer
-    var cidadeVar = req.body.cidadeServer
-    var siglaVar = req.body.siglaServer
-    var cepVar = req.body.cepServer
-    var logradouroVar = req.body.logradouroServer
-    var bairroVar = req.body.bairroServer
-    var numeroVar = req.body.numeroServer
+    var cnpj = req.body.cnpjServer
+    var nomeFantasia = req.body.nomeFantasiaServer
+    var cidade = req.body.cidadeServer
+    var sigla = req.body.siglaServer
+    var cep = req.body.cepServer
+    var logradouro = req.body.logradouroServer
+    var bairro = req.body.bairroServer
+    var numero = req.body.numeroServer
 
     // Faça as validações dos valores
-    if (cnpjVar == undefined) {
+    if (cnpj == undefined) {
         res.status(400).send("Seu cnpj está undefined!");
-    } else if (nomeFantasiaVar == undefined) {
+    } else if (nomeFantasia == undefined) {
         res.status(400).send("Seu nome fantasia está undefined!");
-    } else if (cidadeVar == undefined) {
+    } else if (cidade == undefined) {
         res.status(400).send("Sua cidade está undefined!");
-    } else if (siglaVar == undefined) {
+    } else if (sigla == undefined) {
         res.status(400).send("Sua sigla está undefined!");
-    } else if (cepVar == undefined) {
+    } else if (cep == undefined) {
         res.status(400).send("Seu cep está undefined!");
-    } else if (logradouroVar == undefined) {
+    } else if (logradouro == undefined) {
         res.status(400).send("Seu logradouro está undefined!");
-    } else if (bairroVar == undefined) {
+    } else if (bairro == undefined) {
         res.status(400).send("Seu bairro está undefined!");
     } else {
         res.status(400).send("Seu numero está undefined!");
     }
 
-    empresaModel.cadastrar(cnpjVar, nomeFantasiaVar)
+    empresaModel.cadastrar(cnpj, nomeFantasia, cidade, sigla, cep, logradouro, bairro, numero)
         .then(
             function (resultado) {
                 res.json(resultado);

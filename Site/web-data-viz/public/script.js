@@ -57,13 +57,21 @@ function login() {
     {
       email: "felipe@sptech",
       senha: "0000"
+    },
+    {
+      email: "suporte@mine.tech",
+      senha: "minetech"
     }
   ]
 
   let loginInvalido = true;
 
   for (var i = 0; i < listaUsers.length; i++) {
-    if ((emailFuncionario == listaUsers[i].email) && (senhaLogin == listaUsers[i].senha)) {
+    if ((emailFuncionario == "suporte@mine.tech") && (senhaLogin == "minetech")) {
+      window.location.href = 'http://localhost:3001/bob_ia.html';
+      loginInvalido = false;
+      break;
+    } else if ((emailFuncionario == listaUsers[i].email) && (senhaLogin == listaUsers[i].senha)) {
       alert("Login efetuado com sucesso");
       window.location.href = 'dashboard.html';
       loginInvalido = false;

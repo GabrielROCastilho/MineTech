@@ -38,19 +38,24 @@ function login() {
   var senhaLogin = ipt_senhaLogin.value;
 
   let listaUsers = [
-    {email: "pedro@sptech",
+    {
+      email: "pedro@sptech",
       senha: "0000"
     },
-    {email: "gabriel@sptech",
+    {
+      email: "gabriel@sptech",
       senha: "0000"
     },
-    {email: "Munir@sptech",
+    {
+      email: "Munir@sptech",
       senha: "0000"
     },
-    {email: "andre@sptech",
+    {
+      email: "andre@sptech",
       senha: "0000"
     },
-    {email: "felipe@sptech",
+    {
+      email: "felipe@sptech",
       senha: "0000"
     }
   ]
@@ -63,7 +68,7 @@ function login() {
       window.location.href = 'dashboard.html';
       loginInvalido = false;
       break;
-    } 
+    }
   }
   if (loginInvalido) {
     alert("Login Inválido! Senha ou usuário incorretos!")

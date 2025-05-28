@@ -2,13 +2,22 @@
 INSERT INTO estado (nome, sigla) VALUES 
 ('São Paulo', 'SP'),
 ('Minas Gerais', 'MG'),
-('Pará', 'PA');
+('Pará', 'PA'),
+('Rio de Janeiro', 'RJ'),
+('Bahia', 'BA');
 
 -- Inserts na tabela cidade
 INSERT INTO cidade (nome, fkEstado) VALUES 
 ('São Paulo', 1),
+('Campinas', 1),
 ('Belo Horizonte', 2),
-('Parauapebas', 3);
+('Uberlândia', 2),
+('Parauapebas', 3),
+('Belém', 3),
+('Rio de Janeiro', 4),
+('Niterói', 4),
+('Salvador', 5),
+('Feira de Santana', 5);
 
 -- Inserts na tabela mineradora
 INSERT INTO mineradora (nome, cnpj) VALUES 

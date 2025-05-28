@@ -1,3 +1,6 @@
+select * from cidade
+inner join estado on estado.id=cidade.fkestado;
+
 select	m.nome as nome_empresa, m.cnpj,
 		e.logradouro, e.cep,
 		c.nome as cidade,

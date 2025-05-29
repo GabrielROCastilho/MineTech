@@ -9,7 +9,7 @@
     <title>Cadastro Funcionário</title>
 </head>
 
-<body class="body-cadastro">
+<body class="body-cadastro" onload="carregarCargos()">
     <div class="container-cadastro">
         <div class="logo-cadastro"></div>
         <div class="card-cadastro">
@@ -20,12 +20,7 @@
                 <input type="text" id="ipt_sobrenomeFuncionario" placeholder="Sobrenome"><br>
                 <input type="email" id="ipt_email" placeholder="Email de Contato"><br>
                 <input type="text" id="ipt_telefone" placeholder="Telefone de Contato"><br>
-                <select id="ipt_cargo">
-                    <option value="#">Selecione um cargo</option>
-                    <option value="Diretor">Diretor</option>
-                    <option value="Gerente">Gerente</option>
-                    <option value="Operário">Operário</option>
-                </select>
+                <select id="slc_cargo"></select>
                 <br>
                 <input type="password" id="ipt_senhaFunc" placeholder="Senha"><br>
                 <input type="password" id="ipt_confirmarSenhaFunc" placeholder="Confirmar Senha"><br>
@@ -35,4 +30,43 @@
         </div>
     </div>
 </body>
+<script>
+
+    var cargos = []
+
+    function carregarCargos() {
+        fetch('/cargos/buscar')
+            .then(function (response) {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok ' + response.statusText);
+                }
+                return response.json();
+            })
+            .then(function (resposta) {
+                var cargosVetor = [];
+                for (let i = 0; i < resposta.nome.length; i++) {
+                    cargosVetor.push({
+                        nome: resposta.nome[i],
+                        id: resposta.id[i]
+                    });
+                }
+                cargos = cargosVetor;
+                plotarCargos(cargos);
+            })
+            .catch(function (err) {
+                console.error("Erro ao buscar os dados:", err);
+                cardMensagem.style.display = "block";
+                mensagem_erro.innerHTML = "Não foi possível carregar os avatares. Tente novamente mais tarde.";
+            });
+    }
+
+    function plotarCargos(cargos) {
+        var optionsCargos = '<option value="">Selecione um cargo</option>';
+        for (var i = 0; i < cargos.length; i++) {
+            optionsCargos += `<option value="${cargos[i].id}">${cargos[i].nome}</option>`;
+        }
+        document.getElementById("slc_cargo").innerHTML = optionsCargos;
+    }
+</script>
+
 </html>

@@ -1,32 +1,29 @@
-var empresaModel = require("../models/empresaModel");
+var enderecoModel = require("../models/enderecoModel");
 
 function cadastrar(req, res) {
-    var cnpj = req.body.cnpjServer
-    var nomeFantasia = req.body.nomeFantasiaServer
     var cidade = req.body.cidadeServer
     var cep = req.body.cepServer
     var logradouro = req.body.logradouroServer
     var bairro = req.body.bairroServer
     var numero = req.body.numeroServer
+    var fkMineradora = req.body.fkMineradoraServer
 
     // Faça as validações dos valores
-    if (cnpj == undefined) {
+    if (cidade == undefined) {
         res.status(400).send("Seu cnpj está undefined!");
-    } else if (nomeFantasia == undefined) {
-        res.status(400).send("Seu nome fantasia está undefined!");
-    } else if (cidade == undefined) {
-        res.status(400).send("Sua cidade está undefined!");
-    }else if (cep == undefined) {
-        res.status(400).send("Seu cep está undefined!");
+    } else if (cep == undefined) {
+        res.status(400).send("O cep está undefined!");
     } else if (logradouro == undefined) {
-        res.status(400).send("Seu logradouro está undefined!");
+        res.status(400).send("O logradouro está undefined!");
     } else if (bairro == undefined) {
-        res.status(400).send("Seu bairro está undefined!");
-    } else if (numero == undefined){
-        res.status(400).send("Seu numero está undefined!");
+        res.status(400).send("O bairro está undefined!");
+    } else if (numero == undefined) {
+        res.status(400).send("O número está undefined!");
+    } else if (fkMineradora == undefined) {
+        res.status(400).send("O id da empresa está undefined!");
     }
 
-    empresaModel.cadastrar(cnpj, nomeFantasia, cidade, cep, logradouro, bairro, numero)
+    enderecoModel.cadastrar(cidade, cep, logradouro, bairro, numero, fkMineradora)
         .then(
             function (resultado) {
                 res.json(resultado);

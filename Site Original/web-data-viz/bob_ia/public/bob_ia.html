@@ -17,7 +17,7 @@
         <span id="buguer" class="material-symbols-outlined" onclick="botao()">menu</span>
         <menu id="opcao">
             <ul>
-                <li>Sair</li>
+                <li onclick="limparSessao()">Sair</li>
             </ul>
         </menu>
     </div>
@@ -57,6 +57,11 @@
 
             resposta.style.display = 'block';
             document.getElementById('resposta').innerText = data.resultado;
+        }
+
+        function limparSessao() {
+            sessionStorage.clear();
+            window.location = "http://localhost:3333/login.html";
         }
 
     </script>

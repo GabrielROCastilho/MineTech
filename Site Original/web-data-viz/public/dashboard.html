@@ -1,139 +1,80 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard de Monitoramento de Metano</title>
-    <link rel="stylesheet" href="style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=menu" />
+    <title>Dashboard de Monitoramento de Metano</title>
+    </script>
 </head>
-<body class="body-dashboard">
-    <!-- NavBar -->
-    <div class="nav-bar-dashboard">
-        <div>
-            <a href="index.html">Início</a>
-        </div>
+<body>
+
+    <div id="cabecalho">
+        <h2 id="logo">MineTech</h2>
+        <span id="buguer" class="material-symbols-outlined" onclick="botao()">menu</span>
+        <menu id="opcao">
+            <ul>
+                <li>Sair</li>
+            </ul>
+        </menu>
     </div>
+    
+    <div class="container">
+        <h2>Monitoramento de Metano</h2>
 
-    <!-- Cards -> Visão Geral -->
-    <div class="container-dashboard">
-        <h2>Dashboard de Monitoramento de Metano</h2>
-        
-        <div class="resumo">
-            <div class="card">
-                <h3>Setor Crítico</h3>
-                <div class="valor alto">Setor A</div>
-                <p>PPM: 4.8</p>
-            </div>
-            <div class="card">
-                <h3>Status do Sistema</h3>
-                <div class="valor medio">Alerta</div>
-                <p>1 sensor crítico</p>
-            </div>
-            <div class="card">
-                <h3>Última Atualização</h3>
-                <div id="hrs">12:45</div>
-                <p>23/04/2025</p>
+        <div id="status_sitema">
+            <h1>Status do Sistema</h1>
+
+            <div>
+                <h3>Setores Criticos</h3>
+                <p>0</p>
             </div>
         </div>
-
-        <!-- Gráfico -> Visão Média dos setore -->
-        <div class="grafico_visao_media_dos_setores">
+        
+        <div class="qntdd">
+            <div class="card">
+                <h3>Quantidade de Setores</h3>
+                <p>13</p> 
+            </div>
+            <div class="card">
+                <h3>Quantidade de Sensores</h3>
+                <p>130</p>
+            </div>
+        </div>
+    
+        <div class="grafico-principal">
             <h2>Visão Média dos Setores</h2>
             <div class="grafico-container">
-                <canvas id="grafico_visao_media_dos_setores"></canvas>
+                <canvas id="grafico_geral"></canvas>
             </div>
         </div>
     
-        <!-- Cards -> Visão de cada setor -->
-        <h2>Sensores por Setor</h2>
-        
-        <input type="radio" name="filtro-setor" id="filtro-todos" class="filtro-input" checked>
-        <input type="radio" name="filtro-setor" id="filtro-setorA" class="filtro-input">
-        <input type="radio" name="filtro-setor" id="filtro-setorB" class="filtro-input">
-        <input type="radio" name="filtro-setor" id="filtro-setorC" class="filtro-input">
-
-        <div class="filtros">
-            <label for="filtro-todos" class="filtro-label label-todos">Todos os Sensores</label>
-            <label for="filtro-setorA" class="filtro-label label-setorA">Setor A</label>
-            <label for="filtro-setorB" class="filtro-label label-setorB">Setor B</label>
-            <label for="filtro-setorC" class="filtro-label label-setorC">Setor C</label>
-        </div>
-
-        <div class="sensores">
-            <div class="sensor-dashboard" data-setor="A">
-                <h3>Sensor 1 - Setor A <span class="status status-alto"></span></h3>
-                <div class="sensor-info">
-                    <p>Nível atual: <span class="valor alto" id="valor_sensor">4.8</span></p>
-                    <p>Limite: 5.0</p>
-                </div>
-                <div class="sensor-grafico">
-                    <canvas id="sensor_A"></canvas>
-                </div>
-            </div>
-            
-            <div class="sensor-dashboard" data-setor="B">
-                <h3>Sensor 1 - Setor B <span class="status status-baixo"></span></h3>
-                <div class="sensor-info">
-                    <p>Nível atual: <span class="valor baixo" id="valor_sensor">0.2</span></p>
-                    <p>Limite: 5.0</p>
-                </div>
-                <div class="sensor-grafico">
-                    <canvas id="sensor_B"></canvas>
-                </div>
-            </div>
-            
-            <div class="sensor-dashboard" data-setor="C">
-                <h3>Sensor 1 - Setor C <span class="status status-medio"></span></h3>
-                <div class="sensor-info">
-                    <p>Nível atual: <span class="valor medio" id="valor_sensor">2.92</span></p>
-                    <p>Limite: 5.0</p>
-                </div>
-                <div class="sensor-grafico">
-                    <canvas id="sensor_C"></canvas>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Rodapé -->
-    <footer class="footer">
-        <p>&copy; 2025 Sistema de Monitoramento de Metano. Todos os direitos reservados.</p>
-    </footer>
-    
-    <!-- Script para criação dos gráficos -->
     <script>
-        // Definição da função Chart para a criação do gráfico de visão média dos setores 
-        const ctxGeral = document.getElementById('grafico_visao_media_dos_setores').getContext('2d');
+        const ctxGeral = document.getElementById('grafico_geral').getContext('2d');
         const graficoGeral = new Chart(ctxGeral, {
-            // Definimos o gráfico como sendo de linha
             type: 'line',
             data: {
-                // Definindo o eixo X
                 labels: ['10:00', '10:15', '10:30', '10:45', '11:00', '11:15'],
                 datasets: [
                     {
-                        //Definindo os valores do eixo Y do setor A de acordo com os horários
                         label: 'Setor A',
-                        data: [4.0, 3.6, 3.5, 3.0, 4.0, 2.5],
+                        data: [0.45, 0.48, 0.52, 0.50, 0.48, 0.45],
                         backgroundColor: 'rgba(52, 152, 219, 0.7)',
                         borderColor: 'rgba(52, 152, 219, 1)',
                         borderWidth: 2
                     },
                     {
-                        //Definindo os valores do eixo Y do setor B de acordo com os horários
                         label: 'Setor B',
-                        data: [0.9, 1.4, 2.8, 4.0, 4.5, 3.9],
+                        data: [0.60, 0.65, 0.70, 0.68, 0.65, 0.64],
                         backgroundColor: 'rgba(231, 76, 60, 0.7)',
                         borderColor: 'rgba(231, 76, 60, 1)',
                         borderWidth: 2
                     },
                     {
-                        //Definindo os valores do eixo Y do setor C de acordo com os horários
                         label: 'Setor C',
-                        data: [5.0, 4.0, 3.0, 2.5, 1.5, 0.9],
+                        data: [0.85, 0.88, 0.92, 0.90, 0.94, 0.92],
                         backgroundColor: 'rgba(46, 204, 113, 0.7)',
                         borderColor: 'rgba(46, 204, 113, 1)',
                         borderWidth: 2
@@ -145,20 +86,16 @@
                 maintainAspectRatio: false,
                 scales: {
                     y: {
-                        // Definindo que o gráfico começa com valor 0
                         beginAtZero: true,
-                        // Definindo que o valor máximo do eixo Y é 1
-                        max: 5,
+                        max: 1,
                         title: {
                             display: true,
-                            // Definindo o nome do eixo Y
                             text: 'Concentração de Metano (0-1)'
                         }
                     },
                     x: {
                         title: {
                             display: true,
-                            // Definindo o nome do eixo X
                             text: 'Hora do Dia'
                         }
                     }
@@ -166,46 +103,25 @@
             }
         });
 
-        // Definição da função Chart para a criação do gráfico de visão de cada sensor  
-        function configurarSensor(id, valores, corBorda) {
-            const ctx = document.getElementById(id).getContext('2d');
-            new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: ['10:00', '10:15', '10:30', '10:45', '11:00', '11:15'],
-                    datasets: [{
-                        label: 'Nível de Metano',
-                        data: valores,
-                        backgroundColor: corBorda.replace('1)', '0.2)'),
-                        borderColor: corBorda,
-                        borderWidth: 2,
-                        fill: true
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            display: false
-                        }
-                    },
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            max: 5
-                        }
-                    }
-                }
-            });
-        }
- 
-        // Passando como parâmetro para a função de criação os gráficos dos sensores os valores que serão exibidos
-        configurarSensor('sensor_A', [1.0, 1.9, 2.8, 3.4, 3.9, 4.8], 'rgb(240, 130, 130, 1)');
-        configurarSensor('sensor_B', [3.58, 2.62, 1.68, 0.66, 0.62, 0.2], 'rgb(255, 230, 160, 1)');
-        configurarSensor('sensor_C', [0.88, 0.90, 0.94, 1.45, 1.79, 2.92], 'rgb(255, 180, 120, 1)');
+        
 
-        var valor = document.getElementById('valor_sensor').innerText;
+// para disparar alerta
+  function verificaSensores(valoresSensores) {
+    const passouDoLimite = valoresSensores.some(v => v > 0.2);
+    const root = document.documentElement;
+
+    if (passouDoLimite) {
+      root.style.setProperty('--cor-fundo', 'rgba(255, 0, 0, 0.609)');
+
+    } else {
+      root.style.setProperty('--cor-fundo', '#f5f5f5');
+    }
+  }
+  const valoresIniciais = [0.45, 0.65, 0.92];
+  verificaSensores(valoresIniciais);
+  
+    // Teste com alerta:
+    verificaSensores([0.1, 0.21, 0.18]); // muda o fundo para vermelho
     </script>
 </body>
 </html>

@@ -85,47 +85,47 @@ function login() {
 }
 
 // CADASTRO FUNCIONARIO
-function cadastrarUsuario() {
+// function cadastrarUsuario() {
 
-  var chaveEmpresa = ipt_inserirCnpjEmpresa.value;
-  var nomeFuncionario = ipt_nomeFuncionario.value;
-  var email = ipt_email.value;
-  var telefone = ipt_telefone.value;
-  var senhaFunc = ipt_senhaFunc.value;
-  var confirmarSenhaFunc = ipt_confirmarSenhaFunc.value;
-  var sobrenomeFuncionario = ipt_sobrenomeFuncionario.value;
-  var cargo = ipt_cargo.value;
+//   var chaveEmpresa = ipt_inserirCnpjEmpresa.value;
+//   var nomeFuncionario = ipt_nomeFuncionario.value;
+//   var email = ipt_email.value;
+//   var telefone = ipt_telefone.value;
+//   var senhaFunc = ipt_senhaFunc.value;
+//   var confirmarSenhaFunc = ipt_confirmarSenhaFunc.value;
+//   var sobrenomeFuncionario = ipt_sobrenomeFuncionario.value;
+//   var cargo = ipt_cargo.value;
 
-  // Validando senha 
-  if (senhaFunc != confirmarSenhaFunc) {
+//   // Validando senha 
+//   if (senhaFunc != confirmarSenhaFunc) {
 
-    alert("Senha confirmada diferente da senha inserida, faça novamente")
+//     alert("Senha confirmada diferente da senha inserida, faça novamente")
 
-  } // Validando se todos os campos foram preenchidos 
-  else if (chaveEmpresa == '' || nomeFuncionario == '' || email == '' || telefone == '' || senhaFunc == '' || confirmarSenhaFunc == '' || sobrenomeFuncionario == '' || cargo == '#') {
+//   } // Validando se todos os campos foram preenchidos 
+//   else if (chaveEmpresa == '' || nomeFuncionario == '' || email == '' || telefone == '' || senhaFunc == '' || confirmarSenhaFunc == '' || sobrenomeFuncionario == '' || cargo == '#') {
 
-    alert("Preencha todos os campos")
+//     alert("Preencha todos os campos")
 
-  } // Validando se a chave empresa existe
-  else if (chaveEmpresa != '11111111111111') {
+//   } // Validando se a chave empresa existe
+//   else if (chaveEmpresa != '11111111111111') {
 
-    alert("Esta empresa não está cadastrada")
+//     alert("Esta empresa não está cadastrada")
 
-  }// Validando Email
-  else if (!email.includes("@")) {
-    alert("Email inválido! Precisa conter @")
-  }
-  // Validando telefone
-  else if (telefone.length != 11) {
-    alert("Número de telefone inválido! Insira o DDD também (sem parênteses)")
-  } // Validando funcionário
-  else {
-    alert(`Cadastro concluído com sucesso! Agora a(o) ${nomeFuncionario} ${sobrenomeFuncionario} é um(a) Minetecher!!! `)
+//   }// Validando Email
+//   else if (!email.includes("@")) {
+//     alert("Email inválido! Precisa conter @")
+//   }
+//   // Validando telefone
+//   else if (telefone.length != 11) {
+//     alert("Número de telefone inválido! Insira o DDD também (sem parênteses)")
+//   } // Validando funcionário
+//   else {
+//     alert(`Cadastro concluído com sucesso! Agora a(o) ${nomeFuncionario} ${sobrenomeFuncionario} é um(a) Minetecher!!! `)
 
-    div_resposta3.innerHTML = `<a href="login.html" class="btn-apos-cadastro">Login</a> <a href="index.html" class="btn-apos-cadastro">Sair</a>`
-  }
+//     div_resposta3.innerHTML = `<a href="login.html" class="btn-apos-cadastro">Login</a> <a href="index.html" class="btn-apos-cadastro">Sair</a>`
+//   }
 
-}
+// }
 
 // CADASTRO EMPRESA
 function cadastrarEmpresa() {

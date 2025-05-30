@@ -16,7 +16,16 @@ function buscarPeloNome(nome) {
     return database.executar(instrucaoSql);
 }
 
+function buscarPeloCnpj(cnpj){
+    var instrucaoSql = `
+    select id as IdMineradora from mineradora where cnpj = ${cnpj};
+    `
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
 module.exports = {
     cadastrar,
-    buscarPeloNome
+    buscarPeloNome,
+    buscarPeloCnpj
 };

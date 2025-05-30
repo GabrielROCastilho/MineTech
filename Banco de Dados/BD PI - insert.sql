@@ -49,6 +49,7 @@ INSERT INTO setor (id, fkMineradora, sigla) VALUES
 (3, 1, 'C'),
 (4, 2, 'D');
 
+select * from mineradora;
 -- Inserts na tabela localSensor
 INSERT INTO localSensor (localSensor, fkSetor, fkMineradora) VALUES 
 ('Galeria Norte', 1, 1),

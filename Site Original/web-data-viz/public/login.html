@@ -1,32 +1,69 @@
-
 <!DOCTYPE html>
-<html lang="en">    
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <script src="script.js"></script>
-        <link rel="stylesheet" href="style.css">
-        <title>Login</title>
-    </head>
+<html lang="en">
 
-    <body class="body-login">
-        <div class="container-login">
-            <div class="card-login">
-                <h2>LOGIN | MineTech</h2>
-                <div class="form-login">
-                    <div class="usuario-login">
-                        <div class="icone-usuario"></div>
-                        <input type="text" id="ipt_emailFuncionario" placeholder="E-mail"><br>
-                    </div>
-                    <div class="senha-login">
-                        <div class="icone-senha"></div>
-                        <input type="password" id="ipt_senhaLogin" placeholder="Senha"><br>
-                    </div>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Login</title>
+</head>
+
+<body class="body-login">
+    <div class="container-login">
+        <div class="card-login">
+            <h2>LOGIN | MineTech</h2>
+            <div class="form-login">
+                <div class="usuario-login">
+                    <div class="icone-usuario"></div>
+                    <input type="text" id="ipt_emailFuncionario" placeholder="E-mail"><br>
                 </div>
-                <button onclick="login()" class="btn-login">LOGIN</button>
-                <div id="div_login"></div>
+                <div class="senha-login">
+                    <div class="icone-senha"></div>
+                    <input type="password" id="ipt_senhaLogin" placeholder="Senha"><br>
+                </div>
             </div>
+            <button onclick="login()" class="btn-login">LOGIN</button>
+            <div id="div_login"></div>
         </div>
+    </div>
+</body>
+<script>
+    function login() {
+        var emailVar = ipt_emailFuncionario.value
+        var senhaVar = ipt_senhaLogin.value
 
-    </body>
+        fetch("/usuarios/autenticar", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                emailServer: emailVar,
+                senhaServer: senhaVar
+            })
+        })
+            .then(function (resposta) {
+                if (resposta.ok) {
+                    resposta.json().then(json => {
+                        sessionStorage.NOME_USUARIO = json.Nome;
+                        sessionStorage.ID_USUARIO = json.IdFuncionario;
+
+                        setTimeout(() => {
+                            window.location = "perfil/index.html";
+                        }, 1000);
+                    });
+                } else {
+                    resposta.text().then(texto => {
+                        document.getElementById("cardErro").style.display = "block";
+                        document.getElementById("mensagem_erro").innerText = "Usuário ou senha inválidos.";
+                        finalizarAguardar();
+                    });
+                }
+            })
+            .catch(function (erro) {
+                document.getElementById("mensagem_erro").innerText = "Erro ao conectar com o servidor.";
+                document.getElementById("cardErro").style.display = "block";
+                finalizarAguardar();
+            });
+    }
+</script>
+
 </html>

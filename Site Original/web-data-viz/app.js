@@ -19,7 +19,8 @@ var indexRouter = require("./src/routes/index");
 var usuarioRouter = require("./src/routes/usuarios");
 var empresasRouter = require("./src/routes/empresas");
 var cidadesRouter = require("./src/routes/cidades");
-var enderecosRouter = require("./src/routes/enderecos")
+var enderecosRouter = require("./src/routes/enderecos");
+var cargosRouter = require("./src/routes/cargos");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -31,7 +32,8 @@ app.use("/", indexRouter);
 app.use("/usuarios", usuarioRouter);
 app.use("/empresas", empresasRouter);
 app.use("/cidades", cidadesRouter);
-app.use("/enderecos", enderecosRouter)
+app.use("/enderecos", enderecosRouter);
+app.use("/cargos", cargosRouter)
 
 app.listen(PORTA_APP, function () {
     console.log(`

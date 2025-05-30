@@ -68,6 +68,7 @@ function login() {
 
   for (var i = 0; i < listaUsers.length; i++) {
     if ((emailFuncionario == "suporte@mine.tech") && (senhaLogin == "minetech")) {
+      alert("Login efetuado com sucesso");
       window.location.href = 'http://localhost:3001/bob_ia.html';
       loginInvalido = false;
       break;

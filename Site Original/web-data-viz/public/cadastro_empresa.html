@@ -213,6 +213,9 @@
                             resposta.json().then(json => {
                                 sessionStorage.ID_MINERADORA = json.IdMineradora;
                                 cadastrarEndereco()
+                                setTimeout(() => {
+                                    window.location = "cadastro_usuario.html";
+                                }, "2000");
                             });
                         } else {
                             resposta.text().then(texto => {
@@ -236,7 +239,7 @@
         return false;
     }
 
-    function cadastrarEndereco(){
+    function cadastrarEndereco() {
         var fkMineradoraVar = sessionStorage.ID_MINERADORA
         console.log(fkMineradoraVar)
         fetch("/enderecos/cadastrar", {

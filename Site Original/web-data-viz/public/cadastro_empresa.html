@@ -34,7 +34,7 @@
                 <img src="./assets/circle-loading.gif" id="loading-gif" />
             </div>
 
-            <div id="div_erros_login"></div>
+            <div id="mensagem_erro"></div>
         </div>
     </div>
 </body>
@@ -72,7 +72,6 @@
             })
             .catch(function (err) {
                 console.error("Erro ao buscar os dados:", err);
-                cardMensagem.style.display = "block";
                 mensagem_erro.innerHTML = "Não foi possível carregar os avatares. Tente novamente mais tarde.";
             });
     }
@@ -99,10 +98,10 @@
 
 
         if (cnpjVar == '' || nomeFantasiaVar == '' || cidadeVar == '' || cepVar == '' || logradouroVar == '' || bairroVar == '' || numeroVar == '') {
-
-            cardErro.style.display = "block";
+           
             mensagem_erro.innerHTML =
-                "(Mensagem de erro para todos os campos em branco)";
+                "Você deve preencher todos os campos";
+           
 
             finalizarAguardar();
             return false;
@@ -112,7 +111,7 @@
             if (cnpjVar.length !== 14) {
                 cardErro.style.display = "block";
                 mensagem_erro.innerHTML =
-                    "(Mensagem de erro para todos os campos em branco)";
+                "O CNPJ deve conter 14 dígitos";
 
                 finalizarAguardar();
                 return false;
@@ -128,7 +127,7 @@
             if (!apenasNumeros) {
                 cardErro.style.display = "block";
                 mensagem_erro.innerHTML =
-                    "(Mensagem de erro para todos os campos em branco)";
+                    "CNPJ deve conter apenas números";
 
                 finalizarAguardar();
                 return false;
@@ -136,7 +135,7 @@
             else if (nomeFantasiaVar.length < 3) {
                 cardErro.style.display = "block";
                 mensagem_erro.innerHTML =
-                    "(Mensagem de erro para todos os campos em branco)";
+                    "Nome fantasia deve ter mais de 2 letras";
 
                 finalizarAguardar();
                 return false;
@@ -145,7 +144,7 @@
             else if (logradouroVar.length < 3) {
                 cardErro.style.display = "block";
                 mensagem_erro.innerHTML =
-                    "(Mensagem de erro para todos os campos em branco)";
+                    "Logradouro deve ter mais de 2 letras";
 
                 finalizarAguardar();
                 return false;
@@ -153,7 +152,7 @@
             else if (bairroVar.length < 3) {
                 cardErro.style.display = "block";
                 mensagem_erro.innerHTML =
-                    "(Mensagem de erro para todos os campos em branco)";
+                    "Bairro deve ter mais de 2 letras";
 
                 finalizarAguardar();
                 return false;
@@ -161,7 +160,7 @@
             else if (numeroVar <= 0 || numeroVar >= 99999) {
                 cardErro.style.display = "block";
                 mensagem_erro.innerHTML =
-                    "(Mensagem de erro para todos os campos em branco)";
+                    "Número muito grande ou negativo não podem ser inseridos";
 
                 finalizarAguardar();
                 return false;
@@ -177,7 +176,7 @@
             else if (cepVar.length != 8) {
                 cardErro.style.display = "block";
                 mensagem_erro.innerHTML =
-                    "(Mensagem de erro para todos os campos em branco)";
+                    "CEP deve conter 8 dígitos";
 
                 finalizarAguardar();
                 return false;
@@ -216,13 +215,14 @@
                             });
                         } else {
                             resposta.text().then(texto => {
-                                document.getElementById("cardErro").style.display = "block";
+                                //mensagem erro
                                 document.getElementById("mensagem_erro").innerText = "Usuário ou senha inválidos.";
                                 finalizarAguardar();
                             });
                         }
                     })
                     .catch(function (erro) {
+                        //mensagem erro
                         document.getElementById("mensagem_erro").innerText = "Erro ao conectar com o servidor.";
                         document.getElementById("cardErro").style.display = "block";
                         finalizarAguardar();
@@ -230,6 +230,7 @@
             })
             .catch(function (resposta) {
                 console.log(`#ERRO: ${resposta}`);
+                //mensagem erro
                 finalizarAguardar();
             });
 
@@ -257,10 +258,8 @@
                 console.log("resposta: ", resposta);
 
                 if (resposta.ok) {
-                    cardErro.style.display = "block";
 
-                    mensagem_erro.innerHTML =
-                        "Cadastro realizado com sucesso! Redirecionando para tela de Cadastro de Usuário...";
+                    //mensagem erro
 
                     setTimeout(() => {
                         window.location = "cadastro_usuario.html";
@@ -273,6 +272,7 @@
             })
             .catch(function (resposta) {
                 console.log(`#ERRO: ${resposta}`);
+                //mensagem erro
                 finalizarAguardar();
             });
 

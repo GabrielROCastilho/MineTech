@@ -122,39 +122,36 @@
                                 console.log("resposta: ", resposta);
 
                                 if (resposta.ok) {
-                                    cardErro.style.display = "block";
 
-                                    mensagem_erro.innerHTML =
-                                        "Cadastro realizado com sucesso! Redirecionando para tela de Login...";
+                                    //mensagem erro
 
                                     setTimeout(() => {
                                         window.location = "login.html";
                                     }, "2000");
 
                                     limparFormulario();
-                                    finalizarAguardar();
+                                    
                                 } else {
-                                    throw "Houve um erro ao tentar realizar o cadastro!";
+                                    alert("Houve um erro ao tentar realizar o cadastro!");
                                 }
                             })
                             .catch(function (resposta) {
                                 console.log(`#ERRO: ${resposta}`);
-                                finalizarAguardar();
+                                //mensagem erro
                             });
 
                         return false;
                     } else {
                         resposta.text().then(texto => {
-                            document.getElementById("cardErro").style.display = "block";
-                            document.getElementById("mensagem_erro").innerText = "Usuário ou senha inválidos.";
-                            finalizarAguardar();
+    
+                           //mensagem erro
+                            
                         });
                     }
                 })
                 .catch(function (erro) {
-                    document.getElementById("mensagem_erro").innerText = "Erro ao conectar com o servidor.";
-                    document.getElementById("cardErro").style.display = "block";
-                    finalizarAguardar();
+                    //mensagem erro
+                   
                 });
         }
     }

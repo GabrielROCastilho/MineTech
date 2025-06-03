@@ -1,14 +1,17 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
     <link rel="stylesheet" href="dashboard.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=menu" />
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=menu" />
     <title>Dashboard de Monitoramento de Metano</title>
     </script>
 </head>
+
 <body>
 
     <div id="cabecalho">
@@ -20,7 +23,7 @@
             </ul>
         </menu>
     </div>
-    
+
     <div class="container">
         <h2>Monitoramento de Metano</h2>
 
@@ -32,96 +35,100 @@
                 <p>0</p>
             </div>
         </div>
-        
+
         <div class="qntdd">
             <div class="card">
                 <h3>Quantidade de Setores</h3>
-                <p>13</p> 
+                <p>13</p>
             </div>
             <div class="card">
                 <h3>Quantidade de Sensores</h3>
                 <p>130</p>
             </div>
         </div>
-    
+
         <div class="grafico-principal">
             <h2>Visão Média dos Setores</h2>
             <div class="grafico-container">
                 <canvas id="grafico_geral"></canvas>
             </div>
         </div>
-    
-    <script>
-        const ctxGeral = document.getElementById('grafico_geral').getContext('2d');
-        const graficoGeral = new Chart(ctxGeral, {
-            type: 'line',
-            data: {
-                labels: ['10:00', '10:15', '10:30', '10:45', '11:00', '11:15'],
-                datasets: [
-                    {
-                        label: 'Setor A',
-                        data: [0.45, 0.48, 0.52, 0.50, 0.48, 0.45],
-                        backgroundColor: 'rgba(52, 152, 219, 0.7)',
-                        borderColor: 'rgba(52, 152, 219, 1)',
-                        borderWidth: 2
-                    },
-                    {
-                        label: 'Setor B',
-                        data: [0.60, 0.65, 0.70, 0.68, 0.65, 0.64],
-                        backgroundColor: 'rgba(231, 76, 60, 0.7)',
-                        borderColor: 'rgba(231, 76, 60, 1)',
-                        borderWidth: 2
-                    },
-                    {
-                        label: 'Setor C',
-                        data: [0.85, 0.88, 0.92, 0.90, 0.94, 0.92],
-                        backgroundColor: 'rgba(46, 204, 113, 0.7)',
-                        borderColor: 'rgba(46, 204, 113, 1)',
-                        borderWidth: 2
-                    }
-                ] 
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        max: 1,
-                        title: {
-                            display: true,
-                            text: 'Concentração de Metano (0-1)'
+
+        <script>
+            const ctxGeral = document.getElementById('grafico_geral').getContext('2d');
+            const graficoGeral = new Chart(ctxGeral, {
+                type: 'line',
+                data: {
+                    labels: ['10:00', '10:15', '10:30', '10:45', '11:00', '11:15'],
+                    datasets: [
+                        {
+                            label: 'Setor A',
+                            data: [0.45, 0.48, 0.52, 0.50, 0.48, 0.45],
+                            backgroundColor: 'rgba(52, 152, 219, 0.7)',
+                            borderColor: 'rgba(52, 152, 219, 1)',
+                            borderWidth: 2
+                        },
+                        {
+                            label: 'Setor B',
+                            data: [0.60, 0.65, 0.70, 0.68, 0.65, 0.64],
+                            backgroundColor: 'rgba(231, 76, 60, 0.7)',
+                            borderColor: 'rgba(231, 76, 60, 1)',
+                            borderWidth: 2
+                        },
+                        {
+                            label: 'Setor C',
+                            data: [0.85, 0.88, 0.92, 0.90, 0.94, 0.92],
+                            backgroundColor: 'rgba(46, 204, 113, 0.7)',
+                            borderColor: 'rgba(46, 204, 113, 1)',
+                            borderWidth: 2
                         }
-                    },
-                    x: {
-                        title: {
-                            display: true,
-                            text: 'Hora do Dia'
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 1,
+                            title: {
+                                display: true,
+                                text: 'Concentração de Metano (0-1)'
+                            }
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Hora do Dia'
+                            }
                         }
                     }
                 }
+            });
+
+
+
+            // para disparar alerta
+            function verificaSensores(valoresSensores) {
+                const passouDoLimite = valoresSensores.some(v => v > 0.2);
+                const root = document.documentElement;
+
+                if (passouDoLimite) {
+                    root.style.setProperty('--cor-fundo', 'rgba(255, 0, 0, 0.609)');
+
+                } else {
+                    root.style.setProperty('--cor-fundo', '#f5f5f5');
+                }
             }
-        });
+            const valoresIniciais = [0.45, 0.65, 0.92];
+            verificaSensores(valoresIniciais);
 
-        
+            // Teste com alerta:
+            verificaSensores([0.1, 0.21, 0.18]); // muda o fundo para vermelho
 
-// para disparar alerta
-  function verificaSensores(valoresSensores) {
-    const passouDoLimite = valoresSensores.some(v => v > 0.2);
-    const root = document.documentElement;
 
-    if (passouDoLimite) {
-      root.style.setProperty('--cor-fundo', 'rgba(255, 0, 0, 0.609)');
 
-    } else {
-      root.style.setProperty('--cor-fundo', '#f5f5f5');
-    }
-  }
-  const valoresIniciais = [0.45, 0.65, 0.92];
-  verificaSensores(valoresIniciais);
-  
-    // Teste com alerta:
-    verificaSensores([0.1, 0.21, 0.18]); // muda o fundo para vermelho
-    </script>
+        </script>
 </body>
+
 </html>

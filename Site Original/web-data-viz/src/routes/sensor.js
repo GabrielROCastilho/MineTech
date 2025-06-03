@@ -4,4 +4,4 @@ var sensorController = require("../controllers/sensorController");
 
 router.post("/enviar", sensorController.obterResultados);
 
-modile.exports = router;
+module.exports = router;

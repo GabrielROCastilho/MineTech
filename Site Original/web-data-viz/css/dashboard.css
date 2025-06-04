@@ -122,6 +122,7 @@ body {
     padding: 28px;
     text-align: center;
     margin-bottom: 35px;
+    margin-top: -40px;
     border: 1px solid #A09483;
     transition: all 0.3s ease-in-out;
     border-left: 5px solid #78909C;
@@ -166,7 +167,6 @@ body {
     border-radius: 8px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
     padding: 28px;
-    margin-bottom: 40px;
     border: 1px solid #A09483;
 }
 
@@ -180,6 +180,6 @@ body {
 }
 
 .grafico-container {
-    height: 380px;
+    height: 300px;
     width: 100%;
 }

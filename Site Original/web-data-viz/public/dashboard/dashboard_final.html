@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/Site Original/web-data-viz/css/dashboard.css">
+    <title>Document</title>
+</head>
+<body>
+    <div id="cabecalho">
+        <h2 id="logo">MineTech</h2>
+        <span id="buguer" class="material-symbols-outlined" onclick="botao()">menu</span>
+        <menu id="opcao">
+            <ul>
+                <li>Sair</li>
+            </ul>
+        </menu>
+    </div>
+
+    <div class="container">
+        <h2>Monitoramento de Metano</h2>
+
+        <div id="status_sitema">
+            <h1>Status do Sistema</h1>
+
+            <div>
+                <h3>Setores Criticos</h3>
+                <p></p>
+            </div>
+        </div>
+
+        <div class="qntdd">
+            <div class="card">
+                <h3>Quantidade de Setores</h3>
+                <p></p>
+            </div>
+            <div class="card">
+                <h3>Quantidade de Sensores</h3>
+                <p></p>
+            </div>
+        </div>
+
+        <div class="grafico-principal">
+            <h2>Visão Média dos Setores</h2>
+            <div class="grafico-container">
+                <canvas id="grafico_geral"></canvas>
+            </div>
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="/Site Original/web-data-viz/public/js/dashboard.js"></script>
+</body>
+</html>

@@ -38,6 +38,13 @@
             </div>
         </div>
 
+        <div id="pop-up_aviso">
+            <div id="conteudo">
+                <h3></h3>
+                <Button>Resolvido?</Button>
+            </div>
+        </div>
+
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="/Site Original/web-data-viz/public/js/dashboard.js"></script>
 <script>
@@ -49,6 +56,17 @@
                 opcao.style.display = 'block';
             }
         }
+        
+        function mostrarPopUp(setor) {
+            const popUp = document.getElementById('pop-up_aviso');
+            const conteudo = document.getElementById('conteudo');
+            conteudo.querySelector('h3').textContent = `Setor ${setor} está Crítico`;
+            popUp.classList.add('ativo');
+            // Fecha ao clicar no botão
+            conteudo.querySelector('button').onclick = () => {
+                popUp.classList.remove('ativo');
+        };
+}
 </script>
 </body>
 </html>

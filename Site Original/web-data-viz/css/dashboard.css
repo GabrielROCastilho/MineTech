@@ -183,3 +183,51 @@ body {
     height: 300px;
     width: 100%;
 }
+
+#pop-up_aviso {
+    position: fixed;
+    top: 0;
+    left: 480px;
+    width: 600px;
+    height: 200px;
+    margin-top: 300px;
+    background-color: #B71C1C;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+#pop-up_aviso.ativo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#conteudo {
+    background-color: #a61919;
+    color: #fff;
+    padding: 40px 32px 32px 32px;
+    border-radius: 20px;
+    text-align: center;
+}
+
+#conteudo h3{
+    color: white;
+}
+
+#conteudo button {
+    color: #fff;
+    background: #FFB600;
+    border: none;
+    width: 120px;
+    height: 36px;
+    border-radius: 10px;
+    margin-top: 20px;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+}
+
+#conteudo button:hover {
+    background: #fff;
+    color: #B71C1C;
+}

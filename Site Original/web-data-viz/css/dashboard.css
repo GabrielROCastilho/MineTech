@@ -189,8 +189,7 @@ body {
     top: 0;
     left: 480px;
     width: 600px;
-    height: 200px;
-    margin-top: 300px;
+    margin-top: 300px; 
     background-color: #B71C1C;
     justify-content: center;
     align-items: center;
@@ -231,3 +230,5 @@ body {
     background: #fff;
     color: #B71C1C;
 }
+
+ 

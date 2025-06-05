@@ -1,13 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/Site Original/web-data-viz/css/dashboard.css">
+    <link rel="stylesheet" href="/MineTech/Site Original/web-data-viz/css/dashboard.css">
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=menu" />
+    <link rel="stylesheet" href="style_dashboard.css">
     <title>Document</title>
 </head>
+
 <body>
     <div id="cabecalho">
         <h2 id="logo">MineTech</h2>
@@ -40,33 +43,32 @@
 
         <div id="pop-up_aviso">
             <div id="conteudo">
-                <h3></h3>
+                <h3>Setor ? Está Critico vai resolver</h3>
                 <Button>Resolvido?</Button>
             </div>
         </div>
-
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="/Site Original/web-data-viz/public/js/dashboard.js"></script>
 <script>
-     function botao() {
-            const opcao = document.getElementById('opcao');
-            if (opcao.style.display == 'block') {
-                opcao.style.display = 'none';
-            } else {
-                opcao.style.display = 'block';
-            }
+    function botao() {
+        const opcao = document.getElementById('opcao');
+        if (opcao.style.display == 'block') {
+            opcao.style.display = 'none';
+        } else {
+            opcao.style.display = 'block';
         }
-        
-        function mostrarPopUp(setor) {
-            const popUp = document.getElementById('pop-up_aviso');
-            const conteudo = document.getElementById('conteudo');
-            conteudo.querySelector('h3').textContent = `Setor ${setor} está Crítico`;
-            popUp.classList.add('ativo');
-            // Fecha ao clicar no botão
-            conteudo.querySelector('button').onclick = () => {
-                popUp.classList.remove('ativo');
+    }
+
+    function mostrarPopUp(setor) {
+        const popUp = document.getElementById('pop-up_aviso');
+        const conteudo = document.getElementById('conteudo');
+        conteudo.querySelector('h3').textContent = `Setor ${setor} está Crítico`;
+        popUp.classList.add('ativo');
+
+        conteudo.querySelector('button').onclick = () => {
+            popUp.classList.remove('ativo');
         };
-}
+    }
 </script>
-</body>
 </html>

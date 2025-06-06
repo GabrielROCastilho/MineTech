@@ -1,4 +1,4 @@
-    // var ambiente_processo = 'producao';
+// var ambiente_processo = 'producao';
 var ambiente_processo = 'desenvolvimento';
 
 var caminho_env = ambiente_processo === 'producao' ? '.env' : '.env.dev-Original';
@@ -22,6 +22,7 @@ var cidadesRouter = require("./src/routes/cidades");
 var enderecosRouter = require("./src/routes/enderecos");
 var cargosRouter = require("./src/routes/cargos");
 var dashboardsRouter = require("./src/routes/dashboards");
+var medicaoRouter = require("./src/routes/medicao");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -36,6 +37,7 @@ app.use("/cidades", cidadesRouter);
 app.use("/enderecos", enderecosRouter);
 app.use("/cargos", cargosRouter);
 app.use("/dashboards", dashboardsRouter);
+app.use("/api/medicao", medicaoRouter);
 
 app.listen(PORTA_APP, function () {
     console.log(`

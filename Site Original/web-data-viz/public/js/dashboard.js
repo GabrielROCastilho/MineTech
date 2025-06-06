@@ -151,22 +151,56 @@ function verificarSetoresCriticos(dados) {
     }
 }
 
-// Função principal para atualizar gráfico
-function atualizarGrafico() {
+// Função para registrar dados no backend
+async function registrarMedicaoNoBackend(dados, origem = 'simulado') {
     try {
-        // Gerar dados simulados (14 sensores)
-        const dados = gerarDadosTeste();
+        await fetch('/api/medicao/registrar', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                horario: new Date().toISOString().slice(0, 19).replace('T', ' '),
+                sensores: dados.sensores,
+                origem: origem
+            })
+        });
+    } catch (erro) {
+        console.error('Erro ao registrar medição no backend:', erro);
+    }
+}
+
+// Função para buscar dados do Arduino (real)
+async function buscarDadosArduino() {
+    try {
+        // Substitua pelo IP do seu Arduino
+        const resposta = await fetch('http://192.168.1.100/dados');
+        if (!resposta.ok) throw new Error('Arduino não respondeu');
+        const dados = await resposta.json();
+        // Registrar dados reais no backend
+        await registrarMedicaoNoBackend(dados, 'arduino');
+        return dados;
+    } catch (erro) {
+        console.error('Erro ao conectar Arduino:', erro);
+        // Se falhar, gera e registra dados simulados
+        const dadosSimulados = gerarDadosTeste();
+        await registrarMedicaoNoBackend(dadosSimulados, 'simulado');
+        return dadosSimulados;
+    }
+}
+
+// Função principal para atualizar gráfico
+async function atualizarGrafico() {
+    try {
+        // Buscar dados reais do Arduino ou simular se falhar
+        const dados = await buscarDadosArduino();
         // Calcular médias dos setores
         const mediaA = dados.sensores.slice(0, 5).reduce((a, b) => a + b, 0) / 5;
         const mediaB = dados.sensores.slice(5, 10).reduce((a, b) => a + b, 0) / 5;
         const mediaC = dados.sensores.slice(10, 14).reduce((a, b) => a + b, 0) / 4;
-
         // Adicionar novo horário
         graficoGeral.data.labels.push(dados.horario);
         if (graficoGeral.data.labels.length > 15) {
             graficoGeral.data.labels.shift();
         }
-
         // Adicionar médias aos datasets
         graficoGeral.data.datasets[0].data.push(Number(mediaA.toFixed(3)));
         graficoGeral.data.datasets[1].data.push(Number(mediaB.toFixed(3)));
@@ -174,7 +208,6 @@ function atualizarGrafico() {
         graficoGeral.data.datasets.forEach(ds => {
             if (ds.data.length > 15) ds.data.shift();
         });
-
         // Verificar setores críticos
         verificarSetoresCriticos(dados);
         graficoGeral.update('none');

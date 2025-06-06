@@ -1,4 +1,5 @@
-html, body {
+html,
+body {
     overflow: hidden;
     height: 100%;
 }
@@ -30,7 +31,7 @@ body {
     left: 0;
     width: 100%;
     z-index: 1000;
-    box-shadow: 0 3px 12px rgba(0,0,0,0.2);
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.2);
     border-bottom: 2px solid #FFB600;
 }
 
@@ -38,7 +39,7 @@ body {
     font-size: 1.75rem;
     font-weight: 700;
     color: #FFB600;
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 #buguer {
@@ -62,7 +63,7 @@ body {
     right: 1rem;
     min-width: 180px;
     background-color: #3E3E3E;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
     border-radius: 0.375rem;
     padding: 0.5rem 0;
     border: 1px solid #5A5A5A;
@@ -146,7 +147,7 @@ body {
     font-size: 56px;
     font-weight: 700;
     color: #B71C1C;
-    text-shadow: 1px 1px 1px rgba(0,0,0,0.1);
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
 }
 
 #status_sitema.alerta-critico {
@@ -154,10 +155,12 @@ body {
     border-left: 5px solid #B71C1C;
     box-shadow: 0 5px 15px rgba(183, 28, 28, 0.25);
 }
+
 #status_sitema.alerta-critico h1,
 #status_sitema.alerta-critico div h3 {
     color: #B71C1C;
 }
+
 #status_sitema.alerta-critico div p {
     color: #B71C1C;
 }
@@ -211,7 +214,7 @@ body {
     height: auto;
 }
 
-#conteudo h3{
+#conteudo h3 {
     color: white;
     font-size: 30px;
 }
@@ -234,7 +237,7 @@ body {
     color: #B71C1C;
 }
 
-.kpis{
+.kpis {
     display: flex;
     flex-direction: row;
     justify-content: center;

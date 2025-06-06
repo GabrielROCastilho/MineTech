@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/MineTech/Site Original/web-data-viz/css/dashboard.css">
+    <link rel="stylesheet" href="style_dashboard.css">
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=menu" />
     <title>Document</title>
 </head>
+
 <body>
     <div id="cabecalho">
         <h2 id="logo">MineTech</h2>
@@ -21,7 +23,7 @@
         </menu>
     </div>
 
-    
+
     <div class="container">
         <div id="status_sitema">
             <h1>Status do Sistema</h1>
@@ -64,7 +66,7 @@
             };
         }
         // Fechar menu se clicar fora
-        document.addEventListener('click', function(event) {
+        document.addEventListener('click', function (event) {
             const opcao = document.getElementById('opcao');
             const buguer = document.getElementById('buguer');
             if (!opcao.contains(event.target) && !buguer.contains(event.target)) {
@@ -73,4 +75,5 @@
         });
     </script>
 </body>
+
 </html>

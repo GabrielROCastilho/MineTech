@@ -62,37 +62,37 @@ let setoresCriticos = 0;
 let ultimoPopup = '';
 
 // Função para gerar dados de teste
-function gerarDadosTeste() {
-    const agora = new Date();
-    const horario = agora.getHours() + ':' + agora.getMinutes().toString().padStart(2, '0') + ':' + agora.getSeconds().toString().padStart(2, '0');
+// function gerarDadosTeste() {
+//     const agora = new Date();
+//     const horario = agora.getHours() + ':' + agora.getMinutes().toString().padStart(2, '0') + ':' + agora.getSeconds().toString().padStart(2, '0');
 
-    const sensores = [];
-    // Setor A (0-4): 0.0 a 0.2
-    for (let i = 0; i < 5; i++) {
-        let valor = Math.random() * 0.2;
-        if (Math.random() < 0.15) {
-            valor = 1 + Math.random() * 0.2;
-        }
-        sensores.push(Number(valor.toFixed(3)));
-    }
-    // Setor B (5-9): 0.0 a 0.2
-    for (let i = 5; i < 10; i++) {
-        let valor = Math.random() * 0.2;
-        if (Math.random() < 0.15) {
-            valor = 1 + Math.random() * 0.2;
-        }
-        sensores.push(Number(valor.toFixed(3)));
-    }
-    // Setor C (10-13): 0.3 a 0.5
-    for (let i = 10; i < 14; i++) {
-        let valor = 0.3 + Math.random() * 0.2;
-        if (Math.random() < 0.15) {
-            valor = 1 + Math.random() * 0.2;
-        }
-        sensores.push(Number(valor.toFixed(3)));
-    }
-    return { horario: horario, sensores: sensores };
-}
+//     const sensores = [];
+//     // Setor A (0-4): 0.0 a 0.2
+//     for (let i = 0; i < 5; i++) {
+//         let valor = Math.random() * 0.2;
+//         if (Math.random() < 0.15) {
+//             valor = 1 + Math.random() * 0.2;
+//         }
+//         sensores.push(Number(valor.toFixed(3)));
+//     }
+//     // Setor B (5-9): 0.0 a 0.2
+//     for (let i = 5; i < 10; i++) {
+//         let valor = Math.random() * 0.2;
+//         if (Math.random() < 0.15) {
+//             valor = 1 + Math.random() * 0.2;
+//         }
+//         sensores.push(Number(valor.toFixed(3)));
+//     }
+//     // Setor C (10-13): 0.3 a 0.5
+//     for (let i = 10; i < 14; i++) {
+//         let valor = 0.3 + Math.random() * 0.2;
+//         if (Math.random() < 0.15) {
+//             valor = 1 + Math.random() * 0.2;
+//         }
+//         sensores.push(Number(valor.toFixed(3)));
+//     }
+//     return { horario: horario, sensores: sensores };
+// }
 
 // Função para verificar setores críticos
 function verificarSetoresCriticos(dados) {

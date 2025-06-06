@@ -18,7 +18,7 @@ const serial = async (
     // conexão com o banco de dados MySQL
     let poolBancoDados = mysql.createPool(
         {
-            host: 'localhost',
+            host: '10.18.32.248',
             user: 'aluno',
             password: 'Sptech#2024',
             database: 'minetech',
@@ -76,8 +76,7 @@ const serial = async (
                 [sensorMq02, nivelGas, 1]
             );
             console.log("valores inseridos no banco: ", sensorMq02, nivelGas);
-
-        }
+         }
 
     });
 

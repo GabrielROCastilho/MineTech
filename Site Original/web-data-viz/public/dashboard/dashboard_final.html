@@ -3,52 +3,59 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/Site Original/web-data-viz/css/dashboard.css">
+    <link rel="stylesheet" href="/MineTech/Site Original/web-data-viz/css/dashboard.css">
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=menu" />
     <title>Document</title>
 </head>
 <body>
+    <!-- Cabeçalho -->
     <div id="cabecalho">
         <h2 id="logo">MineTech</h2>
         <h3>Monitoramento de Metano</h3>
-        <span id="buguer" class="material-symbols-outlined" onclick="botao()">menu</span>
+        <span id="buguer" onclick="botao()">☰</span>
         <menu id="opcao">
             <ul>
-                <li>Sair</li>
+                <li onclick="alert('Saindo do sistema...')">Sair</li>
             </ul>
         </menu>
     </div>
 
+    <!-- Conteúdo principal -->
     <div class="container">
-
+        <!-- Status do sistema -->
         <div id="status_sitema">
             <h1>Status do Sistema</h1>
-
             <div>
-                <h3>Setores Criticos</h3>
-                <p id="setores_criticos"></p>
+                <h3>Setores Críticos</h3>
+                <p id="setores_criticos">0</p>
             </div>
         </div>
 
+        <!-- Gráfico principal -->
         <div class="grafico-principal">
-            <h2>Visão Média dos Setores</h2>
+            <h2>Monitoramento em Tempo Real - Concentração de Metano</h2>
             <div class="grafico-container">
                 <canvas id="grafico_geral"></canvas>
             </div>
         </div>
+    </div>
 
-        <div id="pop-up_aviso">
-            <div id="conteudo">
-                <h3></h3>
-                <Button>Resolvido?</Button>
-            </div>
+    <!-- Pop-up de aviso -->
+    <div id="pop-up_aviso">
+        <div id="conteudo">
+            <h3>⚠️ ALERTA CRÍTICO ⚠️</h3>
+            <p id="mensagem_popup">Setor detectou níveis perigosos de metano!</p>
+            <button onclick="fecharPopup()">Ciente</button>
         </div>
+    </div>
 
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="/Site Original/web-data-viz/public/js/dashboard.js"></script>
-<script>
-     function botao() {
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="/MineTech/Site Original/web-data-viz/public/js/dashboard.js"></script>
+    <script>
+        // Função para mostrar/esconder menu
+        function botao() {
             const opcao = document.getElementById('opcao');
             if (opcao.style.display == 'block') {
                 opcao.style.display = 'none';
@@ -57,16 +64,28 @@
             }
         }
         
+        // Função para mostrar popup de alerta
         function mostrarPopUp(setor) {
             const popUp = document.getElementById('pop-up_aviso');
-            const conteudo = document.getElementById('conteudo');
-            conteudo.querySelector('h3').textContent = `Setor ${setor} está Crítico`;
+            const mensagem = document.getElementById('mensagem_popup');
+            mensagem.textContent = `Setor ${setor} está com níveis críticos de metano!`;
             popUp.classList.add('ativo');
-            // Fecha ao clicar no botão
-            conteudo.querySelector('button').onclick = () => {
-                popUp.classList.remove('ativo');
-        };
-}
-</script>
-</body>
+        }
+
+        // Função para fechar popup
+        function fecharPopup() {
+            const popUp = document.getElementById('pop-up_aviso');
+            popUp.classList.remove('ativo');
+        }
+
+        // Fechar menu se clicar fora
+        document.addEventListener('click', function(event) {
+            const opcao = document.getElementById('opcao');
+            const buguer = document.getElementById('buguer');
+            
+            if (!opcao.contains(event.target) && !buguer.contains(event.target)) {
+                opcao.style.display = 'none';
+            }
+        });
+    </script>
 </html>

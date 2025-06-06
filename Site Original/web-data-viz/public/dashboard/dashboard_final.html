@@ -1,162 +1,75 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/MineTech/Site Original/web-data-viz/css/dashboard.css">
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=menu" />
-    <link rel="stylesheet" href="/MineTech/Site Original/web-data-viz/css/dashboard.css">
     <title>Document</title>
 </head>
-
-<!-- Ao carregar a página, chama as funções de buscar os dados para as KPIs e buscar os dados para o Gráfico Geral -->
-<body onload="buscarDadosKpi(), buscarDadosGeral()">
-    <!-- Cabeçalho -->
+<body>
     <div id="cabecalho">
         <h2 id="logo">MineTech</h2>
         <h3>Monitoramento de Metano</h3>
-        <span id="buguer" onclick="botao()">☰</span>
+        <a href="historico.html" id="link-historico">Histórico</a>
+        <span id="buguer" class="material-symbols-outlined" onclick="botao()">menu</span>
         <menu id="opcao">
             <ul>
-                <li onclick="alert('Saindo do sistema...')">Sair</li>
+                <li>Sair</li>
             </ul>
         </menu>
     </div>
 
-    <!-- Conteúdo principal -->
     <div class="container">
-        <!-- Status do sistema -->
-        <div class="kpis">
-            <div id="status_sitema">
-                <div>
-                    <h1>Setores com risco de explosão!</h1>
-                    <p id="setores_risco_de_explosao"></p>
-                </div>
-            </div>
-
-            <div id="status_sitema">
-                <div>
-                    <h1>Setores para evacuação!</h1>
-                    <p id="setores_evacuacao_total"></p>
-                </div>
+        <div id="status_sitema">
+            <h1>Status do Sistema</h1>
+            <div>
+                <h3>Setores Críticos</h3>
+                <p id="setores_criticos">0</p>
             </div>
         </div>
-        <!-- Gráfico principal -->
         <div class="grafico-principal">
-            <h2>Monitoramento em Tempo Real - Concentração de Metano</h2>
+            <h2>Visão Média dos Setores</h2>
             <div class="grafico-container">
                 <canvas id="grafico_geral"></canvas>
             </div>
         </div>
-    </div>
-
-    <!-- Pop-up de aviso -->
-    <div id="pop-up_aviso">
-        <div id="conteudo">
-            <h3>⚠️ ALERTA CRÍTICO ⚠️</h3>
-            <p id="mensagem_popup">Setor detectou níveis perigosos de metano!</p>
-            <button onclick="fecharPopup()">Ciente</button>
+        <div id="pop-up_aviso">
+            <div id="conteudo">
+                <h3>Setor ? Está Crítico</h3>
+                <button>Resolvido?</button>
+            </div>
         </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="/MineTech/Site Original/web-data-viz/public/js/dashboard.js"></script>
+    <script>
+        function botao() {
+            const opcao = document.getElementById('opcao');
+            if (opcao.style.display == 'block') {
+                opcao.style.display = 'none';
+            } else {
+                opcao.style.display = 'block';
+            }
+        }
+        function mostrarPopUp(setor) {
+            const popUp = document.getElementById('pop-up_aviso');
+            const conteudo = document.getElementById('conteudo');
+            conteudo.querySelector('h3').textContent = `Setor ${setor} está Crítico`;
+            popUp.classList.add('ativo');
+            conteudo.querySelector('button').onclick = () => {
+                popUp.classList.remove('ativo');
+            };
+        }
+        // Fechar menu se clicar fora
+        document.addEventListener('click', function(event) {
+            const opcao = document.getElementById('opcao');
+            const buguer = document.getElementById('buguer');
+            if (!opcao.contains(event.target) && !buguer.contains(event.target)) {
+                opcao.style.display = 'none';
+            }
+        });
+    </script>
 </body>
-<!-- Scripts -->
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="/MineTech/Site Original/web-data-viz/public/js/dashboard.js"></script>
-<script>
-    // Função para mostrar/esconder menu
-    function botao() {
-        const opcao = document.getElementById('opcao');
-        if (opcao.style.display == 'block') {
-            opcao.style.display = 'none';
-        } else {
-            opcao.style.display = 'block';
-        }
-    }
-
-    // Função para mostrar popup de alerta
-    function mostrarPopUp(setor) {
-        const popUp = document.getElementById('pop-up_aviso');
-        const mensagem = document.getElementById('mensagem_popup');
-        mensagem.textContent = `Setor ${setor} está com níveis críticos de metano!`;
-        popUp.classList.add('ativo');
-    }
-
-    // Função para fechar popup
-    function fecharPopup() {
-        const popUp = document.getElementById('pop-up_aviso');
-        popUp.classList.remove('ativo');
-    }
-
-    // Fechar menu se clicar fora
-    document.addEventListener('click', function (event) {
-        const opcao = document.getElementById('opcao');
-        const buguer = document.getElementById('buguer');
-
-        if (!opcao.contains(event.target) && !buguer.contains(event.target)) {
-            opcao.style.display = 'none';
-        }
-    });
-
-    // Função que retorna os dados do banco de dados para plotar nas KPIs
-    function buscarDadosKpi() {
-        // Fetch que retorna os setores com risco de explosão
-        fetch('/dashboards/riscodeexplosao')
-            .then(function (response) {
-                return response.json();
-            })
-            .then(function (resposta) {
-                plotarKpiRiscoDeExplosao(resposta.sigla);
-            })
-            .catch(function (err) {
-                console.error("Erro ao buscar os dados:", err);
-            });
-
-        // Fetch que retorna os setores para evacuação total
-        fetch('/dashboards/evacuacaototal')
-            .then(function (response) {
-                return response.json();
-            })
-            .then(function (resposta) {
-                plotarKpiEvacuacaoTotal(resposta.sigla);
-            })
-            .catch(function (err) {
-                console.error("Erro ao buscar os dados:", err);
-            });
-    }
-
-    // Função que retorna os dados do banco de dados para plotar no Gráfico Geral
-    function buscarDadosGeral() {
-        // Fetch que retorna os setores, o nível do metano e a hora
-        fetch('/dashboards/visaogeral')
-            .then(function (response) {
-                return response.json();
-            })
-            .then(function (resposta) {
-                plotarGraficoGeral(resposta.siglaSetor, resposta.nivelMetano, resposta.hora);
-            })
-            .catch(function (err) {
-                console.error("Erro ao buscar os dados:", err);
-            });
-    }
-
-    // Função para plotar a KPI de risco de explosão
-    function plotarKpiRiscoDeExplosao(sigla) {
-
-    }
-
-    // Função para plotar a KPI de evacuação total
-    function plotarKpiEvacuacaoTotal(sigla) {
-
-        setTimeout(buscarDadosKpi, 1000);
-    }
-
-    // Função para plotar o Gráfico Geral
-    function plotarGraficoGeral(siglaSetor, nivelMetano, dataHora) {
-
-        setTimeout(buscarDadosGeral, 1000);
-    }
-</script>
-
 </html>

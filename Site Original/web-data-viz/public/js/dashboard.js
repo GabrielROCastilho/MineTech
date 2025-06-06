@@ -186,12 +186,10 @@ function atualizarGrafico() {
 // Inicializar quando página carregar
 document.addEventListener('DOMContentLoaded', function() {
     console.log('Sistema MineTech iniciado!');
-    
     // Primeira atualização
     atualizarGrafico();
-    
     // Atualizar a cada 3 segundos
-    
+    setInterval(atualizarGrafico, 1000);
     console.log('Monitoramento automático ativado!');
 });
 

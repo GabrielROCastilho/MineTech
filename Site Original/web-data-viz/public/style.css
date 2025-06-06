@@ -375,6 +375,15 @@ span {
     align-items: center;
 }
 
+.fale_conosco a{
+    text-decoration: none;
+    color: white;
+}
+
+.fale_conosco a:hover{
+    text-decoration: underline;
+}
+
 .fale_conosco h2 {
     align-self: flex-start;
     font-size: 20px;

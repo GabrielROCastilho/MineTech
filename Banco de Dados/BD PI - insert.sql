@@ -49,7 +49,6 @@ INSERT INTO setor (id, fkMineradora, sigla) VALUES
 (3, 1, 'C'),
 (4, 2, 'D');
 
-select * from mineradora;
 -- Inserts na tabela localSensor
 INSERT INTO localSensor (localSensor, fkSetor, fkMineradora) VALUES 
 ('Galeria Norte', 1, 1),
@@ -113,43 +112,6 @@ insert into medicao (nivelmetano, statusnivel, fksensor) values (3.80, 'evacuaç
 insert into medicao (nivelmetano, statusnivel, fksensor) values (0.45, 'alerta', 3);
 insert into medicao (nivelmetano, statusnivel, fksensor) values (2.80, 'evacuação total', 3);
 insert into medicao (nivelmetano, statusnivel, fksensor) values (5.10, 'risco de explosão', 3);
-
-select * from medicao order by id desc;
-
-select m.statusnivel as status_nivel,
-       se.sigla as sigla
-from medicao m
-inner join sensor s on m.fkSensor = s.id
-inner join localSensor ls on s.fkLocal = ls.id
-inner join setor se on se.id = ls.fkSetor
-order by m.id desc
-limit 5;
-
-select m.statusnivel as status_nivel,
-       se.sigla as sigla
-from medicao m
-inner join sensor s on m.fkSensor = s.id
-inner join localSensor ls on s.fkLocal = ls.id
-inner join setor se on se.id = ls.fkSetor
-order by m.id desc
-limit 5;
-
-select m.nivelmetano as nivel_metano,
-	   m.statusnivel as status_nivel,
-	   s.id as setor
-from medicao m
-inner join sensor s on m.fkSensor = s.id
-inner join localSensor ls on s.fkLocal = ls.id
-inner join setor se on se.id = ls.fkSetor
-where m.nivelmetano = 'Evacuar área';
-
-select nivelmetano, statusnivel from medicao where statusnivel = 'risco de explosão';
-select * from setor;
-select * from medicao where statusnivel = 'risco de explosão';
-select * from sensor where id = 4;
-select * from localSensor where id = 4;
-select * from setor where id = 4;
-
 
 -- Sensor 4
 insert into medicao (nivelmetano, statusnivel, fksensor) values (0.90, 'alerta', 4);

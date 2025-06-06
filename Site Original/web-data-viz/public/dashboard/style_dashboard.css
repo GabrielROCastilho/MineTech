@@ -233,3 +233,10 @@ body {
     background: #fff;
     color: #B71C1C;
 }
+
+.kpis{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}

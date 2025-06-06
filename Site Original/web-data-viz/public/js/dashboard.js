@@ -65,7 +65,7 @@ let ultimoPopup = '';
 function gerarDadosTeste() {
     const agora = new Date();
     const horario = agora.getHours() + ':' + agora.getMinutes().toString().padStart(2, '0') + ':' + agora.getSeconds().toString().padStart(2, '0');
-    
+
     const sensores = [];
     // Setor A (0-4): 0.0 a 0.2
     for (let i = 0; i < 5; i++) {
@@ -217,7 +217,7 @@ async function atualizarGrafico() {
 }
 
 // Inicializar quando página carregar
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     console.log('Sistema MineTech iniciado!');
     // Primeira atualização
     atualizarGrafico();

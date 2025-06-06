@@ -11,7 +11,8 @@
     <title>Document</title>
 </head>
 
-<body>
+<!-- Ao carregar a página, chama as funções de buscar os dados para as KPIs e buscar os dados para o Gráfico Geral -->
+<body onload="buscarDadosKpi(), buscarDadosGeral()">
     <!-- Cabeçalho -->
     <div id="cabecalho">
         <h2 id="logo">MineTech</h2>
@@ -27,14 +28,21 @@
     <!-- Conteúdo principal -->
     <div class="container">
         <!-- Status do sistema -->
-        <div id="status_sitema">
-            <h1>Status do Sistema</h1>
-            <div>
-                <h3>Setores Críticos</h3>
-                <p id="setores_criticos">0</p>
+        <div class="kpis">
+            <div id="status_sitema">
+                <div>
+                    <h1>Setores com risco de explosão!</h1>
+                    <p id="setores_risco_de_explosao"></p>
+                </div>
+            </div>
+
+            <div id="status_sitema">
+                <div>
+                    <h1>Setores para evacuação!</h1>
+                    <p id="setores_evacuacao_total"></p>
+                </div>
             </div>
         </div>
-
         <!-- Gráfico principal -->
         <div class="grafico-principal">
             <h2>Monitoramento em Tempo Real - Concentração de Metano</h2>
@@ -52,43 +60,103 @@
             <button onclick="fecharPopup()">Ciente</button>
         </div>
     </div>
-
-    <!-- Scripts -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="/MineTech/Site Original/web-data-viz/public/js/dashboard.js"></script>
-    <script>
-        // Função para mostrar/esconder menu
-        function botao() {
-            const opcao = document.getElementById('opcao');
-            if (opcao.style.display == 'block') {
-                opcao.style.display = 'none';
-            } else {
-                opcao.style.display = 'block';
-            }
+</body>
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="/MineTech/Site Original/web-data-viz/public/js/dashboard.js"></script>
+<script>
+    // Função para mostrar/esconder menu
+    function botao() {
+        const opcao = document.getElementById('opcao');
+        if (opcao.style.display == 'block') {
+            opcao.style.display = 'none';
+        } else {
+            opcao.style.display = 'block';
         }
-        
-        // Função para mostrar popup de alerta
-        function mostrarPopUp(setor) {
-            const popUp = document.getElementById('pop-up_aviso');
-            const mensagem = document.getElementById('mensagem_popup');
-            mensagem.textContent = `Setor ${setor} está com níveis críticos de metano!`;
-            popUp.classList.add('ativo');
-        }
+    }
 
-        // Função para fechar popup
-        function fecharPopup() {
-            const popUp = document.getElementById('pop-up_aviso');
-            popUp.classList.remove('ativo');
-        }
+    // Função para mostrar popup de alerta
+    function mostrarPopUp(setor) {
+        const popUp = document.getElementById('pop-up_aviso');
+        const mensagem = document.getElementById('mensagem_popup');
+        mensagem.textContent = `Setor ${setor} está com níveis críticos de metano!`;
+        popUp.classList.add('ativo');
+    }
 
-        // Fechar menu se clicar fora
-        document.addEventListener('click', function(event) {
-            const opcao = document.getElementById('opcao');
-            const buguer = document.getElementById('buguer');
-            
-            if (!opcao.contains(event.target) && !buguer.contains(event.target)) {
-                opcao.style.display = 'none';
-            }
-        });
-    </script>
+    // Função para fechar popup
+    function fecharPopup() {
+        const popUp = document.getElementById('pop-up_aviso');
+        popUp.classList.remove('ativo');
+    }
+
+    // Fechar menu se clicar fora
+    document.addEventListener('click', function (event) {
+        const opcao = document.getElementById('opcao');
+        const buguer = document.getElementById('buguer');
+
+        if (!opcao.contains(event.target) && !buguer.contains(event.target)) {
+            opcao.style.display = 'none';
+        }
+    });
+
+    // Função que retorna os dados do banco de dados para plotar nas KPIs
+    function buscarDadosKpi() {
+        // Fetch que retorna os setores com risco de explosão
+        fetch('/dashboards/riscodeexplosao')
+            .then(function (response) {
+                return response.json();
+            })
+            .then(function (resposta) {
+                plotarKpiRiscoDeExplosao(resposta.sigla);
+            })
+            .catch(function (err) {
+                console.error("Erro ao buscar os dados:", err);
+            });
+
+        // Fetch que retorna os setores para evacuação total
+        fetch('/dashboards/evacuacaototal')
+            .then(function (response) {
+                return response.json();
+            })
+            .then(function (resposta) {
+                plotarKpiEvacuacaoTotal(resposta.sigla);
+            })
+            .catch(function (err) {
+                console.error("Erro ao buscar os dados:", err);
+            });
+    }
+
+    // Função que retorna os dados do banco de dados para plotar no Gráfico Geral
+    function buscarDadosGeral() {
+        // Fetch que retorna os setores, o nível do metano e a hora
+        fetch('/dashboards/visaogeral')
+            .then(function (response) {
+                return response.json();
+            })
+            .then(function (resposta) {
+                plotarGraficoGeral(resposta.siglaSetor, resposta.nivelMetano, resposta.hora);
+            })
+            .catch(function (err) {
+                console.error("Erro ao buscar os dados:", err);
+            });
+    }
+
+    // Função para plotar a KPI de risco de explosão
+    function plotarKpiRiscoDeExplosao(sigla) {
+
+    }
+
+    // Função para plotar a KPI de evacuação total
+    function plotarKpiEvacuacaoTotal(sigla) {
+
+        setTimeout(buscarDadosKpi, 1000);
+    }
+
+    // Função para plotar o Gráfico Geral
+    function plotarGraficoGeral(siglaSetor, nivelMetano, dataHora) {
+
+        setTimeout(buscarDadosGeral, 1000);
+    }
+</script>
+
 </html>

@@ -74,7 +74,7 @@ function login() {
       break;
     } else if ((emailFuncionario == listaUsers[i].email) && (senhaLogin == listaUsers[i].senha)) {
       alert("Login efetuado com sucesso");
-      window.location.href = 'dashboard.html';
+      window.location.href = 'dashboard/dashboard_final.html';
       loginInvalido = false;
       break;
     }

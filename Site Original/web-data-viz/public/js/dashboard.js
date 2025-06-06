@@ -191,7 +191,6 @@ document.addEventListener('DOMContentLoaded', function() {
     atualizarGrafico();
     
     // Atualizar a cada 3 segundos
-    setInterval(atualizarGrafico, 1000);
     
     console.log('Monitoramento automático ativado!');
 });

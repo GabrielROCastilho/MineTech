@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style_contato.css">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Envie sua mensagem!</h1>
+    <form action="https://formsubmit.co/atendimento.minetech@gmail.com" method="POST">
+        <label for="email">E-mail para contato!</label>
+        <input type="email" name="email" id="email" required>
+        <label for="message">Mensagem</label>
+
+        <input type="text" name="message" id="message" required>
+        <input type="hidden" name="_captcha" value="false">
+        <input type="hidden" name="_next" value="http://localhost:3333/thanks.html">
+        <button type="submit">Enviar</button>
+    </form>
+</body>
+</html>

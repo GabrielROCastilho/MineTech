@@ -19,26 +19,70 @@ function carregarDados() {
         .catch(function (err) {
             console.error("Erro ao buscar os dados:", err);
         });
-    fetch('/dashboards/visaogeral')
-        .then(function (response) {
-            return response.json();
-        })
-        .then(function (resposta) {
-            visaoGeral(resposta.siglaSetor, resposta.nivelMetano, resposta.hora);
-        })
-        .catch(function (err) {
-            console.error("Erro ao buscar os dados:", err);
-        });
 }
 
 function riscoDeExplosao(sigla) {
-    status_sitema.innerHTML =
+    var setores = []
+    var setoresHTML = ''
+
+    for(var i = 0; i < sigla.length; i++){
+        setores.push(sigla[i])
+    }
+
+    for (let i = 0; i < setores.length; i++) {
+        for (let j = i + 1; j < setores.length; j++) {
+            if (setores[i] === setores[j]) {
+                setores.splice(j, 1);
+                j--;
+            }
+        }
+    }
+
+    for(var i = 0; i < setores.length; i++){
+        setoresHTML += `${setores[i]}`
+        // Mostra o pop-up para cada setor crítico
+        if (typeof mostrarPopUp === 'function' && setores[i] !== '') {
+            mostrarPopUp(setores[i]);
+        }
+    }
+
+    setores_explosao.innerHTML =
         `
         <div class="kpi-dashboard-pessoal" id="kpi_performance_geral"></div>
-            <h2>${sigla}</h2>
+            <h2>${setoresHTML}</h2>
         </div>
         `
 }
+
+function evacuacaoTotal(sigla){
+    var setores = []
+    var setoresHTML = ''
+
+    for(var i = 0; i < sigla.length; i++){
+        setores.push(sigla[i])
+    }
+
+    for (let i = 0; i < setores.length; i++) {
+        for (let j = i + 1; j < setores.length; j++) {
+            if (setores[i] === setores[j]) {
+                setores.splice(j, 1);
+                j--;
+            }
+        }
+    }
+
+    for(var i = 0; i < setores.length; i++){
+        setoresHTML += `${setores[i]}`
+    }
+
+    setores_evacuados.innerHTML =
+    `
+    <div class="kpi-dashboard-pessoal" id="kpi_performance_geral"></div>
+        <h2>${setoresHTML}</h2>
+    </div>
+    `
+}
+
 
 // === INÍCIO DO NOVO CÓDIGO PARA O GRÁFICO ===
 

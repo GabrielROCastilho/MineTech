@@ -1,14 +1,14 @@
 function carregarDados() {
-    // fetch('/dashboards/riscodeexplosao')
-    //     .then(function (response) {
-    //         return response.json();
-    //     })
-    //     .then(function (resposta) {
-    //         riscoDeExplosao(resposta.sigla);
-    //     })
-    //     .catch(function (err) {
-    //         console.error("Erro ao buscar os dados:", err);
-    //     });
+    fetch('/dashboards/riscodeexplosao')
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (resposta) {
+            riscoDeExplosao(resposta.sigla);
+        })
+        .catch(function (err) {
+            console.error("Erro ao buscar os dados:", err);
+        });
     fetch('/dashboards/evacuacaototal')
         .then(function (response) {
             return response.json();
@@ -19,6 +19,55 @@ function carregarDados() {
         .catch(function (err) {
             console.error("Erro ao buscar os dados:", err);
         });
+    fetch('/dashboards/visaogeral')
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (resposta) {
+            atualizarGrafico(resposta);
+        })
+        .catch(function (err) {
+            console.error("Erro ao buscar os dados:", err);
+        });
+}
+
+const ctx = document.getElementById('grafico_geral');
+
+const meuGrafico = new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: [],
+        datasets: [{
+            label: 'Nível de Metano',
+            data: [],
+            borderColor: 'rgba(255, 99, 132, 1)',
+            borderWidth: 2,
+            fill: false
+        }]
+    },
+    options: {
+        scales: {
+            y: {
+                beginAtZero: true,
+                max: 5
+            }
+        }
+    }
+});
+
+function atualizarGrafico(resposta){
+    const labels = meuGrafico.data.labels;
+    const data = meuGrafico.data.datasets[0].data;
+    var valor = parseFloat(resposta.nivelMetano)
+    labels.push(resposta.hora);
+    data.push(valor);
+
+    if (labels.length > 10) {
+        labels.shift();
+        data.shift();
+    }
+
+    meuGrafico.update();
 }
 
 function riscoDeExplosao(sigla) {
@@ -83,126 +132,258 @@ function evacuacaoTotal(sigla){
     `
 }
 
+setInterval(carregarDados, 1000);
+// const ctxGeral = document.getElementById('grafico_geral').getContext('2d');
 
-// === INÍCIO DO NOVO CÓDIGO PARA O GRÁFICO ===
+// // Criar o gráfico usando Chart.js
+// const graficoGeral = new Chart(ctxGeral, {
+//     type: 'line',
+//     data: {
+//         labels: [],
+//         datasets: [
+//             {
+//                 label: 'Setor A (Média)',
+//                 data: [],
+//                 backgroundColor: 'rgba(52, 152, 219, 0.3)',
+//                 borderColor: 'rgba(52, 152, 219, 0.8)',
+//                 borderWidth: 3
+//             },
+//             {
+//                 label: 'Setor B (Média)',
+//                 data: [],
+//                 backgroundColor: 'rgba(231, 76, 60, 0.3)',
+//                 borderColor: 'rgba(231, 76, 60, 0.8)',
+//                 borderWidth: 3
+//             },
+//             {
+//                 label: 'Setor C (Média)',
+//                 data: [],
+//                 backgroundColor: 'rgba(46, 204, 113, 0.3)',
+//                 borderColor: 'rgba(46, 204, 113, 0.8)',
+//                 borderWidth: 3
+//             }
+//         ]
+//     },
+//     options: {
+//         responsive: true,
+//         maintainAspectRatio: false,
+//         scales: {
+//             y: {
+//                 beginAtZero: true,
+//                 max: 5,
+//                 title: {
+//                     display: true,
+//                     text: 'Concentração de Metano (0-1)'
+//                 }
+//             },
+//             x: {
+//                 title: {
+//                     display: true,
+//                     text: 'Horário'
+//                 }
+//             }
+//         },
+//         plugins: {
+//             legend: {
+//                 display: true,
+//                 position: 'right'
+//             }
+//         }
+//     }
+// });
 
-const ctxGeral = document.getElementById('grafico_geral').getContext('2d');
-const graficoGeral = new Chart(ctxGeral, {
-    type: 'line',
-    data: {
-        labels: [],
-        datasets: [
-            {
-                label: 'Setor A (Média)',
-                data: [],
-                backgroundColor: 'rgba(52, 152, 219, 0.3)',
-                borderColor: 'rgba(52, 152, 219, 0.8)',
-                borderWidth: 3
-            },
-            {
-                label: 'Setor B (Média)',
-                data: [],
-                backgroundColor: 'rgba(231, 76, 60, 0.3)',
-                borderColor: 'rgba(231, 76, 60, 0.8)',
-                borderWidth: 3
-            },
-            {
-                label: 'Setor C (Média)',
-                data: [],
-                backgroundColor: 'rgba(46, 204, 113, 0.3)',
-                borderColor: 'rgba(46, 204, 113, 0.8)',
-                borderWidth: 3
-            }
-        ]
-    },
-    options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        scales: {
-            y: {
-                beginAtZero: true,
-                max: 5,
-                title: {
-                    display: true,
-                    text: 'Concentração de Metano (0-1)'
-                }
-            },
-            x: {
-                title: {
-                    display: true,
-                    text: 'Horário'
-                }
-            }
-        },
-        plugins: {
-            legend: {
-                display: true,
-                position: 'right'
-            }
-        }
-    }
-});
+// // Variável para contar setores críticos
+// let setoresCriticos = 0;
+// let ultimoPopup = '';
 
-// Função para buscar histórico e atualizar o gráfico
-async function atualizarGraficoComHistorico() {
-    try {
-        const resposta = await fetch('/medicoes/historico');
-        const historico = await resposta.json();
-        // Agrupar por horário (últimos 15)
-        const agrupado = {};
-        historico.reverse().forEach(med => {
-            const hora = new Date(med.dataHora).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
-            if (!agrupado[hora]) agrupado[hora] = {A: [], B: [], C: []};
-            // Setor A: sensores 1-5, Setor B: 6-10, Setor C: 11-14
-            if (med.fkSensor >= 1 && med.fkSensor <= 5) agrupado[hora].A.push(Number(med.nivelMetano));
-            else if (med.fkSensor >= 6 && med.fkSensor <= 10) agrupado[hora].B.push(Number(med.nivelMetano));
-            else if (med.fkSensor >= 11 && med.fkSensor <= 14) agrupado[hora].C.push(Number(med.nivelMetano));
-        });
-        const labels = Object.keys(agrupado).slice(-15);
-        const dadosA = [], dadosB = [], dadosC = [];
-        labels.forEach(hora => {
-            const arr = agrupado[hora];
-            dadosA.push(arr.A.length ? (arr.A.reduce((x, y) => x + y, 0) / arr.A.length).toFixed(3) : null);
-            dadosB.push(arr.B.length ? (arr.B.reduce((x, y) => x + y, 0) / arr.B.length).toFixed(3) : null);
-            dadosC.push(arr.C.length ? (arr.C.reduce((x, y) => x + y, 0) / arr.C.length).toFixed(3) : null);
-        });
-        graficoGeral.data.labels = labels;
-        graficoGeral.data.datasets[0].data = dadosA;
-        graficoGeral.data.datasets[1].data = dadosB;
-        graficoGeral.data.datasets[2].data = dadosC;
-        graficoGeral.update();
-    } catch (erro) {
-        console.error('Erro ao atualizar gráfico:', erro);
-    }
-}
+// // Função para gerar dados de teste
+// // function gerarDadosTeste() {
+// //     const agora = new Date();
+// //     const horario = agora.getHours() + ':' + agora.getMinutes().toString().padStart(2, '0') + ':' + agora.getSeconds().toString().padStart(2, '0');
 
-// Atualizar gráfico a cada 2 segundos
-setInterval(atualizarGraficoComHistorico, 2000);
-document.addEventListener('DOMContentLoaded', atualizarGraficoComHistorico);
-// === FIM DO NOVO CÓDIGO PARA O GRÁFICO ===
+// //     const sensores = [];
+// //     // Setor A (0-4): 0.0 a 0.2
+// //     for (let i = 0; i < 5; i++) {
+// //         let valor = Math.random() * 0.2;
+// //         if (Math.random() < 0.15) {
+// //             valor = 1 + Math.random() * 0.2;
+// //         }
+// //         sensores.push(Number(valor.toFixed(3)));
+// //     }
+// //     // Setor B (5-9): 0.0 a 0.2
+// //     for (let i = 5; i < 10; i++) {
+// //         let valor = Math.random() * 0.2;
+// //         if (Math.random() < 0.15) {
+// //             valor = 1 + Math.random() * 0.2;
+// //         }
+// //         sensores.push(Number(valor.toFixed(3)));
+// //     }
+// //     // Setor C (10-13): 0.3 a 0.5
+// //     for (let i = 10; i < 14; i++) {
+// //         let valor = 0.3 + Math.random() * 0.2;
+// //         if (Math.random() < 0.15) {
+// //             valor = 1 + Math.random() * 0.2;
+// //         }
+// //         sensores.push(Number(valor.toFixed(3)));
+// //     }
+// //     return { horario: horario, sensores: sensores };
+// // }
 
-// Função para simular sensores e buscar do Arduino
-async function obterSensores() {
-    // Setor A: 4 simulados + 1 real do Arduino
-    const sensoresA_simulados = Array.from({length: 4}, () => Number((Math.random() * 0.5 + 0.1).toFixed(3)));
-    let sensorA_arduino = null;
-    try {
-        const resp = await fetch('/dashboards/visaogeral');
-        const dado = await resp.json();
-        sensorA_arduino = Number(parseFloat(dado.nivelMetano).toFixed(3));
-    } catch {
-        sensorA_arduino = Number((Math.random() * 0.5 + 0.1).toFixed(3)); // fallback
-    }
-    const sensoresA = [...sensoresA_simulados, sensorA_arduino];
-    // Setor B: 5 simulados
-    const sensoresB = Array.from({length: 5}, () => Number((Math.random() * 0.5 + 0.1).toFixed(3)));
-    // Setor C: 5 simulados
-    const sensoresC = Array.from({length: 5}, () => Number((Math.random() * 0.5 + 0.1).toFixed(3)));
-    // Debug: mostrar valores de cada sensor
-    console.log('Setor A:', sensoresA, 'Setor B:', sensoresB, 'Setor C:', sensoresC);
-    return {
-        A: sensoresA,
-        B: sensoresB,
-        C: sensoresC
-    };
-}
+// // Função para verificar setores críticos
+// function verificarSetoresCriticos(dados) {
+//     let novosSetoresCriticos = 0;
+
+//     // Calcular médias dos setores
+//     const mediaA = dados.sensores.slice(0, 5).reduce((a, b) => a + b, 0) / 5;
+//     const mediaB = dados.sensores.slice(5, 10).reduce((a, b) => a + b, 0) / 5;
+//     const mediaC = dados.sensores.slice(10, 14).reduce((a, b) => a + b, 0) / 4;
+
+//     // Verificar Setor A (média)
+//     if (mediaA >= 1) {
+//         novosSetoresCriticos++;
+//         if (ultimoPopup !== 'A') {
+//             mostrarPopUp('A');
+//             ultimoPopup = 'A';
+//         }
+//     }
+
+//     // Verificar Setor B (média)
+//     if (mediaB >= 1) {
+//         novosSetoresCriticos++;
+//         if (ultimoPopup !== 'B') {
+//             mostrarPopUp('B');
+//             ultimoPopup = 'B';
+//         }
+//     }
+
+//     // Verificar Setor C (média)
+//     if (mediaC >= 1) {
+//         novosSetoresCriticos++;
+//         if (ultimoPopup !== 'C') {
+//             mostrarPopUp('C');
+//             ultimoPopup = 'C';
+//         }
+//     }
+
+//     // Se não há mais setores críticos, limpar último popup
+//     if (novosSetoresCriticos === 0) {
+//         ultimoPopup = '';
+//     }
+
+//     setoresCriticos = novosSetoresCriticos;
+
+//     // Atualizar display
+//     const elementoSetores = document.getElementById('setores_criticos');
+//     if (elementoSetores) {
+//         elementoSetores.textContent = setoresCriticos;
+
+//         const statusSistema = document.getElementById('status_sitema');
+//         if (setoresCriticos > 0) {
+//             statusSistema.classList.add('alerta-critico');
+//         } else {
+//             statusSistema.classList.remove('alerta-critico');
+//         }
+//     }
+// }
+
+// // Função para registrar dados no backend
+// async function registrarMedicaoNoBackend(dados, origem = 'simulado') {
+//     try {
+//         await fetch('/api/medicao/registrar', {
+//             method: 'POST',
+//             headers: { 'Content-Type': 'application/json' },
+//             body: JSON.stringify({
+//                 horario: new Date().toISOString().slice(0, 19).replace('T', ' '),
+//                 sensores: dados.sensores,
+//                 origem: origem
+//             })
+//         });
+//     } catch (erro) {
+//         console.error('Erro ao registrar medição no backend:', erro);
+//     }
+// }
+
+// // Função para buscar dados do Arduino (real)
+// async function buscarDadosArduino() {
+//     try {
+//         // Substitua pelo IP do seu Arduino
+//         const resposta = await fetch('http://192.168.1.100/dados');
+//         if (!resposta.ok) throw new Error('Arduino não respondeu');
+//         const dados = await resposta.json();
+//         // Registrar dados reais no backend
+//         await registrarMedicaoNoBackend(dados, 'arduino');
+//         return dados;
+//     } catch (erro) {
+//         console.error('Erro ao conectar Arduino:', erro);
+//         // Se falhar, gera e registra dados simulados
+//         const dadosSimulados = gerarDadosTeste();
+//         await registrarMedicaoNoBackend(dadosSimulados, 'simulado');
+//         return dadosSimulados;
+//     }
+// }
+
+// // Função principal para atualizar gráfico
+// async function atualizarGrafico() {
+//     try {
+//         // Buscar dados reais do Arduino ou simular se falhar
+//         const dados = await buscarDadosArduino();
+//         // Calcular médias dos setores
+//         const mediaA = dados.sensores.slice(0, 5).reduce((a, b) => a + b, 0) / 5;
+//         const mediaB = dados.sensores.slice(5, 10).reduce((a, b) => a + b, 0) / 5;
+//         const mediaC = dados.sensores.slice(10, 14).reduce((a, b) => a + b, 0) / 4;
+//         // Adicionar novo horário
+//         graficoGeral.data.labels.push(dados.horario);
+//         if (graficoGeral.data.labels.length > 15) {
+//             graficoGeral.data.labels.shift();
+//         }
+//         // Adicionar médias aos datasets
+//         graficoGeral.data.datasets[0].data.push(Number(mediaA.toFixed(3)));
+//         graficoGeral.data.datasets[1].data.push(Number(mediaB.toFixed(3)));
+//         graficoGeral.data.datasets[2].data.push(Number(mediaC.toFixed(3)));
+//         graficoGeral.data.datasets.forEach(ds => {
+//             if (ds.data.length > 15) ds.data.shift();
+//         });
+//         // Verificar setores críticos
+//         verificarSetoresCriticos(dados);
+//         graficoGeral.update('none');
+//     } catch (erro) {
+//         console.error('Erro ao atualizar gráfico:', erro);
+//     }
+// }
+
+// // Inicializar quando página carregar
+// document.addEventListener('DOMContentLoaded', function () {
+//     console.log('Sistema MineTech iniciado!');
+//     // Primeira atualização
+//     atualizarGrafico();
+//     // Atualizar a cada 3 segundos
+//     setInterval(atualizarGrafico, 1000);
+//     console.log('Monitoramento automático ativado!');
+// });
+
+// /* 
+// PARA CONECTAR COM ARDUINO REAL, USE ESTE CÓDIGO:
+
+// async function buscarDadosArduino() {
+//     try {
+//         // Substitua pelo IP do seu Arduino
+//         const resposta = await fetch('http://192.168.1.100/dados');
+        
+//         if (!resposta.ok) {
+//             throw new Error('Arduino não respondeu');
+//         }
+        
+//         const dados = await resposta.json();
+//         // Formato esperado: { "horario": "14:30:25", "sensores": [0.1, 0.2, ...] }
+        
+//         return dados;
+        
+//     } catch (erro) {
+//         console.error('Erro ao conectar Arduino:', erro);
+//         return gerarDadosTeste(); // usar dados simulados se falhar
+//     }
+// }
+
+// // Para usar dados reais, substitua gerarDadosTeste() por:
+// // const dados = await buscarDadosArduino();
+// */

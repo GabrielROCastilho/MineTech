@@ -4,6 +4,7 @@ function carregarDados() {
             return response.json();
         })
         .then(function (resposta) {
+            console.log(resposta.sigla)
             riscoDeExplosao(resposta.sigla);
         })
         .catch(function (err) {

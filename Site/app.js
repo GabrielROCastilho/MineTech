@@ -37,7 +37,7 @@ app.use("/cidades", cidadesRouter);
 app.use("/enderecos", enderecosRouter);
 app.use("/cargos", cargosRouter);
 app.use("/dashboards", dashboardsRouter);
-app.use("/medicao", medicaoRouter);
+app.use("/medicoes", medicaoRouter);
 
 app.listen(PORTA_APP, function () {
     console.log(`

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style_login.css">
+    <title>Login</title>
+</head>
+
+<body class="body-login">
+    <div class="container-login">
+        <div class="card-login">
+            <h2>LOGIN | MineTech</h2>
+            <div class="form-login">
+                <div class="usuario-login">
+                    <div class="icone-usuario"></div>
+                    <input type="text" id="ipt_emailFuncionario" placeholder="E-mail"><br>
+                </div>
+                <div class="senha-login">
+                    <div class="icone-senha"></div>
+                    <input type="password" id="ipt_senhaLogin" placeholder="Senha"><br>
+                </div>
+            </div>
+            <button onclick="login()" class="btn-login">LOGIN</button>
+            <div id="cardErro" style="display: none;">
+                <div id="mensagem_erro" class="mensagem-erro"></div>
+            </div>
+            <div id="cardSucesso" style="display: none;">
+                <div id="mensagem_sucesso" class="mensagem-sucesso"></div>
+            </div>            
+        </div>
+    </div>
+</body>
+<script>
+    function login() {
+        var emailVar = ipt_emailFuncionario.value;
+        var senhaVar = ipt_senhaLogin.value;
+
+        document.getElementById("cardErro").style.display = "none";
+        document.getElementById("cardSucesso").style.display = "none";
+
+        fetch("/usuarios/autenticar", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                emailServer: emailVar,
+                senhaServer: senhaVar
+            })
+        })
+            .then(function (resposta) {
+                if (resposta.ok) {
+                    resposta.json().then(json => {
+                        sessionStorage.NOME_USUARIO = json.Nome;
+                        sessionStorage.ID_USUARIO = json.IdFuncionario;
+
+                        document.getElementById("mensagem_sucesso").innerText = "Login realizado com sucesso!";
+                        document.getElementById("cardSucesso").style.display = "block";
+
+                        setTimeout(() => {
+                            if (senhaVar == '0000') {
+                                window.location = "suporte.html";
+                                
+                            } else {
+                                window.location = "dashboard_final.html";
+                            }
+                        }, 1500);
+                    });
+                } else {
+                    resposta.text().then(texto => {
+                        document.getElementById("mensagem_erro").innerText = "Usuário ou senha inválidos.";
+                        document.getElementById("cardErro").style.display = "block";
+                    });
+                }
+            })
+            .catch(function (erro) {
+                document.getElementById("mensagem_erro").innerText = "Erro ao conectar com o servidor.";
+                document.getElementById("cardErro").style.display = "block";
+            });
+    }
+
+</script>
+
+</html>

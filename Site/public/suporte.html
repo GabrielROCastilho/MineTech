@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=menu" />
+    <link rel="stylesheet" href="css/suporte.css">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="cabecalho">
+        <h2 id="logo">MineTech</h2>
+        <h3>Página de Suporte</h3>
+        <span id="buguer" class="material-symbols-outlined" onclick="botao()">menu</span>
+        <menu id="opcao">
+            <ul>
+                <li><button onclick="n1()">Nível 1</button></li>
+            </ul>
+            <ul>
+                <li><button onclick="n2()">Nível 2</button></li>
+            </ul>
+            <ul>
+                <li><button onclick="n3()">Nível 3</button></li>
+            </ul>
+            <ul>
+                <li><a href="index.html">Sair</a>
+            </ul>
+        </menu>
+
+    </div>
+    <div class="container">
+        <div id="texto">
+            <h2>Para realizar o atendimento ao cliente, utilize as perguntas conforme seu nível de suporte.</h2>
+        </div>
+        <div id="texto">
+            <h3>Problema: Dashboard não funciona</h3>
+        </div>
+        <div id="nivel"></div>
+    </div>
+</body>
+<script>
+
+    function botao() {
+        const opcao = document.getElementById('opcao');
+        if (opcao.style.display == 'block') {
+            opcao.style.display = 'none';
+        } else {
+            opcao.style.display = 'block';
+        }
+    }
+
+    function n1(){
+        nivel.innerHTML = 
+        `
+                   <h1>N1</h1>
+
+            <div id="perguntas">
+                <p>1. Existe solução na base de dados?<br>
+                    Ação: Utilize a solução existente na base de dados.<br>
+                </p>
+            </div>
+            <div id="perguntas">
+                <p>2. Está conectado à Internet?<br>
+                    Ação: Peça ao cliente que se conecte à Internet.<br>
+                </p>
+            </div>
+            <div id="perguntas">
+                <p>3. Está logado no site?<br>
+                    Ação: Peça ao cliente que faça o login no site.<br>
+                </p>
+            </div>
+            <div id="perguntas">
+                <p>4. Recarregou a página?<br>
+                    Ação: Peça ao cliente que recarregue a página.<br>
+                </p>
+            </div>
+            <div id="perguntas">
+                <p>5. Outros sites estão funcionando à Internet?<br>
+                    Ação: Peça ao cliente que confirme se outros sites estão funcionando.<br>
+                </p>
+            </div>
+            <div id="texto">
+                <h3>Caso não tenha conseguido resolver o problema, redirecione o caso para o suporte de Nível 2.</h3>
+            </div>
+        </div>
+        `
+    }
+
+    function n2(){
+        nivel.innerHTML = 
+        `
+                    <h1>N2</h1>
+
+            <div id="perguntas">
+                <p>1. A memória do navegador está limpa?<br>
+                    Ação: Limpe o cache/cookies e tente outro navegador.<br>
+                </p>
+            </div>
+            <div id="perguntas">
+                <p>2. A Máquina Virtual está ligada?<br>
+                    Ação: Ligue a Máquina Virtual.<br>
+                </p>
+            </div>
+            <div id="perguntas">
+                <p>3. Está conseguindo fazer o login?<br>
+                    Ação: Verificar se o login existe.<br>
+                </p>
+            </div>
+            <div id="perguntas">
+                <p>4. As aplicações estão on-line?<br>
+                    Ação: Ligar aplicações.<br>
+                </p>
+            </div>
+            <div id="texto">
+                <h3>Caso não tenha conseguido resolver o problema, redirecione o caso para o suporte de Nível 3.</h3>
+            </div>
+        `
+    }
+
+    function n3(){
+        nivel.innerHTML = 
+        `
+                    <h1>N3</h1>
+
+            <div id="perguntas">
+                <p>1. O código do site está normal?<br>
+                    Ação: Ajustar o código do site.<br>
+                </p>
+            </div>
+            <div id="perguntas">
+                <p>2. O código do banco de dados está normal?<br>
+                    Ação: Ajustar o código do banco de dados.<br>
+                </p>
+            </div>
+            <div id="perguntas">
+                <p>3. O código da API está normal?<br>
+                    Ação: Ajustar o código da API.<br>
+                </p>
+            </div>
+            <div id="perguntas">
+                <p>4. O redirecionamento das aplicações está correta?<br>
+                    Ação: Ajustar o redirecionamento das aplicações.<br>
+                </p>
+            </div>
+            <div id="texto">
+                <h3>Caso não tenha conseguido resolver o problema, utilize a ferramenta de suporte BOBIA.</h3>
+            </div>
+            <a href="bob_ia.html" target="_blank" class="link_bobia">BOBIA</a>
+            <div id="texto">
+                <h3>Caso não tenha conseguido resolver o problema, coloque o caso em espera para análise técnica</h3>
+            </div>
+        `
+    }
+
+</script>
+
+</html>

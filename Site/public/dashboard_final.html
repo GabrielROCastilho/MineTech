@@ -46,13 +46,15 @@
                 <canvas id="grafico_geral" class="chart-bar"></canvas>
             </div>
         </div>
-        <div id="pop-up_aviso">
+    </div>
+
+    <div id="pop-up_aviso" style="display: none;">
             <div id="conteudo">
-                <h3>Setor ? Está Crítico</h3>
-                <button>Resolvido?</button>
+                <h2 id="titulo-popup"></h2>
+                <button id="btn-resolvido">Ciente?</button>
             </div>
         </div>
-    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="js/dashboard.js"></script>
     <script>
@@ -66,11 +68,11 @@
         }
         function mostrarPopUp(setor) {
             const popUp = document.getElementById('pop-up_aviso');
-            const conteudo = document.getElementById('conteudo');
-            conteudo.querySelector('h3').textContent = `Setor ${setor} está Crítico`;
-            popUp.classList.add('ativo');
-            conteudo.querySelector('button').onclick = () => {
-                popUp.classList.remove('ativo');
+            const titulo = document.getElementById('titulo-popup');
+            titulo.textContent = `Setor ${setor} Está Crítico`;
+            popUp.style.display = 'flex';
+            document.getElementById('btn-resolvido').onclick = () => {
+                popUp.style.display = 'none';
             };
         }
         // Fechar menu se clicar fora

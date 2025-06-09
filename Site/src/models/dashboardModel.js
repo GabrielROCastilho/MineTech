@@ -3,14 +3,21 @@ var database = require("../database/config")
 function riscoDeExplosao() {
     var instrucaoSql =
         `
-    select se.sigla as sigla
-    from medicao m
-    inner join sensor s on m.fkSensor = s.id
-    inner join localSensor ls on s.fkLocal = ls.id
-    inner join setor se on se.id = ls.fkSetor
-    where m.statusnivel = 'Risco de Explosão'
-    order by m.id desc
-    limit 5;
+ WITH ultimos5 AS (
+    SELECT m.id, m.statusnivel, se.sigla
+    FROM medicao m
+    INNER JOIN sensor s ON m.fkSensor = s.id
+    INNER JOIN localSensor ls ON s.fkLocal = ls.id
+    INNER JOIN setor se ON se.id = ls.fkSetor
+    ORDER BY m.id DESC
+    LIMIT 5
+)
+SELECT sigla
+FROM ultimos5
+WHERE statusnivel = 'Risco de Explosão'
+AND EXISTS (
+    SELECT 1 FROM ultimos5 WHERE statusnivel = 'Risco de Explosão'
+);
     `;
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
@@ -19,14 +26,21 @@ function riscoDeExplosao() {
 function evacuacaoTotal() {
     var instrucaoSql =
         `
-    select se.sigla as sigla
-    from medicao m
-    inner join sensor s on m.fkSensor = s.id
-    inner join localSensor ls on s.fkLocal = ls.id
-    inner join setor se on se.id = ls.fkSetor
-    where m.statusnivel = 'Evacuação Total'
-    order by m.id desc
-    limit 5;
+ WITH ultimos5 AS (
+    SELECT m.id, m.statusnivel, se.sigla
+    FROM medicao m
+    INNER JOIN sensor s ON m.fkSensor = s.id
+    INNER JOIN localSensor ls ON s.fkLocal = ls.id
+    INNER JOIN setor se ON se.id = ls.fkSetor
+    ORDER BY m.id DESC
+    LIMIT 5
+)
+SELECT sigla
+FROM ultimos5
+WHERE statusnivel = 'Evacuação Total'
+AND EXISTS (
+    SELECT 1 FROM ultimos5 WHERE statusnivel = 'Evacuação Total'
+);
     `;
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);

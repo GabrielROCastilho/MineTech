@@ -212,43 +212,17 @@ body {
 
 /* Chart Container */
 .grafico-principal {
-    flex: 1;
     background: linear-gradient(135deg, #D1C7B7 0%, #C4B8A5 100%);
     border-radius: 12px;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
     padding: 28px;
     border: 1px solid #A09483;
-    position: relative;
     overflow: hidden;
-}
-
-.grafico-principal::before {
-    content: '';
-    position: absolute;
-    top: -50%;
-    right: -50%;
-    width: 200%;
-    height: 200%;
-    background: radial-gradient(circle, rgba(255, 255, 255, 0.05) 0%, transparent 70%);
-    transform: rotate(45deg);
-    pointer-events: none;
-}
-
-.grafico-principal h2 {
-    font-size: 24px;
-    font-weight: bold;
-    color: black;
-    margin-bottom: 24px;
-    padding-bottom: 12px;
-    border-bottom: 2px solid #A09483;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    position: relative;
-    z-index: 1;
+    width: 100%; /* Garante que ocupe toda a largura disponível */
 }
 
 .grafico-container {
-    height: calc(100% - 60px);
+    height: calc(100% - 70px);
     width: 100%;
     position: relative;
     z-index: 1;
@@ -263,6 +237,27 @@ canvas {
     width: 100% !important;
     height: 100% !important;
     border-radius: 4px;
+    max-width: 100%; /* Garante que não ultrapasse o container */
+    box-sizing: border-box;
+}
+
+/* Ajuste no container principal para dar mais espaço */
+.container {
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 20px 24px;
+    height: calc(100vh - 80px);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%; /* Garante largura total */
+}
+
+/* Se você quiser que o gráfico ocupe ainda mais espaço, pode reduzir o padding */
+.grafico-principal {
+}
+
+.grafico-container {
 }
 
 /* Popup Styles */

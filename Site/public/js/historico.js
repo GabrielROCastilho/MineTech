@@ -1,3 +1,4 @@
+/*
 // Dados fake para teste
 const dadosFake = [
     {
@@ -141,7 +142,8 @@ const dadosFake = [
         valor: "1.5 ppm"
     }
 ];
-
+*/
+/*
 // Quando a página carregar, usa os dados fake
 window.onload = function() {
     // Simula um pequeno delay como se fosse uma requisição real
@@ -149,11 +151,10 @@ window.onload = function() {
         colocarNaTabela(dadosFake);
     }, 500);
 };
+*/
 
-// Função original para buscar dados do servidor (comentada para teste)
 function buscarDados() {
-    // Descomente estas linhas quando quiser voltar a usar dados reais
-    /*
+    console.log('Entri aq')
     fetch('/medicoes/historico')
         .then(response => response.json())
         .then(dados => {
@@ -163,7 +164,6 @@ function buscarDados() {
             console.log("Erro ao buscar dados:", erro);
             alert("Erro ao carregar dados!");
         });
-    */
 }
 
 // Função que coloca os dados na tabela HTML (mantém a mesma)
@@ -194,6 +194,8 @@ function colocarNaTabela(dados) {
         // Adiciona a linha na tabela
         tbody.appendChild(linha);
     });
+
+    setTimeout(buscarDados, 1000)
 }
 
 // Função para filtrar tabela (mantém a mesma)

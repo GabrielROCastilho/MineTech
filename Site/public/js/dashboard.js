@@ -46,6 +46,8 @@ const meuGrafico = new Chart(ctx, {
         }]
     },
     options: {
+        responsive: true, // Torna o gráfico responsivo
+        maintainAspectRatio: false, // Permite que o gráfico use toda a altura disponível
         scales: {
             y: {
                 beginAtZero: true,
@@ -57,9 +59,18 @@ const meuGrafico = new Chart(ctx, {
                 display: true,
                 position: 'right'
             }
+        },
+        // Configurações adicionais para melhor responsividade
+        interaction: {
+            intersect: false,
+            mode: 'index'
+        },
+        elements: {
+            point: {
+                radius: 3
+            }
         }
     }
-    
 });
 
 function atualizarGrafico(resposta){

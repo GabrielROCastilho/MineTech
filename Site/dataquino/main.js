@@ -18,11 +18,11 @@ const serial = async (
     // conexão com o banco de dados MySQL
     let poolBancoDados = mysql.createPool(
         {
-            host: '10.18.33.1',
+            host: 'localhost',
             user: 'aluno',
-            password: 'Sptech#2024',
+            password: 'sptech',
             database: 'minetech',
-            port: 3307
+            port: 3306
         }
     ).promise();
 
@@ -53,13 +53,15 @@ const serial = async (
 
         //AQUI IREMOS ADICIONAR A STRING PARA O NIVEL DO GÁS
         let nivelGas = '';
-        if (sensorMq02 > 0 && sensorMq02 < 1){
+    if(sensorMq02 == 0){
+        nivelGas = 'Sem risco algum'
+    }else if (sensorMq02 > 0 && sensorMq02 <= 1){
             nivelGas = 'Alerta';
         } else if (sensorMq02 >= 1 && sensorMq02 < 2){
             nivelGas = 'Evacuar área';
-        } else if (sensorMq02 >= 2 && sensorMq02 < 5){
+        } else if (sensorMq02 >= 2 && sensorMq02 < 3){
             nivelGas = 'Evacuação total';
-        } else if (sensorMq02 >= 5){
+        } else if (sensorMq02 >= 3 && sensorMq02 <= 5){
             nivelGas = 'Risco de explosão';
         }
         // ------------------

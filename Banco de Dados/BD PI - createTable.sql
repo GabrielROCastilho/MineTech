@@ -42,8 +42,8 @@ create table funcionario(
 		id int not null auto_increment,
         nome varchar(45),
         sobrenome varchar(45),
-        email varchar(45),
-        senha varchar(255),
+        email varchar(100),
+        senha varchar(50),
         telefone_celular char(11),
         fkMineradora int,
         fkCargo int,
@@ -97,3 +97,10 @@ alter table localSensor add constraint fk_local_mineradora foreign key (fkMinera
 alter table sensor add constraint fk_sensor_local foreign key (fkLocal) references localSensor(id);
 
 alter table medicao add constraint fk_medicao_sensor foreign key (fkSensor) references sensor(id);
+
+create table minetech_funcionario(
+	id int primary key auto_increment,
+    nome varchar(45),
+    email varchar(100),
+    senha varchar(40)
+);

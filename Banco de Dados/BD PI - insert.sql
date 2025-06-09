@@ -136,3 +136,11 @@ insert into medicao (nivelmetano, statusnivel, fksensor) values (3.40, 'evacuaç
 insert into medicao (nivelmetano, statusnivel, fksensor) values (0.60, 'alerta', 5);
 insert into medicao (nivelmetano, statusnivel, fksensor) values (2.90, 'evacuação total', 5);
 insert into medicao (nivelmetano, statusnivel, fksensor) values (5.10, 'risco de explosão', 5);
+
+-- Funcionários -> Minetech
+insert into minetech_funcionario (nome, email, senha) values ('Pedro Rico', 'pedro@sptech', '0000'),
+															 ('Gabriel Castilho', 'gabriel@sptech', '0000'),
+                                                             ('Munir Hamze', 'Munir@sptech', '0000'),
+                                                             ('Andre', 'andre@sptech', '0000'),
+                                                             ('Felipe Hideki', 'felipe@sptech', '0000'),
+                                                             ('Suporte Minetech', 'suporte@mine.tech', '0000');

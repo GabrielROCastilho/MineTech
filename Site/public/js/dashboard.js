@@ -89,10 +89,6 @@ function riscoDeExplosao(sigla) {
 
     for(var i = 0; i < setores.length; i++){
         setoresHTML += `${setores[i]}`
-        // Mostra o pop-up para cada setor crítico
-        if (typeof mostrarPopUp === 'function' && setores[i] !== '') {
-            mostrarPopUp(setores[i]);
-        }
     }
 
     setores_explosao.innerHTML =

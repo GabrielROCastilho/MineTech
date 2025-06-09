@@ -18,7 +18,7 @@ const serial = async (
     // conexão com o banco de dados MySQL
     let poolBancoDados = mysql.createPool(
         {
-            host: '10.18.33.1',
+            host: '10.18.32.248',
             user: 'aluno',
             password: 'Sptech#2024',
             database: 'minetech',
@@ -55,9 +55,11 @@ const serial = async (
         let nivelGas = '';
         if (sensorMq02 > 0 && sensorMq02 < 1){
             nivelGas = 'Alerta';
-        } else if (sensorMq02 >= 1 && sensorMq02 < 3.5){
+        } else if (sensorMq02 >= 1 && sensorMq02 < 2){
+            nivelGas = 'Evacuar área';
+        } else if (sensorMq02 >= 2 && sensorMq02 < 5){
             nivelGas = 'Evacuação total';
-        } else if (sensorMq02 >= 3.5){
+        } else if (sensorMq02 >= 5){
             nivelGas = 'Risco de explosão';
         }
         // ------------------

@@ -11,4 +11,8 @@ router.get("/evacuacaototal", function (req, res) {
     dashboardController.evacuacaoTotal(req, res);
 });
 
+router.get("/visaogeral", function (req, res) {
+    dashboardController.visaoGeral(req, res);
+});
+
 module.exports = router;

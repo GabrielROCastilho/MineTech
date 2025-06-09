@@ -1,15 +1,14 @@
 function carregarDados() {
-    fetch('/dashboards/riscodeexplosao')
-        .then(function (response) {
-            return response.json();
-        })
-        .then(function (resposta) {
-            console.log(resposta.sigla)
-            riscoDeExplosao(resposta.sigla);
-        })
-        .catch(function (err) {
-            console.error("Erro ao buscar os dados:", err);
-        });
+    // fetch('/dashboards/riscodeexplosao')
+    //     .then(function (response) {
+    //         return response.json();
+    //     })
+    //     .then(function (resposta) {
+    //         riscoDeExplosao(resposta.sigla);
+    //     })
+    //     .catch(function (err) {
+    //         console.error("Erro ao buscar os dados:", err);
+    //     });
     fetch('/dashboards/evacuacaototal')
         .then(function (response) {
             return response.json();
@@ -147,7 +146,7 @@ const graficoGeral = new Chart(ctxGeral, {
 // Função para buscar histórico e atualizar o gráfico
 async function atualizarGraficoComHistorico() {
     try {
-        const resposta = await fetch('/medicoes/historico');
+        const resposta = await fetch('/dashboards/historico');
         const historico = await resposta.json();
         // Agrupar por horário (últimos 15)
         const agrupado = {};

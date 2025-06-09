@@ -51,8 +51,15 @@ const meuGrafico = new Chart(ctx, {
                 beginAtZero: true,
                 max: 5
             }
+        },
+        plugins: {
+            legend: {
+                display: true,
+                position: 'right'
+            }
         }
     }
+    
 });
 
 function atualizarGrafico(resposta){

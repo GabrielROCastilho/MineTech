@@ -22,7 +22,7 @@ const serial = async (
             user: 'aluno',
             password: 'Sptech#2024',
             database: 'minetech',
-            port: 3306
+            port: 3307
         }
     ).promise();
 
@@ -55,11 +55,9 @@ const serial = async (
         let nivelGas = '';
         if (sensorMq02 > 0 && sensorMq02 < 1){
             nivelGas = 'Alerta';
-        } else if (sensorMq02 >= 1 && sensorMq02 < 2){
-            nivelGas = 'Evacuar área';
-        } else if (sensorMq02 >= 2 && sensorMq02 < 5){
+        } else if (sensorMq02 >= 1 && sensorMq02 < 3.5){
             nivelGas = 'Evacuação total';
-        } else if (sensorMq02 >= 5){
+        } else if (sensorMq02 >= 3.5){
             nivelGas = 'Risco de explosão';
         }
         // ------------------

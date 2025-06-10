@@ -1,87 +1,106 @@
 var database = require("../database/config")
 
+// Função auxiliar para pegar o último status de cada setor
+function getUltimoStatusPorSetor() {
+    const instrucaoSql = `
+        WITH UltimoStatus AS (
+            SELECT
+                se.sigla,
+                m.statusnivel,
+                ROW_NUMBER() OVER(PARTITION BY se.id ORDER BY m.id DESC) as rn
+            FROM medicao m
+            INNER JOIN sensor s ON m.fkSensor = s.id
+            INNER JOIN localSensor ls ON s.fkLocal = ls.id
+            INNER JOIN setor se ON se.id = ls.fkSetor
+        )
+        SELECT sigla, statusnivel FROM UltimoStatus WHERE rn = 1;
+    `;
+    return database.executar(instrucaoSql);
+}
+
 function riscoDeExplosao() {
-    var instrucaoSql =
-        `
-SELECT DISTINCT
-    s.sigla
-FROM (
-    SELECT
-        m.id,
-        m.fkSensor,
-        m.statusNivel,
-        @row_num := IF(@prev_sensor = m.fkSensor, @row_num + 1, 1) AS rn,
-        @prev_sensor := m.fkSensor
-    FROM
-        medicao m
-    ORDER BY
-        m.fkSensor, m.dataHora DESC
-) AS ranked_medicoes
-JOIN
-    sensor AS se ON ranked_medicoes.fkSensor = se.id
-JOIN
-    localSensor AS ls ON se.fkLocal = ls.id
-JOIN
-    setor AS s ON ls.fkSetor = s.id AND ls.fkMineradora = s.fkMineradora
-WHERE
-    ranked_medicoes.rn <= 5 -- Filtra apenas as 5 medições mais recentes por sensor
-    AND ranked_medicoes.statusNivel = 'Risco de Explosão';
+    var instrucaoSql = `
+    WITH ultimos5 AS (
+ SELECT m.id, m.statusnivel, se.sigla
+ FROM medicao m
+ INNER JOIN sensor s ON m.fkSensor = s.id
+ INNER JOIN localSensor ls ON s.fkLocal = ls.id
+ INNER JOIN setor se ON se.id = ls.fkSetor
+ ORDER BY m.id DESC
+ LIMIT 5
+
+)
+SELECT sigla
+
+FROM ultimos5
+
+WHERE statusnivel = 'Risco de Explosão'
+
+AND EXISTS (
+ SELECT 1 FROM ultimos5 WHERE statusnivel = 'Risco de Explosão'
+
+);
     `;
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
 }
 
 function evacuacaoTotal() {
-    var instrucaoSql =
-        `
-SELECT DISTINCT
-    s.sigla
-FROM (
-    SELECT
-        m.id,
-        m.fkSensor,
-        m.statusNivel,
-        @row_num := IF(@prev_sensor = m.fkSensor, @row_num + 1, 1) AS rn,
-        @prev_sensor := m.fkSensor
-    FROM
-        medicao m
-    ORDER BY
-        m.fkSensor, m.dataHora DESC
-) AS ranked_medicoes
-JOIN
-    sensor AS se ON ranked_medicoes.fkSensor = se.id
-JOIN
-    localSensor AS ls ON se.fkLocal = ls.id
-JOIN
-    setor AS s ON ls.fkSetor = s.id AND ls.fkMineradora = s.fkMineradora
-WHERE
-    ranked_medicoes.rn <= 5 -- Filtra apenas as 5 medições mais recentes por sensor
-    AND ranked_medicoes.statusNivel = 'Evacuação Total';
+    var instrucaoSql = `
+    WITH ultimos5 AS (
+ SELECT m.id, m.statusnivel, se.sigla
+ FROM medicao m
+ INNER JOIN sensor s ON m.fkSensor = s.id
+ INNER JOIN localSensor ls ON s.fkLocal = ls.id
+ INNER JOIN setor se ON se.id = ls.fkSetor
+ ORDER BY m.id DESC
+ LIMIT 5
+
+)
+SELECT sigla
+
+FROM ultimos5
+
+WHERE statusnivel = 'Risco de Explosão'
+
+AND EXISTS (
+ SELECT 1 FROM ultimos5 WHERE statusnivel = 'Evacuação Total'
+
+);
     `;
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
 }
 
+// A função visaoGeral que você já tinha estava correta
 function visaoGeral() {
-    var instrucaoSql =
-        `
-    select m.nivelMetano as NivelMetano,
-	(select concat(extract(hour from m.dataHora), ':',
-    extract(minute from m.dataHora), ':',
-    extract(second from m.dataHora))) as Hora,
-    se.sigla as SiglaSetor
-    from medicao m
-    inner join sensor s on m.fkSensor = s.id
-    inner join localSensor ls on ls.id = s.fkLocal
-    inner join setor se on se.id = ls.fkSetor
-    order by m.id desc
-    limit 1;
-    `
+    var instrucaoSql = `
+        WITH UltimaMedicaoPorSetor AS (
+            SELECT
+                m.nivelMetano,
+                m.dataHora,
+                se.sigla AS SiglaSetor,
+                ROW_NUMBER() OVER(PARTITION BY se.id ORDER BY m.id DESC) as rn
+            FROM medicao m
+            INNER JOIN sensor s ON m.fkSensor = s.id
+            INNER JOIN localSensor ls ON ls.id = s.fkLocal
+            INNER JOIN setor se ON se.id = ls.fkSetor
+        )
+        SELECT
+            nivelMetano,
+            CONCAT(EXTRACT(HOUR FROM dataHora), ':',
+                   EXTRACT(MINUTE FROM dataHora), ':',
+                   EXTRACT(SECOND FROM dataHora)) AS Hora,
+            SiglaSetor
+        FROM UltimaMedicaoPorSetor
+        WHERE rn = 1;
+    `;
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
 }
 
 module.exports = {
+    getUltimoStatusPorSetor, 
     riscoDeExplosao,
     evacuacaoTotal,
     visaoGeral

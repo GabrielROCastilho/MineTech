@@ -1,89 +1,193 @@
-<!DOCTYPE html>
-<html lang="en">
+function carregarDados() {
+    // Fetch para Risco de Explosão
+    fetch("/dashboards/riscodeexplosao")
+        .then(function (response) {
+            if (response.status === 204) {
+                // Se não há conteúdo, chama a função com um array vazio para limpar a KPI
+                riscoDeExplosao([]);
+                return Promise.reject("sem_dados"); // Impede a execução do próximo .then
+            }
+            return response.json();
+        })
+        .then(function (resposta) {
+            riscoDeExplosao(resposta.sigla);
+        })
+        .catch(function (err) {
+            if (err !== "sem_dados") {
+                console.error("Erro ao buscar dados de risco:", err);
+            }
+        });
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/style_dashboard.css">
-    <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=menu" />
-    <title>Document</title>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-</head>
+    // Fetch para Evacuação Total
+    fetch("/dashboards/evacuacaototal")
+        .then(function (response) {
+            if (response.status === 204) {
+                // Se não há conteúdo, chama a função com um array vazio para limpar a KPI
+                evacuacaoTotal([]);
+                return Promise.reject("sem_dados"); // Impede a execução do próximo .then
+            }
+            return response.json();
+        })
+        .then(function (resposta) {
+            evacuacaoTotal(resposta.sigla);
+        })
+        .catch(function (err) {
+            if (err !== "sem_dados") {
+                console.error("Erro ao buscar dados de evacuação:", err);
+            }
+        });
 
-<!DOCTYPE html>
-<html lang="en">
+    // Fetch para o gráfico (não foi alterado)
+    fetch("/dashboards/visaogeral")
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (resposta) {
+            atualizarGrafico(resposta);
+        })
+        .catch(function (err) {
+            console.error("Erro ao buscar dados do gráfico:", err);
+        });
+}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/style_dashboard.css">
-    <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=menu" />
-    <title>MineTech Dashboard</title>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-</head>
+const ctx = document.getElementById("grafico_geral");
 
-<body>
-    <div id="cabecalho">
-        <h2 id="logo">MineTech</h2>
-        <h3>Monitoramento de Metano</h3>
-        <a href="historico.html" id="link-historico" class="historico">Histórico</a>
-        <span id="buguer" class="material-symbols-outlined">menu</span>
-        <menu id="opcao">
-            <ul>
-                <li><a href="index.html">Sair</a></li>
-            </ul>
-        </menu>
-    </div>
+const meuGrafico = new Chart(ctx, {
+  type: "line",
+  data: {
+    labels: [],
+    datasets: [
+      {
+        label: "Nível de Metano",
+        data: [],
+        borderColor: "rgba(255, 99, 132, 1)",
+        borderWidth: 2,
+        fill: false,
+      },
+    ],
+  },
+  options: {
+    responsive: true, // Torna o gráfico responsivo
+    maintainAspectRatio: false, // Permite que o gráfico use toda a altura disponível
+    scales: {
+      y: {
+        beginAtZero: true,
+        max: 5,
+      },
+    },
+    plugins: {
+      legend: {
+        display: true,
+        position: "right",
+      },
+    },
+    // Configurações adicionais para melhor responsividade
+    interaction: {
+      intersect: false,
+      mode: "index",
+    },
+    elements: {
+      point: {
+        radius: 3,
+      },
+    },
+  },
+});
 
-    <div class="container" id="dashboard_content">
-        <div class="kpis">
-            <div id="kpi_risco_explosao_box">
-                <div>
-                    <h3>Setores Com Risco de Explosão</h3>
-                    <span id="setores_explosao_siglas">N/A</span>
-                </div>
-            </div>
-            <div id="kpi_evacuacao_total_box">
-                <div>
-                    <h3>Setores Para Serem Evacuados</h3>
-                    <span id="setores_evacuados_siglas">N/A</span>
-                </div>
-            </div>
-        </div>
-        <div class="grafico-principal">
-            <h2>Visão dos Setores</h2>
-            <div class="grafico-container">
-                <canvas id="grafico_geral" class="chart-bar"></canvas>
-            </div>
-        </div>
-    </div>
+// Função auxiliar para gerar cores aleatórias para os novos setores
+function gerarCorAleatoria() {
+  const r = Math.floor(Math.random() * 255);
+  const g = Math.floor(Math.random() * 255);
+  const b = Math.floor(Math.random() * 255);
+  return `rgba(${r}, ${g}, ${b}, 1)`;
+}
 
-    <script src="js/dashboard.js"></script>
-</body>
+// Função principal modificada para lidar com múltiplos setores
+function atualizarGrafico(respostas) {
+  // Espera um array de respostas
+  // Pega a hora da primeira resposta (assumindo que são próximas)
+  const horaAtual =
+    respostas.length > 0 ? respostas[0].Hora : new Date().toLocaleTimeString();
 
-</html>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="js/dashboard.js"></script>
-<script>
-    function botao() {
-        const opcao = document.getElementById('opcao');
-        if (opcao.style.display == 'block') {
-            opcao.style.display = 'none';
-        } else {
-            opcao.style.display = 'block';
-        }
+  // 1. ATUALIZAR O LABEL (EIXO X)
+  const labels = meuGrafico.data.labels;
+  labels.push(horaAtual);
+  if (labels.length > 10) {
+    // Mantém o limite de 10 pontos no eixo X
+    labels.shift();
+  }
+
+  // Itera sobre cada resposta (cada setor) que veio do backend
+  respostas.forEach((resposta) => {
+    const siglaSetor = resposta.SiglaSetor;
+    const valorMetano = parseFloat(resposta.nivelMetano);
+
+    // 2. ENCONTRAR OU CRIAR O DATASET PARA O SETOR
+    let datasetDoSetor = meuGrafico.data.datasets.find(
+      (dataset) => dataset.label === siglaSetor
+    );
+
+    if (datasetDoSetor) {
+      // Se o dataset já existe, apenas adiciona o novo dado
+      datasetDoSetor.data.push(valorMetano);
+      if (datasetDoSetor.data.length > 10) {
+        datasetDoSetor.data.shift();
+      }
+    } else {
+      // Se o dataset não existe, cria um novo
+      const novaCor = gerarCorAleatoria();
+      const novoDataset = {
+        label: siglaSetor, // O nome da linha será a sigla do setor
+        data: [valorMetano],
+        borderColor: novaCor,
+        borderWidth: 2,
+        fill: false,
+      };
+      meuGrafico.data.datasets.push(novoDataset);
     }
-    // Fechar menu se clicar fora
-    document.addEventListener('click', function (event) {
-        const opcao = document.getElementById('opcao');
-        const buguer = document.getElementById('buguer');
-        if (!opcao.contains(event.target) && !buguer.contains(event.target)) {
-            opcao.style.display = 'none';
-        }
-    });
-</script>
-</body>
+  });
 
-</html>
+  // Garante que todos os datasets tenham o mesmo tamanho dos labels,
+  // preenchendo com 'null' os que não receberam dados nesta atualização.
+  meuGrafico.data.datasets.forEach((dataset) => {
+    while (dataset.data.length < labels.length) {
+      dataset.data.unshift(null); // Adiciona 'null' no início para dados mais antigos
+    }
+    while (dataset.data.length > labels.length) {
+      dataset.data.shift();
+    }
+  });
+
+  // 3. ATUALIZAR O GRÁFICO NA TELA
+  meuGrafico.update();
+}
+
+function riscoDeExplosao(siglas) {
+    // Remove duplicatas de forma eficiente e moderna
+    const setoresUnicos = [...new Set(siglas)];
+
+    // Se o array de setores estiver vazio, exibe 'Nenhum'. Senão, exibe as siglas.
+    const setoresHTML = setoresUnicos.length > 0 ? setoresUnicos.join(', ') : '-';
+
+    setores_explosao.innerHTML = `
+        <div class="kpi-dashboard-pessoal" id="kpi_performance_geral">
+            <h2>${setoresHTML}</h2>
+        </div>
+    `;
+}
+
+function evacuacaoTotal(siglas) {
+    // Remove duplicatas
+    const setoresUnicos = [...new Set(siglas)];
+    
+    // Se o array de setores estiver vazio, exibe 'Nenhum'. Senão, exibe as siglas.
+    const setoresHTML = setoresUnicos.length > 0 ? setoresUnicos.join(', ') : '-';
+
+    setores_evacuados.innerHTML = `
+        <div class="kpi-dashboard-pessoal" id="kpi_performance_evacuacao">
+            <h2>${setoresHTML}</h2>
+        </div>
+    `;
+}
+
+setInterval(carregarDados, 1000);

@@ -38,19 +38,13 @@ function evacuacaoTotal(_, res) {
         });
 }
 
+// ... outras funções do controller
+
 function visaoGeral(_, res) {
     dashboardModel.visaoGeral()
         .then(function (resultado) {
             if (resultado.length > 0) {
-                const NivelMetano = resultado.map(registro => registro.NivelMetano);
-                const SiglaSetor = resultado.map(registro => registro.SiglaSetor);
-                const Hora = resultado.map(registro => registro.Hora);
-
-                res.json({
-                    siglaSetor: SiglaSetor,
-                    nivelMetano: NivelMetano,
-                    hora: Hora
-                });
+                res.json(resultado); 
             } else {
                 res.status(204).send("Nenhum resultado encontrado!");
             }

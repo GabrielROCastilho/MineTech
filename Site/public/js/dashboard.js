@@ -1,38 +1,8 @@
-function carregarDados() {
-    fetch('/dashboards/riscodeexplosao')
-        .then(function (response) {
-            return response.json();
-        })
-        .then(function (resposta) {
-            riscoDeExplosao(resposta.sigla);
-        })
-        .catch(function (err) {
-            console.error("Erro ao buscar os dados:", err);
-        });
-    fetch('/dashboards/evacuacaototal')
-        .then(function (response) {
-            return response.json();
-        })
-        .then(function (resposta) {
-            evacuacaoTotal(resposta.sigla);
-        })
-        .catch(function (err) {
-            console.error("Erro ao buscar os dados:", err);
-        });
-    fetch('/dashboards/visaogeral')
-        .then(function (response) {
-            return response.json();
-        })
-        .then(function (resposta) {
-            atualizarGrafico(resposta);
-        })
-        .catch(function (err) {
-            console.error("Erro ao buscar os dados:", err);
-        });
-}
+// --- Elementos do DOM ---
+const dashboardContent = document.getElementById('dashboard_content');
 
+// --- Configuração do Gráfico ---
 const ctx = document.getElementById('grafico_geral');
-
 const meuGrafico = new Chart(ctx, {
     type: 'line',
     data: {
@@ -46,8 +16,8 @@ const meuGrafico = new Chart(ctx, {
         }]
     },
     options: {
-        responsive: true, // Torna o gráfico responsivo
-        maintainAspectRatio: false, // Permite que o gráfico use toda a altura disponível
+        responsive: true,
+        maintainAspectRatio: false,
         scales: {
             y: {
                 beginAtZero: true,
@@ -60,7 +30,6 @@ const meuGrafico = new Chart(ctx, {
                 position: 'right'
             }
         },
-        // Configurações adicionais para melhor responsividade
         interaction: {
             intersect: false,
             mode: 'index'
@@ -73,10 +42,38 @@ const meuGrafico = new Chart(ctx, {
     }
 });
 
-function atualizarGrafico(resposta){
+// --- Funções de Atualização de Conteúdo ---
+function atualizarRiscoDeExplosaoKPI(siglas) {
+    const elementoKPI = document.getElementById('setores_explosao_siglas');
+    if (elementoKPI) {
+        if (siglas && siglas.length > 0) {
+            elementoKPI.innerText = siglas.join(', ');
+            elementoKPI.style.color = '#B71C1C';
+        } else {
+            elementoKPI.innerText = '-';
+            elementoKPI.style.color = '#B71C1C';
+        }
+    }
+}
+
+function atualizarEvacuacaoTotalKPI(siglas) {
+    const elementoKPI = document.getElementById('setores_evacuados_siglas');
+    if (elementoKPI) {
+        if (siglas && siglas.length > 0) {
+            elementoKPI.innerText = siglas.join(', ');
+            elementoKPI.style.color = '#B71C1C';
+        } else {
+            elementoKPI.innerText = '-';
+            elementoKPI.style.color = '#B71C1C';
+        }
+    }
+}
+
+function atualizarGrafico(resposta) {
     const labels = meuGrafico.data.labels;
     const data = meuGrafico.data.datasets[0].data;
-    var valor = parseFloat(resposta.nivelMetano)
+    var valor = parseFloat(resposta.nivelMetano);
+
     labels.push(resposta.hora);
     data.push(valor);
 
@@ -88,316 +85,95 @@ function atualizarGrafico(resposta){
     meuGrafico.update();
 }
 
-function riscoDeExplosao(sigla) {
-    var setores = []
-    var setoresHTML = ''
+// --- Funções de Fetch para o Backend ---
+async function fetchKPIs() {
+    try {
+        const [riscoResponse, evacuacaoResponse] = await Promise.all([
+            fetch('/dashboards/riscodeexplosao'),
+            fetch('/dashboards/evacuacaototal')
+        ]);
 
-    for(var i = 0; i < sigla.length; i++){
-        setores.push(sigla[i])
-    }
-
-    for (let i = 0; i < setores.length; i++) {
-        for (let j = i + 1; j < setores.length; j++) {
-            if (setores[i] === setores[j]) {
-                setores.splice(j, 1);
-                j--;
+        if (riscoResponse.ok && riscoResponse.status !== 204) {
+            const riscoData = await riscoResponse.json();
+            if (riscoData.sigla && riscoData.sigla.length > 0) {
+                atualizarRiscoDeExplosaoKPI(riscoData.sigla);
+            } else {
+                atualizarRiscoDeExplosaoKPI([]);
             }
+        } else {
+            atualizarRiscoDeExplosaoKPI([]);
         }
-    }
 
-    for(var i = 0; i < setores.length; i++){
-        setoresHTML += `${setores[i]}`
-    }
+        if (evacuacaoResponse.ok && evacuacaoResponse.status !== 204) {
+            const evacuacaoData = await evacuacaoResponse.json();
+            if (evacuacaoData.sigla && evacuacaoData.sigla.length > 0) {
+                atualizarEvacuacaoTotalKPI(evacuacaoData.sigla);
+            } else {
+                atualizarEvacuacaoTotalKPI([]);
+            }
+        } else {
+            atualizarEvacuacaoTotalKPI([]);
+        }
 
-    setores_explosao.innerHTML =
-        `
-        <div class="kpi-dashboard-pessoal" id="kpi_performance_geral"></div>
-            <h2>${setoresHTML}</h2>
-        </div>
-        `
+    } catch (err) {
+        console.error("Erro ao buscar dados das KPIs:", err);
+        atualizarRiscoDeExplosaoKPI([]);
+        atualizarEvacuacaoTotalKPI([]);
+    }
 }
 
-function evacuacaoTotal(sigla){
-    var setores = []
-    var setoresHTML = ''
+async function fetchGrafico() {
+    try {
+        const response = await fetch('/dashboards/visaogeral');
 
-    for(var i = 0; i < sigla.length; i++){
-        setores.push(sigla[i])
-    }
-
-    for (let i = 0; i < setores.length; i++) {
-        for (let j = i + 1; j < setores.length; j++) {
-            if (setores[i] === setores[j]) {
-                setores.splice(j, 1);
-                j--;
+        if (response.ok && response.status !== 204) {
+            const resposta = await response.json();
+            if (resposta.nivelMetano !== undefined && resposta.hora !== undefined) {
+                atualizarGrafico(resposta);
+            } else {
+                console.warn("Resposta da visão geral incompleta para o gráfico.");
             }
+        } else {
+            console.warn("Nenhum dado de visão geral encontrado ou erro de resposta.");
         }
+    } catch (err) {
+        console.error("Erro ao buscar os dados do gráfico:", err);
     }
-
-    for(var i = 0; i < setores.length; i++){
-        setoresHTML += `${setores[i]}`
-    }
-
-    setores_evacuados.innerHTML =
-    `
-    <div class="kpi-dashboard-pessoal" id="kpi_performance_geral"></div>
-        <h2>${setoresHTML}</h2>
-    </div>
-    `
 }
 
-setInterval(carregarDados, 1000);
-// const ctxGeral = document.getElementById('grafico_geral').getContext('2d');
+// --- Início: Dispara a lógica quando o DOM estiver pronto ---
+// Seu código JavaScript existente (elementos do DOM, funções de atualização, fetches, etc.)
 
-// // Criar o gráfico usando Chart.js
-// const graficoGeral = new Chart(ctxGeral, {
-//     type: 'line',
-//     data: {
-//         labels: [],
-//         datasets: [
-//             {
-//                 label: 'Setor A (Média)',
-//                 data: [],
-//                 backgroundColor: 'rgba(52, 152, 219, 0.3)',
-//                 borderColor: 'rgba(52, 152, 219, 0.8)',
-//                 borderWidth: 3
-//             },
-//             {
-//                 label: 'Setor B (Média)',
-//                 data: [],
-//                 backgroundColor: 'rgba(231, 76, 60, 0.3)',
-//                 borderColor: 'rgba(231, 76, 60, 0.8)',
-//                 borderWidth: 3
-//             },
-//             {
-//                 label: 'Setor C (Média)',
-//                 data: [],
-//                 backgroundColor: 'rgba(46, 204, 113, 0.3)',
-//                 borderColor: 'rgba(46, 204, 113, 0.8)',
-//                 borderWidth: 3
-//             }
-//         ]
-//     },
-//     options: {
-//         responsive: true,
-//         maintainAspectRatio: false,
-//         scales: {
-//             y: {
-//                 beginAtZero: true,
-//                 max: 5,
-//                 title: {
-//                     display: true,
-//                     text: 'Concentração de Metano (0-1)'
-//                 }
-//             },
-//             x: {
-//                 title: {
-//                     display: true,
-//                     text: 'Horário'
-//                 }
-//             }
-//         },
-//         plugins: {
-//             legend: {
-//                 display: true,
-//                 position: 'right'
-//             }
-//         }
-//     }
-// });
+// --- Início: Dispara a lógica quando o DOM estiver pronto ---
+document.addEventListener('DOMContentLoaded', async () => {
+    // ... todo o código que já estava aqui dentro do DOMContentLoaded ...
 
-// // Variável para contar setores críticos
-// let setoresCriticos = 0;
-// let ultimoPopup = '';
+    // Garante que a dashboard esteja visível por padrão
+    if (dashboardContent) {
+        dashboardContent.style.display = 'flex';
+    }
 
-// // Função para gerar dados de teste
-// // function gerarDadosTeste() {
-// //     const agora = new Date();
-// //     const horario = agora.getHours() + ':' + agora.getMinutes().toString().padStart(2, '0') + ':' + agora.getSeconds().toString().padStart(2, '0');
+    // Inicia as atualizações imediatamente
+    fetchKPIs(); // Primeira chamada para preencher as KPIs
+    fetchGrafico(); // Primeira chamada para preencher o gráfico
 
-// //     const sensores = [];
-// //     // Setor A (0-4): 0.0 a 0.2
-// //     for (let i = 0; i < 5; i++) {
-// //         let valor = Math.random() * 0.2;
-// //         if (Math.random() < 0.15) {
-// //             valor = 1 + Math.random() * 0.2;
-// //         }
-// //         sensores.push(Number(valor.toFixed(3)));
-// //     }
-// //     // Setor B (5-9): 0.0 a 0.2
-// //     for (let i = 5; i < 10; i++) {
-// //         let valor = Math.random() * 0.2;
-// //         if (Math.random() < 0.15) {
-// //             valor = 1 + Math.random() * 0.2;
-// //         }
-// //         sensores.push(Number(valor.toFixed(3)));
-// //     }
-// //     // Setor C (10-13): 0.3 a 0.5
-// //     for (let i = 10; i < 14; i++) {
-// //         let valor = 0.3 + Math.random() * 0.2;
-// //         if (Math.random() < 0.15) {
-// //             valor = 1 + Math.random() * 0.2;
-// //         }
-// //         sensores.push(Number(valor.toFixed(3)));
-// //     }
-// //     return { horario: horario, sensores: sensores };
-// // }
+    setInterval(fetchKPIs, 5000); // Atualiza KPIs a cada 5 segundos
+    setInterval(fetchGrafico, 1000); // Atualiza gráfico a cada 1 segundo
 
-// // Função para verificar setores críticos
-// function verificarSetoresCriticos(dados) {
-//     let novosSetoresCriticos = 0;
+    // --- Lógica para o Menu de Navegação (Navbar) ---
+    const buguerIcon = document.getElementById('buguer');
+    const menuOpcao = document.getElementById('opcao');
 
-//     // Calcular médias dos setores
-//     const mediaA = dados.sensores.slice(0, 5).reduce((a, b) => a + b, 0) / 5;
-//     const mediaB = dados.sensores.slice(5, 10).reduce((a, b) => a + b, 0) / 5;
-//     const mediaC = dados.sensores.slice(10, 14).reduce((a, b) => a + b, 0) / 4;
+    if (buguerIcon && menuOpcao) { // Garante que os elementos existem
+        buguerIcon.addEventListener('click', () => {
+            menuOpcao.classList.toggle('visivel');
+        });
 
-//     // Verificar Setor A (média)
-//     if (mediaA >= 1) {
-//         novosSetoresCriticos++;
-//         if (ultimoPopup !== 'A') {
-//             mostrarPopUp('A');
-//             ultimoPopup = 'A';
-//         }
-//     }
-
-//     // Verificar Setor B (média)
-//     if (mediaB >= 1) {
-//         novosSetoresCriticos++;
-//         if (ultimoPopup !== 'B') {
-//             mostrarPopUp('B');
-//             ultimoPopup = 'B';
-//         }
-//     }
-
-//     // Verificar Setor C (média)
-//     if (mediaC >= 1) {
-//         novosSetoresCriticos++;
-//         if (ultimoPopup !== 'C') {
-//             mostrarPopUp('C');
-//             ultimoPopup = 'C';
-//         }
-//     }
-
-//     // Se não há mais setores críticos, limpar último popup
-//     if (novosSetoresCriticos === 0) {
-//         ultimoPopup = '';
-//     }
-
-//     setoresCriticos = novosSetoresCriticos;
-
-//     // Atualizar display
-//     const elementoSetores = document.getElementById('setores_criticos');
-//     if (elementoSetores) {
-//         elementoSetores.textContent = setoresCriticos;
-
-//         const statusSistema = document.getElementById('status_sitema');
-//         if (setoresCriticos > 0) {
-//             statusSistema.classList.add('alerta-critico');
-//         } else {
-//             statusSistema.classList.remove('alerta-critico');
-//         }
-//     }
-// }
-
-// // Função para registrar dados no backend
-// async function registrarMedicaoNoBackend(dados, origem = 'simulado') {
-//     try {
-//         await fetch('/api/medicao/registrar', {
-//             method: 'POST',
-//             headers: { 'Content-Type': 'application/json' },
-//             body: JSON.stringify({
-//                 horario: new Date().toISOString().slice(0, 19).replace('T', ' '),
-//                 sensores: dados.sensores,
-//                 origem: origem
-//             })
-//         });
-//     } catch (erro) {
-//         console.error('Erro ao registrar medição no backend:', erro);
-//     }
-// }
-
-// // Função para buscar dados do Arduino (real)
-// async function buscarDadosArduino() {
-//     try {
-//         // Substitua pelo IP do seu Arduino
-//         const resposta = await fetch('http://192.168.1.100/dados');
-//         if (!resposta.ok) throw new Error('Arduino não respondeu');
-//         const dados = await resposta.json();
-//         // Registrar dados reais no backend
-//         await registrarMedicaoNoBackend(dados, 'arduino');
-//         return dados;
-//     } catch (erro) {
-//         console.error('Erro ao conectar Arduino:', erro);
-//         // Se falhar, gera e registra dados simulados
-//         const dadosSimulados = gerarDadosTeste();
-//         await registrarMedicaoNoBackend(dadosSimulados, 'simulado');
-//         return dadosSimulados;
-//     }
-// }
-
-// // Função principal para atualizar gráfico
-// async function atualizarGrafico() {
-//     try {
-//         // Buscar dados reais do Arduino ou simular se falhar
-//         const dados = await buscarDadosArduino();
-//         // Calcular médias dos setores
-//         const mediaA = dados.sensores.slice(0, 5).reduce((a, b) => a + b, 0) / 5;
-//         const mediaB = dados.sensores.slice(5, 10).reduce((a, b) => a + b, 0) / 5;
-//         const mediaC = dados.sensores.slice(10, 14).reduce((a, b) => a + b, 0) / 4;
-//         // Adicionar novo horário
-//         graficoGeral.data.labels.push(dados.horario);
-//         if (graficoGeral.data.labels.length > 15) {
-//             graficoGeral.data.labels.shift();
-//         }
-//         // Adicionar médias aos datasets
-//         graficoGeral.data.datasets[0].data.push(Number(mediaA.toFixed(3)));
-//         graficoGeral.data.datasets[1].data.push(Number(mediaB.toFixed(3)));
-//         graficoGeral.data.datasets[2].data.push(Number(mediaC.toFixed(3)));
-//         graficoGeral.data.datasets.forEach(ds => {
-//             if (ds.data.length > 15) ds.data.shift();
-//         });
-//         // Verificar setores críticos
-//         verificarSetoresCriticos(dados);
-//         graficoGeral.update('none');
-//     } catch (erro) {
-//         console.error('Erro ao atualizar gráfico:', erro);
-//     }
-// }
-
-// // Inicializar quando página carregar
-// document.addEventListener('DOMContentLoaded', function () {
-//     console.log('Sistema MineTech iniciado!');
-//     // Primeira atualização
-//     atualizarGrafico();
-//     // Atualizar a cada 3 segundos
-//     setInterval(atualizarGrafico, 1000);
-//     console.log('Monitoramento automático ativado!');
-// });
-
-// /* 
-// PARA CONECTAR COM ARDUINO REAL, USE ESTE CÓDIGO:
-
-// async function buscarDadosArduino() {
-//     try {
-//         // Substitua pelo IP do seu Arduino
-//         const resposta = await fetch('http://192.168.1.100/dados');
-        
-//         if (!resposta.ok) {
-//             throw new Error('Arduino não respondeu');
-//         }
-        
-//         const dados = await resposta.json();
-//         // Formato esperado: { "horario": "14:30:25", "sensores": [0.1, 0.2, ...] }
-        
-//         return dados;
-        
-//     } catch (erro) {
-//         console.error('Erro ao conectar Arduino:', erro);
-//         return gerarDadosTeste(); // usar dados simulados se falhar
-//     }
-// }
-
-// // Para usar dados reais, substitua gerarDadosTeste() por:
-// // const dados = await buscarDadosArduino();
-// */
+        // Opcional: Fechar o menu se clicar fora dele
+        document.addEventListener('click', (event) => {
+            if (!menuOpcao.contains(event.target) && !buguerIcon.contains(event.target)) {
+                menuOpcao.classList.remove('visivel');
+            }
+        });
+    }
+});

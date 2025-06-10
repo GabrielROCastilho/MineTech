@@ -13,9 +13,9 @@ body {
 body {
     font-family: 'Roboto', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     background-color: #4A4A4A;
-    color: #2C2C2C;
+    color: #2C2C2C; /* Cor de texto principal (não das KPIs) */
     line-height: 1.6;
-    padding-top: 80px;
+    padding-top: 80px; /* Espaço para o cabeçalho fixo */
 }
 
 #cabecalho {
@@ -99,28 +99,39 @@ body {
     padding-left: 1.75rem;
 }
 
+#opcao {
+    /* ... outros estilos ... */
+    display: none; /* Garante que o menu esteja oculto por padrão */
+    z-index: 999; /* Garante que o menu apareça acima de outros elementos */
+}
+
+#opcao.visivel {
+    display: block; 
+}
+
 .container {
     max-width: 100%;
     margin: 0 auto;
     padding: 20px 24px;
-    height: calc(100vh - 80px);
+    height: calc(100vh - 80px); /* Ajusta a altura para compensar o cabeçalho */
     display: flex;
     flex-direction: column;
     gap: 20px;
+    width: 100%; /* Garante largura total */
 }
 
 .container h2 {
     font-size: 36px;
     font-weight: 700;
-    color: #FFB600;
+    color: #b7671c;
     margin-bottom: 32px;
     padding-bottom: 16px;
-    border-bottom: 4px solid #FFB600;
+    border-bottom: 4px solid #b7811c;
     text-transform: uppercase;
     letter-spacing: 1px;
 }
 
-/* KPIs Container */
+/* Container das KPIs (flexbox) */
 .kpis {
     display: flex;
     flex-direction: row;
@@ -130,8 +141,10 @@ body {
     margin-bottom: 20px;
 }
 
-/* Individual KPI Cards */
-#status_sitema {
+/* Estilo para cada contêiner individual da KPI */
+/* Aplicado aos novos IDs: kpi_risco_explosao_box e kpi_evacuacao_total_box */
+#kpi_risco_explosao_box,
+#kpi_evacuacao_total_box { /* <--- ATENÇÃO: Seletores atualizados aqui! */
     flex: 1;
     max-width: 350px;
     background: linear-gradient(135deg, #D1C7B7 0%, #C4B8A5 100%);
@@ -146,7 +159,9 @@ body {
     overflow: hidden;
 }
 
-#status_sitema::before {
+/* Efeitos visuais para o contêiner da KPI */
+#kpi_risco_explosao_box::before, /* <--- ATENÇÃO: Seletores atualizados aqui! */
+#kpi_evacuacao_total_box::before {
     content: '';
     position: absolute;
     top: -50%;
@@ -158,31 +173,40 @@ body {
     pointer-events: none;
 }
 
-#status_sitema:hover {
+#kpi_risco_explosao_box:hover, /* <--- ATENÇÃO: Seletores atualizados aqui! */
+#kpi_evacuacao_total_box:hover {
     transform: translateY(-5px);
     box-shadow: 0 12px 32px rgba(0, 0, 0, 0.25);
 }
 
-#status_sitema h3 {
+/* Título de cada KPI (Setores Com Risco de Explosão, etc.) */
+#kpi_risco_explosao_box h3, /* <--- ATENÇÃO: Seletores atualizados aqui! */
+#kpi_evacuacao_total_box h3 {
     font-size: 16px;
-    color: black;
+    color: black; /* Era preto no seu código, mas depois mudou para #B71C1C */
     margin-bottom: 15px;
     font-weight: bold;
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
 
-#status_sitema div p {
+/* Onde a Sigla/Texto da KPI é exibida (o novo span) */
+#setores_explosao_siglas,
+#setores_evacuados_siglas {
     font-size: 48px;
     font-weight: 800;
-    color: #2E7D32;
+    /* Altera a cor padrão para um tom de marrom/laranja */
+    color: #FFB600; /* Cor laranja-dourado */
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
     margin: 0;
     line-height: 1;
+    display: block;
 }
 
-/* Critical Alert State */
-#status_sitema.alerta-critico {
+/* Estado de Alerta Crítico (classe para ser adicionada via JS) */
+/* Aplicado aos novos IDs: kpi_risco_explosao_box e kpi_evacuacao_total_box */
+#kpi_risco_explosao_box.alerta-critico, /* <--- ATENÇÃO: Seletores atualizados aqui! */
+#kpi_evacuacao_total_box.alerta-critico {
     background: linear-gradient(135deg, rgba(220, 53, 69, 0.15) 0%, rgba(183, 28, 28, 0.1) 100%);
     border-left: 5px solid #B71C1C;
     box-shadow: 0 8px 24px rgba(183, 28, 28, 0.25);
@@ -193,15 +217,6 @@ body {
     0% { box-shadow: 0 8px 24px rgba(183, 28, 28, 0.25); }
     50% { box-shadow: 0 8px 24px rgba(183, 28, 28, 0.4); }
     100% { box-shadow: 0 8px 24px rgba(183, 28, 28, 0.25); }
-}
-
-#status_sitema.alerta-critico h3 {
-    color: #B71C1C;
-}
-
-#status_sitema.alerta-critico div p {
-    color: #B71C1C;
-    animation: pulse-text 1.5s infinite;
 }
 
 @keyframes pulse-text {
@@ -218,7 +233,7 @@ body {
     padding: 28px;
     border: 1px solid #A09483;
     overflow: hidden;
-    width: 100%; /* Garante que ocupe toda a largura disponível */
+    width: 100%;
 }
 
 .grafico-container {
@@ -237,27 +252,8 @@ canvas {
     width: 100% !important;
     height: 100% !important;
     border-radius: 4px;
-    max-width: 100%; /* Garante que não ultrapasse o container */
-    box-sizing: border-box;
-}
-
-/* Ajuste no container principal para dar mais espaço */
-.container {
     max-width: 100%;
-    margin: 0 auto;
-    padding: 20px 24px;
-    height: calc(100vh - 80px);
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    width: 100%; /* Garante largura total */
-}
-
-/* Se você quiser que o gráfico ocupe ainda mais espaço, pode reduzir o padding */
-.grafico-principal {
-}
-
-.grafico-container {
+    box-sizing: border-box;
 }
 
 /* Popup Styles */
@@ -330,12 +326,12 @@ canvas {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
-a{
+a {
     color: white; 
     text-decoration: none;
 }
 
-.historico{
+.historico {
     font-size: 18px;
     color: #F5F5F5;
     text-decoration: none;
@@ -349,4 +345,11 @@ a{
 
 .historico:hover {
     background-color: #e6a300;
+}
+
+/* O seletor abaixo foi movido para o lugar correto, dentro do estilo da KPI */
+/* A cor do h3 agora está dentro dos seletores individuais das KPIs */
+#kpi_risco_explosao_box h3,
+#kpi_evacuacao_total_box h3 {
+    color: #995200; /* Mantém a cor para o h3 das KPIs */
 }

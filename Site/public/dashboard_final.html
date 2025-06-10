@@ -11,12 +11,25 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
-<body onload="carregarDados()">
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style_dashboard.css">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=menu" />
+    <title>MineTech Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
     <div id="cabecalho">
         <h2 id="logo">MineTech</h2>
         <h3>Monitoramento de Metano</h3>
         <a href="historico.html" id="link-historico" class="historico">Histórico</a>
-        <span id="buguer" class="material-symbols-outlined" onclick="botao()">menu</span>
+        <span id="buguer" class="material-symbols-outlined">menu</span>
         <menu id="opcao">
             <ul>
                 <li><a href="index.html">Sair</a></li>
@@ -24,19 +37,18 @@
         </menu>
     </div>
 
-
-    <div class="container">
+    <div class="container" id="dashboard_content">
         <div class="kpis">
-            <div id="status_sitema">
+            <div id="kpi_risco_explosao_box">
                 <div>
                     <h3>Setores Com Risco de Explosão</h3>
-                    <p id="setores_explosao"></p>
+                    <span id="setores_explosao_siglas">N/A</span>
                 </div>
             </div>
-            <div id="status_sitema">
+            <div id="kpi_evacuacao_total_box">
                 <div>
                     <h3>Setores Para Serem Evacuados</h3>
-                    <p id="setores_evacuados"></p>
+                    <span id="setores_evacuados_siglas">N/A</span>
                 </div>
             </div>
         </div>
@@ -46,42 +58,32 @@
                 <canvas id="grafico_geral" class="chart-bar"></canvas>
             </div>
         </div>
-        <div id="pop-up_aviso">
-            <div id="conteudo">
-                <h3>Setor ? Está Crítico</h3>
-                <button>Resolvido?</button>
-            </div>
-        </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
     <script src="js/dashboard.js"></script>
-    <script>
-        function botao() {
-            const opcao = document.getElementById('opcao');
-            if (opcao.style.display == 'block') {
-                opcao.style.display = 'none';
-            } else {
-                opcao.style.display = 'block';
-            }
+</body>
+
+</html>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="js/dashboard.js"></script>
+<script>
+    function botao() {
+        const opcao = document.getElementById('opcao');
+        if (opcao.style.display == 'block') {
+            opcao.style.display = 'none';
+        } else {
+            opcao.style.display = 'block';
         }
-        function mostrarPopUp(setor) {
-            const popUp = document.getElementById('pop-up_aviso');
-            const conteudo = document.getElementById('conteudo');
-            conteudo.querySelector('h3').textContent = `Setor ${setor} está Crítico`;
-            popUp.classList.add('ativo');
-            conteudo.querySelector('button').onclick = () => {
-                popUp.classList.remove('ativo');
-            };
+    }
+    // Fechar menu se clicar fora
+    document.addEventListener('click', function (event) {
+        const opcao = document.getElementById('opcao');
+        const buguer = document.getElementById('buguer');
+        if (!opcao.contains(event.target) && !buguer.contains(event.target)) {
+            opcao.style.display = 'none';
         }
-        // Fechar menu se clicar fora
-        document.addEventListener('click', function (event) {
-            const opcao = document.getElementById('opcao');
-            const buguer = document.getElementById('buguer');
-            if (!opcao.contains(event.target) && !buguer.contains(event.target)) {
-                opcao.style.display = 'none';
-            }
-        });
-    </script>
+    });
+</script>
 </body>
 
 </html>

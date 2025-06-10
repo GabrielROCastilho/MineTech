@@ -3,21 +3,29 @@ var database = require("../database/config")
 function riscoDeExplosao() {
     var instrucaoSql =
         `
- WITH ultimos5 AS (
-    SELECT m.id, m.statusnivel, se.sigla
-    FROM medicao m
-    INNER JOIN sensor s ON m.fkSensor = s.id
-    INNER JOIN localSensor ls ON s.fkLocal = ls.id
-    INNER JOIN setor se ON se.id = ls.fkSetor
-    ORDER BY m.id DESC
-    LIMIT 5
-)
-SELECT sigla
-FROM ultimos5
-WHERE statusnivel = 'Risco de Explosão'
-AND EXISTS (
-    SELECT 1 FROM ultimos5 WHERE statusnivel = 'Risco de Explosão'
-);
+SELECT DISTINCT
+    s.sigla
+FROM (
+    SELECT
+        m.id,
+        m.fkSensor,
+        m.statusNivel,
+        @row_num := IF(@prev_sensor = m.fkSensor, @row_num + 1, 1) AS rn,
+        @prev_sensor := m.fkSensor
+    FROM
+        medicao m
+    ORDER BY
+        m.fkSensor, m.dataHora DESC
+) AS ranked_medicoes
+JOIN
+    sensor AS se ON ranked_medicoes.fkSensor = se.id
+JOIN
+    localSensor AS ls ON se.fkLocal = ls.id
+JOIN
+    setor AS s ON ls.fkSetor = s.id AND ls.fkMineradora = s.fkMineradora
+WHERE
+    ranked_medicoes.rn <= 5 -- Filtra apenas as 5 medições mais recentes por sensor
+    AND ranked_medicoes.statusNivel = 'Risco de Explosão';
     `;
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
@@ -26,21 +34,29 @@ AND EXISTS (
 function evacuacaoTotal() {
     var instrucaoSql =
         `
- WITH ultimos5 AS (
-    SELECT m.id, m.statusnivel, se.sigla
-    FROM medicao m
-    INNER JOIN sensor s ON m.fkSensor = s.id
-    INNER JOIN localSensor ls ON s.fkLocal = ls.id
-    INNER JOIN setor se ON se.id = ls.fkSetor
-    ORDER BY m.id DESC
-    LIMIT 5
-)
-SELECT sigla
-FROM ultimos5
-WHERE statusnivel = 'Evacuação Total'
-AND EXISTS (
-    SELECT 1 FROM ultimos5 WHERE statusnivel = 'Evacuação Total'
-);
+SELECT DISTINCT
+    s.sigla
+FROM (
+    SELECT
+        m.id,
+        m.fkSensor,
+        m.statusNivel,
+        @row_num := IF(@prev_sensor = m.fkSensor, @row_num + 1, 1) AS rn,
+        @prev_sensor := m.fkSensor
+    FROM
+        medicao m
+    ORDER BY
+        m.fkSensor, m.dataHora DESC
+) AS ranked_medicoes
+JOIN
+    sensor AS se ON ranked_medicoes.fkSensor = se.id
+JOIN
+    localSensor AS ls ON se.fkLocal = ls.id
+JOIN
+    setor AS s ON ls.fkSetor = s.id AND ls.fkMineradora = s.fkMineradora
+WHERE
+    ranked_medicoes.rn <= 5 -- Filtra apenas as 5 medições mais recentes por sensor
+    AND ranked_medicoes.statusNivel = 'Evacuação Total';
     `;
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);

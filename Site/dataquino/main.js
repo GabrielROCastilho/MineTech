@@ -18,7 +18,7 @@ const serial = async (
     // conexão com o banco de dados MySQL
     let poolBancoDados = mysql.createPool(
         {
-            host: 'localhost',
+            host: '10.18.33.1',
             user: 'aluno',
             password: 'Sptech#2024',
             database: 'minetech',
@@ -77,9 +77,22 @@ const serial = async (
                 'INSERT INTO medicao (nivelMetano, statusNivel, fkSensor) VALUES (?, ?, ?)',
                 [sensorMq02, nivelGas, 1]
             );
-            console.log("valores inseridos no banco: ", sensorMq02, nivelGas);
-         }
 
+            await poolBancoDados.execute(
+                'INSERT INTO medicao (nivelMetano, statusNivel, fkSensor) VALUES (?, ?, ?)',
+                [sensorMq02 + 0.5, nivelGas, 2]
+            );
+            
+            await poolBancoDados.execute(
+                'INSERT INTO medicao (nivelMetano, statusNivel, fkSensor) VALUES (?, ?, ?)',
+                [sensorMq02/2, nivelGas, 3]
+            );
+
+            await poolBancoDados.execute(
+                'INSERT INTO medicao (nivelMetano, statusNivel, fkSensor) VALUES (?, ?, ?)',
+                [sensorMq02 + 0.2, nivelGas, 4]
+            );
+         }
     });
 
     // evento para lidar com erros na comunicação serial

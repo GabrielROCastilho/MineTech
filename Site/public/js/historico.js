@@ -194,8 +194,6 @@ function colocarNaTabela(dados) {
         // Adiciona a linha na tabela
         tbody.appendChild(linha);
     });
-
-    setTimeout(buscarDados, 1000)
 }
 
 // Função para filtrar tabela (mantém a mesma)

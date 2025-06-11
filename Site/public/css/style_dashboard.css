@@ -141,10 +141,8 @@ body {
     margin-bottom: 20px;
 }
 
-/* Estilo para cada contêiner individual da KPI */
-/* Aplicado aos novos IDs: kpi_risco_explosao_box e kpi_evacuacao_total_box */
-#kpi_risco_explosao_box,
-#kpi_evacuacao_total_box { /* <--- ATENÇÃO: Seletores atualizados aqui! */
+/* Individual KPI Cards */
+#status_sitema {
     flex: 1;
     max-width: 350px;
     background: linear-gradient(135deg, #D1C7B7 0%, #C4B8A5 100%);
@@ -159,9 +157,7 @@ body {
     overflow: hidden;
 }
 
-/* Efeitos visuais para o contêiner da KPI */
-#kpi_risco_explosao_box::before, /* <--- ATENÇÃO: Seletores atualizados aqui! */
-#kpi_evacuacao_total_box::before {
+#status_sitema::before {
     content: '';
     position: absolute;
     top: -50%;
@@ -173,40 +169,31 @@ body {
     pointer-events: none;
 }
 
-#kpi_risco_explosao_box:hover, /* <--- ATENÇÃO: Seletores atualizados aqui! */
-#kpi_evacuacao_total_box:hover {
+#status_sitema:hover {
     transform: translateY(-5px);
     box-shadow: 0 12px 32px rgba(0, 0, 0, 0.25);
 }
 
-/* Título de cada KPI (Setores Com Risco de Explosão, etc.) */
-#kpi_risco_explosao_box h3, /* <--- ATENÇÃO: Seletores atualizados aqui! */
-#kpi_evacuacao_total_box h3 {
+#status_sitema h3 {
     font-size: 16px;
-    color: black; /* Era preto no seu código, mas depois mudou para #B71C1C */
+    color: black;
     margin-bottom: 15px;
     font-weight: bold;
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
 
-/* Onde a Sigla/Texto da KPI é exibida (o novo span) */
-#setores_explosao_siglas,
-#setores_evacuados_siglas {
+#status_sitema div p {
     font-size: 48px;
     font-weight: 800;
-    /* Altera a cor padrão para um tom de marrom/laranja */
-    color: #FFB600; /* Cor laranja-dourado */
+    color: #2E7D32;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
     margin: 0;
     line-height: 1;
-    display: block;
 }
 
-/* Estado de Alerta Crítico (classe para ser adicionada via JS) */
-/* Aplicado aos novos IDs: kpi_risco_explosao_box e kpi_evacuacao_total_box */
-#kpi_risco_explosao_box.alerta-critico, /* <--- ATENÇÃO: Seletores atualizados aqui! */
-#kpi_evacuacao_total_box.alerta-critico {
+/* Critical Alert State */
+#status_sitema.alerta-critico {
     background: linear-gradient(135deg, rgba(220, 53, 69, 0.15) 0%, rgba(183, 28, 28, 0.1) 100%);
     border-left: 5px solid #B71C1C;
     box-shadow: 0 8px 24px rgba(183, 28, 28, 0.25);
@@ -219,10 +206,13 @@ body {
     100% { box-shadow: 0 8px 24px rgba(183, 28, 28, 0.25); }
 }
 
-@keyframes pulse-text {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.05); }
-    100% { transform: scale(1); }
+#status_sitema.alerta-critico h3 {
+    color: #B71C1C;
+}
+
+#status_sitema.alerta-critico div p {
+    color: #B71C1C;
+    animation: pulse-text 1.5s infinite;
 }
 
 /* Chart Container */

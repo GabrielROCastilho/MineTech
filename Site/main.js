@@ -8,7 +8,7 @@ require("dotenv").config();
 
 // configurando o servidor express
 const app = express();
-const PORTA_SERVIDOR = process.env.PORTA;
+const PORTA_SERVIDOR = process.env_bobia.PORTA;
 
 // configurando o gemini (IA)
 const chatIA = new GoogleGenAI({ apiKey: process.env.MINHA_CHAVE });
@@ -57,23 +57,16 @@ app.post("/perguntar", async (req, res) => {
 
 // função para gerar respostas usando o gemini
 async function gerarResposta(mensagem) {
-
     try {
-        // gerando conteúdo com base na pergunta
-        const modeloIA = chatIA.models.generateContent({
-            model: "gemini-2.0-flash",
-            contents: `Em um paragráfo responda: ${mensagem}`
-
-        });
-        const resposta = (await modeloIA).text;
-        const tokens = (await modeloIA).usageMetadata;
+        const model = chatIA.getGenerativeModel({ model: "gemini-1.5-flash" });
+        const result = await model.generateContent(`Em um parágrafo, responda: ${mensagem}`);
+        const response = await result.response;
+        const resposta = response.text();
 
         console.log(resposta);
-        console.log("Uso de Tokens:", tokens);
-
         return resposta;
     } catch (error) {
-        console.error(error);
+        console.error("Erro ao gerar resposta:", error);
         throw error;
     }
 }

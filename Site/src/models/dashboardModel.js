@@ -47,25 +47,20 @@ AND EXISTS (
 
 function evacuacaoTotal() {
     var instrucaoSql = `
-    WITH ultimos5 AS (
- SELECT m.id, m.statusnivel, se.sigla
+WITH ultimos5 AS (
+ SELECT m.id, m.statusnivel, se.sigla, m.nivelMetano
  FROM medicao m
  INNER JOIN sensor s ON m.fkSensor = s.id
  INNER JOIN localSensor ls ON s.fkLocal = ls.id
  INNER JOIN setor se ON se.id = ls.fkSetor
  ORDER BY m.id DESC
  LIMIT 5
-
 )
 SELECT sigla
-
 FROM ultimos5
-
-WHERE statusnivel = 'Risco de Explosão'
-
+WHERE nivelMetano > 2
 AND EXISTS (
- SELECT 1 FROM ultimos5 WHERE statusnivel = 'Evacuação Total'
-
+ SELECT 1 FROM ultimos5 WHERE nivelMetano > 2
 );
     `;
     console.log("Executando a instrução SQL: \n" + instrucaoSql);

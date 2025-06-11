@@ -86,3 +86,8 @@ button:hover {
 button:active {
     transform: translateY(-1px);
 }
+
+a{
+    color: white;
+    text-decoration: none;
+}

@@ -144,3 +144,20 @@ insert into minetech_funcionario (nome, email, senha) values ('Pedro Rico', 'ped
                                                              ('Andre', 'andre@sptech', '0000'),
                                                              ('Felipe Hideki', 'felipe@sptech', '0000'),
                                                              ('Suporte Minetech', 'suporte@mine.tech', '0000');
+                                                             select * from medicao;
+                                                                 
+WITH ultimos5 AS (
+ SELECT m.id, m.statusnivel, se.sigla
+ FROM medicao m
+ INNER JOIN sensor s ON m.fkSensor = s.id
+ INNER JOIN localSensor ls ON s.fkLocal = ls.id
+ INNER JOIN setor se ON se.id = ls.fkSetor
+ ORDER BY m.id DESC
+ LIMIT 5
+)
+SELECT sigla
+FROM ultimos5
+WHERE nivelMetano > 2
+AND EXISTS (
+ SELECT 1 FROM ultimos5 WHERE nivelMetano > 2
+);

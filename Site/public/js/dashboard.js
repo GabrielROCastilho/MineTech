@@ -56,15 +56,6 @@ const meuGrafico = new Chart(ctx, {
   type: "line",
   data: {
     labels: [],
-    datasets: [
-      {
-        label: "Nível de Metano",
-        data: [],
-        borderColor: "rgba(255, 99, 132, 1)",
-        borderWidth: 2,
-        fill: false,
-      },
-    ],
   },
   options: {
     responsive: true, // Torna o gráfico responsivo
@@ -191,3 +182,60 @@ function evacuacaoTotal(siglas) {
 }
 
 setInterval(carregarDados, 1000);
+
+// Variável de controle para evitar pop-ups repetidos
+let ultimoPopupAtivo = '';
+
+// Função que verifica os dados mais recentes do gráfico
+function verificarNiveisCriticos() {
+    // Garante que o gráfico (graficoGeral) já foi criado pelo dashboard.js
+    if (typeof graficoGeral !== 'undefined' && graficoGeral.data.datasets.length > 2) {
+       
+        const dadosA = graficoGeral.data.datasets[0].data;
+        const dadosB = graficoGeral.data.datasets[1].data;
+        const dadosC = graficoGeral.data.datasets[2].data;
+
+        // Garante que existem dados para serem lidos
+        if (dadosA.length > 0) {
+            const ultimaMediaA = parseFloat(dadosA[dadosA.length - 1]);
+            const ultimaMediaB = parseFloat(dadosB[dadosB.length - 1]);
+            const ultimaMediaC = parseFloat(dadosC[dadosC.length - 1]);
+
+            // Verifica se algum setor está crítico e se o alerta para ele já não foi emitido
+            if (ultimaMediaA >= 1 && ultimoPopupAtivo !== 'A') {
+                mostrarPopUp('A');
+                ultimoPopupAtivo = 'A';
+            } else if (ultimaMediaB >= 1 && ultimoPopupAtivo !== 'B') {
+                mostrarPopUp('B');
+                ultimoPopupAtivo = 'B';
+            } else if (ultimaMediaC >= 1 && ultimoPopupAtivo !== 'C') {
+                mostrarPopUp('C');
+                ultimoPopupAtivo = 'C';
+            }
+        }
+    }
+}
+
+// ==================================================================
+// A FUNÇÃO QUE FALTAVA: Define o que acontece quando o pop-up é chamado
+// ==================================================================
+function mostrarPopUp(setor) {
+    const popUp = document.getElementById('pop-up_aviso');
+    const h3_aviso = popUp.querySelector('h3'); // Seleciona o h3 dentro do pop-up
+    const botao = popUp.querySelector('button');
+
+    // 1. ATUALIZA O TEXTO: Insere a mensagem com o setor correto
+    h3_aviso.textContent = `Setor ${setor} está Crítico!`;
+
+    // 2. MOSTRA O POP-UP: Adiciona a classe 'ativo' (definida no seu CSS)
+    popUp.classList.add('ativo');
+
+    // 3. DEFINE A AÇÃO DO BOTÃO: Esconde o pop-up e reseta a variável de controle
+    botao.onclick = () => {
+        popUp.classList.remove('ativo');
+        ultimoPopupAtivo = ''; // Permite que novos alertas surjam
+    };
+}
+
+// Inicia o monitoramento, chamando a verificação a cada 2 segundos
+setInterval(verificarNiveisCriticos, 2000);

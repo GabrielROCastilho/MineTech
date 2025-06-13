@@ -13,9 +13,11 @@ body {
 body {
     font-family: 'Roboto', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     background-color: #4A4A4A;
-    color: #2C2C2C; /* Cor de texto principal (não das KPIs) */
+    color: #2C2C2C;
+    /* Cor de texto principal (não das KPIs) */
     line-height: 1.6;
-    padding-top: 80px; /* Espaço para o cabeçalho fixo */
+    padding-top: 80px;
+    /* Espaço para o cabeçalho fixo */
 }
 
 #cabecalho {
@@ -101,23 +103,27 @@ body {
 
 #opcao {
     /* ... outros estilos ... */
-    display: none; /* Garante que o menu esteja oculto por padrão */
-    z-index: 999; /* Garante que o menu apareça acima de outros elementos */
+    display: none;
+    /* Garante que o menu esteja oculto por padrão */
+    z-index: 999;
+    /* Garante que o menu apareça acima de outros elementos */
 }
 
 #opcao.visivel {
-    display: block; 
+    display: block;
 }
 
 .container {
     max-width: 100%;
     margin: 0 auto;
     padding: 20px 24px;
-    height: calc(100vh - 80px); /* Ajusta a altura para compensar o cabeçalho */
+    height: calc(100vh - 80px);
+    /* Ajusta a altura para compensar o cabeçalho */
     display: flex;
     flex-direction: column;
     gap: 20px;
-    width: 100%; /* Garante largura total */
+    width: 100%;
+    /* Garante largura total */
 }
 
 .container h2 {
@@ -201,9 +207,17 @@ body {
 }
 
 @keyframes pulse-danger {
-    0% { box-shadow: 0 8px 24px rgba(183, 28, 28, 0.25); }
-    50% { box-shadow: 0 8px 24px rgba(183, 28, 28, 0.4); }
-    100% { box-shadow: 0 8px 24px rgba(183, 28, 28, 0.25); }
+    0% {
+        box-shadow: 0 8px 24px rgba(183, 28, 28, 0.25);
+    }
+
+    50% {
+        box-shadow: 0 8px 24px rgba(183, 28, 28, 0.4);
+    }
+
+    100% {
+        box-shadow: 0 8px 24px rgba(183, 28, 28, 0.25);
+    }
 }
 
 #status_sitema.alerta-critico h3 {
@@ -247,7 +261,7 @@ canvas {
 }
 
 a {
-    color: white; 
+    color: white;
     text-decoration: none;
 }
 
@@ -271,5 +285,44 @@ a {
 /* A cor do h3 agora está dentro dos seletores individuais das KPIs */
 #kpi_risco_explosao_box h3,
 #kpi_evacuacao_total_box h3 {
-    color: #995200; /* Mantém a cor para o h3 das KPIs */
+    color: #995200;
+    /* Mantém a cor para o h3 das KPIs */
+}
+
+.popup {
+    position: absolute;
+    top: 100px;
+    /* Ajuste para ficar alinhado à altura das KPIs */
+    right: 30px;
+    background-color: white;
+    border: 2px solid red;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    z-index: 999;
+    border-radius: 10px;
+    width: 300px;
+}
+
+.popup-conteudo {
+    text-align: left;
+}
+
+.popup-conteudo ul {
+    padding-left: 20px;
+    margin: 10px 0;
+}
+
+.popup-conteudo button {
+    display: block;
+    margin: 10px auto 0;
+    padding: 10px 20px;
+    background-color: red;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.popup-conteudo button:hover {
+    background-color: darkred;
 }

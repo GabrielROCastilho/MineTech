@@ -46,6 +46,13 @@
                 <canvas id="grafico_geral" class="chart-bar"></canvas>
             </div>
         </div>
+        <div id="popup-alerta" class="popup" style="display: none;">
+            <div class="popup-conteudo">
+                <p><strong>Atenção!</strong> Os seguintes setores precisam ser evacuados:</p>
+                <ul id="lista-setores"></ul>
+                <button onclick="fecharPopup()">Entendi</button>
+            </div>
+        </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="js/dashboard.js"></script>
